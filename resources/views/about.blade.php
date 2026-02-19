@@ -79,12 +79,64 @@
                     ['title' => 'Tailored Excellence', 'desc' => 'Every itinerary is built from scratch, ensuring your journey reflects your personal taste and pace.', 'icon' => 'fingerprint'],
                     ['title' => 'Safety First', 'desc' => 'Our fleet is maintained to the highest international standards, equipped with satellite tracking and first aid.', 'icon' => 'shield-check']
                 ] as $value)
-                <div class="bg-white p-10 rounded-[2.5rem] shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group">
-                    <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-8 group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-500">
+                <div class="bg-white p-10 rounded-2xl shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group">
+                    <div class="w-16 h-16 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-8 group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-500">
                         <i class="ph-bold ph-{{ $value['icon'] }} text-3xl"></i>
                     </div>
                     <h3 class="text-xl font-black text-slate-900 mb-4">{{ $value['title'] }}</h3>
                     <p class="text-slate-500 text-sm leading-relaxed">{{ $value['desc'] }}</p>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Team -->
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-20 space-y-4">
+                <h4 class="text-emerald-600 font-black text-sm uppercase tracking-[0.2em]">The Architects of Adventure</h4>
+                <h2 class="text-4xl font-serif font-black text-slate-900 leading-tight">Meet Our Leadership Team</h2>
+                <p class="text-slate-500 font-medium">Combining decades of expedition expertise with a passion for Tanzanian hospitality.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                @foreach([
+                    [
+                        'name' => 'Lazaro Peter',
+                        'role' => 'Founder & Lead Guide',
+                        'bio' => 'With over 15 years in the Serengeti, Lazaro ensures every expedition is both thrilling and culturally respectful.',
+                        'image' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80'
+                    ],
+                    [
+                        'name' => 'Emmanuel David',
+                        'role' => 'Head of Logistics',
+                        'bio' => 'The mastermind behind our seamless fleet coordination and remote camps. David makes the impossible possible.',
+                        'image' => 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80'
+                    ],
+                    [
+                        'name' => 'Neema John',
+                        'role' => 'Customer Relations',
+                        'bio' => 'Neema brings a touch of luxury to every guest interaction, ensuring your stay exceeds 5-star expectations.',
+                        'image' => 'https://images.unsplash.com/photo-1531123897727-8f129e16fd3c?auto=format&fit=crop&w=800&q=80'
+                    ]
+                ] as $member)
+                <div class="group">
+                    <div class="relative mb-8 overflow-hidden rounded-2xl aspect-[4/5] shadow-xl">
+                        <img src="{{ $member['image'] }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" alt="{{ $member['name'] }}">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-500"></div>
+                        <div class="absolute bottom-6 left-6 right-6 flex items-center gap-4 translate-y-12 group-hover:translate-y-0 transition-transform duration-500">
+                            <a href="#" class="w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-emerald-500 transition-colors">
+                                <i class="ph ph-linkedin-logo"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-emerald-500 transition-colors">
+                                <i class="ph ph-instagram-logo"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-black text-slate-900 mb-1 group-hover:text-emerald-600 transition-colors">{{ $member['name'] }}</h3>
+                    <p class="text-[10px] font-black uppercase tracking-widest text-emerald-500 mb-4">{{ $member['role'] }}</p>
+                    <p class="text-slate-500 text-sm leading-relaxed">{{ $member['bio'] }}</p>
                 </div>
                 @endforeach
             </div>
