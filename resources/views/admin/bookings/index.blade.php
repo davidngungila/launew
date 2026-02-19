@@ -92,7 +92,9 @@
                 <thead>
                     <tr class="bg-white">
                         <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Client / ID</th>
+                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Booked On</th>
                         <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Tour Package</th>
+                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Pax</th>
                         <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Travel Dates</th>
                         <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Payment</th>
                         <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
@@ -108,8 +110,14 @@
                                 <span class="text-[10px] font-bold text-slate-400 mt-0.5 tracking-widest">BK-{{ str_pad($booking->id, 4, '0', STR_PAD_LEFT) }}</span>
                             </div>
                         </td>
+                        <td class="px-8 py-6 text-center">
+                            <span class="text-[10px] font-bold text-slate-500">{{ $booking->created_at->format('M d, Y') }}</span>
+                        </td>
                         <td class="px-8 py-6">
                             <p class="text-sm font-bold text-slate-700 leading-tight w-48">{{ $booking->tour->name ?? 'Custom Safari' }}</p>
+                        </td>
+                        <td class="px-8 py-6 text-center">
+                            <span class="text-xs font-black text-slate-900 bg-blue-50 text-blue-600 px-3 py-1 rounded-lg">{{ $booking->adults + $booking->children }} Pax</span>
                         </td>
                         <td class="px-8 py-6 text-center">
                             <span class="text-xs font-black text-slate-900 bg-slate-100 px-3 py-1.5 rounded-lg">{{ $booking->start_date ? date('M d, Y', strtotime($booking->start_date)) : 'TBD' }}</span>
