@@ -52,6 +52,18 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/website', function() { return view('admin.website.index'); })->name('website.index');
     Route::get('/support', function() { return view('admin.support.index'); })->name('support.index');
     Route::get('/settings', function() { return view('admin.settings.index'); })->name('settings.index');
+    
+    // SMS Gateway Settings
+    Route::prefix('settings/sms-gateway')->name('settings.sms-gateway.')->group(function() {
+        Route::get('/', [App\Http\Controllers\Admin\SMSGatewayController::class, 'index'])->name('index');
+        Route::post('/', [App\Http\Controllers\Admin\SMSGatewayController::class, 'store'])->name('store');
+        Route::put('/{id}', [App\Http\Controllers\Admin\SMSGatewayController::class, 'update'])->name('update');
+        Route::delete('/{id}', [App\Http\Controllers\Admin\SMSGatewayController::class, 'destroy'])->name('destroy');
+        Route::post('/{id}/test-connection', [App\Http\Controllers\Admin\SMSGatewayController::class, 'testConnection'])->name('test-connection');
+        Route::post('/{id}/toggle-active', [App\Http\Controllers\Admin\SMSGatewayController::class, 'toggleActive'])->name('toggle-active');
+        Route::post('/{id}/set-primary', [App\Http\Controllers\Admin\SMSGatewayController::class, 'setPrimary'])->name('set-primary');
+        Route::post('/test', [App\Http\Controllers\Admin\SMSGatewayController::class, 'test'])->name('test');
+    });
 
     // Account Management
     Route::get('/profile', function() { return view('admin.profile'); })->name('profile');

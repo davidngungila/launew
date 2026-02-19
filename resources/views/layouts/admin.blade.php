@@ -283,6 +283,7 @@
                 </button>
                 <div x-show="open" x-collapse class="pl-12 pr-4 py-2 space-y-1">
                     <a href="{{ route('admin.settings.index') }}" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors">System Settings</a>
+                    <a href="{{ route('admin.settings.sms-gateway.index') }}" class="block text-xs py-2 {{ request()->routeIs('admin.settings.sms-gateway.*') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">SMS Gateway</a>
                     <a href="#" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors">User Management</a>
                     <a href="#" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors">Role Permissions</a>
                     <a href="#" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors">Activity Logs</a>
