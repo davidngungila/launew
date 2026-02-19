@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-primary: #15803d;
+  /* Green-700 */
+  --color-brand-secondary: #064e3b;
+  /* Green-900 */
+  --color-brand-accent: #22c55e;
+  /* Green-500 */
+
+  --font-sans: 'Manrope', system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 antialiased font-sans;
+  }
+}
+
+@layer components {
+  .sidebar-item {
+    @apply flex items-center px-4 py-3 text-slate-600 hover:bg-slate-100 hover:text-brand-primary transition-colors duration-200 rounded-lg mx-2 my-1;
+  }
+
+  .sidebar-item.active {
+    @apply bg-slate-100 text-brand-primary font-medium;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-slate-100 p-6;
+  }
+
+  .btn-primary {
+    @apply bg-brand-primary text-white px-4 py-2 rounded-lg hover:bg-emerald-800 transition-all font-medium;
+  }
+}

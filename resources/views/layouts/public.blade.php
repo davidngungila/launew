@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LAU Paradise Adventure | Discover the Wild</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        body { font-family: 'Manrope', sans-serif; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .glass { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(15px); }
+        .nav-link { font-size: 1.05rem; position: relative; }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 1.5rem;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #064e3b 0%, #10b981 100%);
+            transition: width 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .nav-link:hover::after {
+            width: 100%;
+            animation: borderSlide 1s infinite linear;
+            background: linear-gradient(90deg, #064e3b 25%, #10b981 25%, #10b981 50%, #064e3b 50%, #064e3b 75%, #10b981 75%);
+            background-size: 200% 100%;
+        }
+        @keyframes borderSlide {
+            0% { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
+        }
+        .border-move {
+            position: relative;
+            padding-bottom: 1rem;
+            display: inline-block;
+        }
+        .border-move::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #064e3b 25%, #10b981 25%, #10b981 50%, #064e3b 50%, #064e3b 75%, #10b981 75%);
+            background-size: 200% 100%;
+            animation: borderSlide 2s infinite linear;
+            border-radius: 4px;
+        }
+        .group:hover .mega-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .mega-menu { 
+            opacity: 0; 
+            visibility: hidden; 
+            transform: translateY(10px); 
+            transition: all 0.3s ease;
+        }
+        .nav-border-animate {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #064e3b 25%, #10b981 25%, #10b981 50%, #064e3b 50%, #064e3b 75%, #10b981 75%);
+            background-size: 200% 100%;
+            animation: borderSlide 3s infinite linear;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-900 antialiased font-medium">
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 glass border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-3 group/logo">
+                <img src="{{ asset('lau-adventuress-logo.png') }}" alt="LAU Safaris Logo" class="h-14 w-auto object-contain transition-transform group-hover/logo:scale-105">
+                <div class="flex flex-col">
+                    <span class="text-2xl font-black tracking-tighter text-slate-900 leading-none">LAU</span>
+                    <span class="text-[11px] font-extrabold tracking-[0.25em] text-emerald-600 uppercase leading-none mt-1">PARADISE ADVENTURE</span>
+                </div>
+            </a>
+            
+            <div class="hidden lg:flex items-center gap-10">
+                <a href="/" class="nav-link font-bold hover:text-emerald-600 transition-colors py-8">Home</a>
+                <!-- Safaris Dropdown -->
+                <div class="relative group py-8">
+                    <a href="/tours" class="nav-link font-bold hover:text-emerald-600 transition-colors flex items-center gap-1">
+                        Safaris <i class="ph ph-caret-down text-xs transition-transform group-hover:rotate-180"></i>
+                    </a>
+                    <div class="mega-menu absolute top-full left-0 w-[300px] bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-6 z-50">
+                        <div class="space-y-4">
+                            <a href="/tours" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl">
+                                    <i class="ph ph-brand-safari"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-slate-900 text-sm group-hover/item:text-emerald-700">Classic Serengeti</p>
+                                    <p class="text-[10px] text-slate-500 uppercase font-black">Best Seller</p>
+                                </div>
+                            </a>
+                            <a href="/tours" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center text-xl">
+                                    <i class="ph ph-users-four"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-slate-900 text-sm group-hover/item:text-emerald-700">Private Safaris</p>
+                                    <p class="text-[10px] text-slate-500 uppercase font-black">Tailored</p>
+                                </div>
+                            </a>
+                            <a href="/tours" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center text-xl">
+                                    <i class="ph ph-tent"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-slate-900 text-sm group-hover/item:text-emerald-700">Luxury Camping</p>
+                                    <p class="text-[10px] text-slate-500 uppercase font-black">Wild Experience</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tours Mega Menu -->
+                <div class="relative group py-8">
+                    <a href="/tours" class="nav-link font-bold hover:text-emerald-600 transition-colors flex items-center gap-1">
+                        Destinations <i class="ph ph-caret-down text-xs transition-transform group-hover:rotate-180"></i>
+                    </a>
+                    <div class="mega-menu absolute top-full -left-20 w-[600px] bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-8 z-50">
+                        <div class="grid grid-cols-2 gap-8">
+                            <div>
+                                <h4 class="text-xs font-black uppercase tracking-widest text-emerald-600 mb-6">Popular Regions</h4>
+                                <div class="space-y-4">
+                                    <a href="/tours" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
+                                        <div class="w-12 h-12 rounded-xl overflow-hidden">
+                                            <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover">
+                                        </div>
+                                        <div>
+                                            <p class="font-bold text-slate-900 group-hover/item:text-emerald-700">Serengeti NP</p>
+                                            <p class="text-xs text-slate-500">The Great Migration</p>
+                                        </div>
+                                    </a>
+                                    <a href="/tours" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
+                                        <div class="w-12 h-12 rounded-xl overflow-hidden">
+                                            <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover">
+                                        </div>
+                                        <div>
+                                            <p class="font-bold text-slate-900 group-hover/item:text-emerald-700">Ngorongoro</p>
+                                            <p class="text-xs text-slate-500">UNESCO World Heritage</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-black uppercase tracking-widest text-emerald-600 mb-6">Tanzania Specialties</h4>
+                                <div class="space-y-4">
+                                    <a href="/tours" class="flex items-center gap-3 text-slate-700 hover:text-emerald-600 font-bold group/sub transition-colors">
+                                        <i class="ph ph-mountain text-xl opacity-50 group-hover/sub:opacity-100"></i> Kilimanjaro Treks
+                                    </a>
+                                    <a href="/tours" class="flex items-center gap-3 text-slate-700 hover:text-emerald-600 font-bold group/sub transition-colors">
+                                        <i class="ph ph-umbrella text-xl opacity-50 group-hover/sub:opacity-100"></i> Zanzibar Beaches
+                                    </a>
+                                    <a href="/tours" class="flex items-center gap-3 text-slate-700 hover:text-emerald-600 font-bold group/sub transition-colors">
+                                        <i class="ph ph-bird text-xl opacity-50 group-hover/sub:opacity-100"></i> Bird Watching Tours
+                                    </a>
+                                </div>
+                                <div class="mt-8 pt-6 border-t border-slate-50">
+                                    <a href="/tours" class="text-sm font-black text-emerald-600 flex items-center gap-2 hover:gap-3 transition-all">
+                                        View All Packages <i class="ph ph-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- About Us Mega Menu -->
+                <div class="relative group py-8">
+                    <a href="/about" class="nav-link font-bold hover:text-emerald-600 transition-colors flex items-center gap-1">
+                        About Us <i class="ph ph-caret-down text-xs transition-transform group-hover:rotate-180"></i>
+                    </a>
+                    <div class="mega-menu absolute top-full -left-40 w-[500px] bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-8 z-50">
+                        <div class="grid grid-cols-2 gap-6">
+                            <a href="/about" class="block p-5 bg-slate-50 rounded-2xl hover:bg-emerald-600 hover:text-white group/box transition-all">
+                                <i class="ph-bold ph-strategy text-3xl mb-4 text-emerald-600 group-hover/box:text-white"></i>
+                                <h5 class="font-black mb-2">Our Story</h5>
+                                <p class="text-xs opacity-70">New Gen started in 2025</p>
+                            </a>
+                            <a href="/contact" class="block p-5 bg-slate-50 rounded-2xl hover:bg-emerald-600 hover:text-white group/box transition-all">
+                                <i class="ph-bold ph-chat-circle-dots text-3xl mb-4 text-emerald-600 group-hover/box:text-white"></i>
+                                <h5 class="font-black mb-2">Expert Consultation</h5>
+                                <p class="text-xs opacity-70">Talk to our safari specialists</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/contact" class="nav-link font-bold hover:text-emerald-600 transition-colors py-8">Contact</a>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <a href="{{ route('login') }}" class="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-slate-700 bg-white border border-slate-200 px-5 py-2.5 rounded-full hover:bg-slate-50 transition-all">
+                    Login
+                </a>
+                <a href="/tours" class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-emerald-600 px-6 py-2.5 rounded-full hover:bg-emerald-700 shadow-lg shadow-emerald-600/20 transition-all">
+                    Book Now
+                </a>
+            </div>
+        </div>
+        <div class="nav-border-animate"></div>
+    </nav>
+
+    @yield('content')
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
+            <div class="col-span-1 md:col-span-1">
+                <a href="/" class="flex items-center gap-3 mb-6">
+                    <img src="{{ asset('lau-adventuress-logo.png') }}" alt="LAU Safaris Logo" class="h-10 w-auto object-contain">
+                    <div class="flex flex-col">
+                        <span class="text-lg font-black tracking-tighter text-white leading-none">LAU</span>
+                        <span class="text-[9px] font-bold tracking-[0.2em] text-emerald-400 uppercase leading-none">PARADISE ADVENTURE</span>
+                    </div>
+                </a>
+                <p class="text-slate-400 leading-relaxed text-sm">
+                    A new generation of authentic African safari excellence starting in 2025. Discover the beauty of Tanzania's wildlife with expert guides at LAU Paradise Adventure.
+                </p>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6">Quick Links</h4>
+                <ul class="space-y-4 text-sm text-slate-400">
+                    <li><a href="#" class="hover:text-white transition-colors">Home</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Our Tours</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6">Destinations</h4>
+                <ul class="space-y-4 text-sm text-slate-400">
+                    <li><a href="#" class="hover:text-white transition-colors">Serengeti NP</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Ngorongoro</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Kilimanjaro</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Zanzibar</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6">Contact Info</h4>
+                <ul class="space-y-4 text-sm text-slate-400">
+                    <li class="flex items-center gap-3">
+                        <i class="ph ph-phone text-emerald-500"></i> +255 683 163 219
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="ph ph-envelope text-emerald-500"></i> lauparadiseadventure@gmail.com
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="ph ph-map-pin text-emerald-500"></i> Moshi, Tanzania
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 pt-10 border-t border-slate-800 flex flex-col md:flex-row items-center justify-between gap-6">
+            <p class="text-sm text-slate-500">© 2026 LAU PARADISE ADVENTURE. All rights reserved.</p>
+            <div class="flex items-center gap-6">
+                <a href="#" class="text-slate-500 hover:text-white transition-colors"><i class="ph ph-facebook-logo text-xl"></i></a>
+                <a href="#" class="text-slate-500 hover:text-white transition-colors"><i class="ph ph-instagram-logo text-xl"></i></a>
+                <a href="#" class="text-slate-500 hover:text-white transition-colors"><i class="ph ph-twitter-logo text-xl"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/255683163219" target="_blank" class="fixed bottom-8 right-8 z-50 w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 hover:bg-green-600 transition-all">
+        <i class="ph ph-whatsapp-logo text-3xl"></i>
+    </a>
+</body>
+</html>

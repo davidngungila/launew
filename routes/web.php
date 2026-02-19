@@ -1,0 +1,62 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\TourController;
+use App\Http\Controllers\Public\TourController as PublicTourController;
+use App\Http\Controllers\Public\BookingController as PublicBookingController;
+
+Route::get('/', function () {
+    return view('home');
+});
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
+
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/tours', [PublicTourController::class, 'index'])->name('tours.index');
+Route::get('/tours/{id}', [PublicTourController::class, 'show'])->name('tours.show');
+Route::post('/bookings', [PublicBookingController::class, 'store'])->name('bookings.store');
+
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('tours', TourController::class);
+    
+    // CRM & Sales
+    Route::get('/bookings', function() { return view('admin.bookings.index'); })->name('bookings.index');
+    Route::get('/bookings/pending', function() { return view('admin.bookings.pending'); })->name('bookings.pending');
+    Route::get('/bookings/confirmed', function() { return view('admin.bookings.confirmed'); })->name('bookings.confirmed');
+    Route::get('/bookings/calendar', function() { return view('admin.bookings.calendar'); })->name('bookings.calendar');
+    Route::get('/quotations', function() { return view('admin.quotations.index'); })->name('quotations.index');
+    Route::get('/customers', function() { return view('admin.customers.index'); })->name('customers.index');
+    
+    // Inventory & Logistics
+    Route::get('/hotels', function() { return view('admin.hotels.index'); })->name('hotels.index');
+    Route::get('/fleet', function() { return view('admin.fleet.index'); })->name('fleet.index');
+    
+    // Finance & Analytics
+    Route::get('/finance', function() { return view('admin.finance.index'); })->name('finance.index');
+    Route::get('/statistics', function() { return view('admin.statistics.index'); })->name('statistics.index');
+    
+    // System & Content
+    Route::get('/marketing', function() { return view('admin.marketing.index'); })->name('marketing.index');
+    Route::get('/website', function() { return view('admin.website.index'); })->name('website.index');
+    Route::get('/support', function() { return view('admin.support.index'); })->name('support.index');
+    Route::get('/settings', function() { return view('admin.settings.index'); })->name('settings.index');
+
+    // Account Management
+    Route::get('/profile', function() { return view('admin.profile'); })->name('profile');
+    Route::get('/settings/account', function() { return view('admin.account-settings'); })->name('account-settings');
+    Route::post('/settings/account', function() { 
+        return back()->with('success', 'Profile updated successfully!'); 
+    })->name('account-settings.update');
+});
