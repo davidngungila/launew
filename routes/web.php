@@ -62,9 +62,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         Route::post('/', [App\Http\Controllers\Admin\SMSGatewayController::class, 'store'])->name('store');
         Route::put('/{id}', [App\Http\Controllers\Admin\SMSGatewayController::class, 'update'])->name('update');
         Route::delete('/{id}', [App\Http\Controllers\Admin\SMSGatewayController::class, 'destroy'])->name('destroy');
-        Route::post('/{id}/test-connection', [App\Http\Controllers\Admin\SMSGatewayController::class, 'testConnection'])->name('test-connection');
-        Route::post('/{id}/toggle-active', [App\Http\Controllers\Admin\SMSGatewayController::class, 'toggleActive'])->name('toggle-active');
-        Route::post('/{id}/set-primary', [App\Http\Controllers\Admin\SMSGatewayController::class, 'setPrimary'])->name('set-primary');
+        Route::post('/{id}/test-connection', [App\Http\Controllers\Admin\SMSGatewayController::class, 'testConnection'])->name('testConnection');
+        Route::post('/{id}/toggle-active', [App\Http\Controllers\Admin\SMSGatewayController::class, 'toggleActive'])->name('toggleActive');
+        Route::post('/{id}/set-primary', [App\Http\Controllers\Admin\SMSGatewayController::class, 'setPrimary'])->name('setPrimary');
         Route::post('/test', [App\Http\Controllers\Admin\SMSGatewayController::class, 'test'])->name('test');
     });
 
@@ -75,3 +75,11 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         return back()->with('success', 'Profile updated successfully!'); 
     })->name('account-settings.update');
 });
+
+// Stripe Payments
+Route::get('/checkout/{id}', [App\Http\Controllers\PaymentController::class, 'checkout'])->name('checkout');
+Route::post('/create-payment-intent', [App\Http\Controllers\PaymentController::class, 'createPaymentIntent'])->name('payment.intent');
+Route::get('/payment/success', [App\Http\Controllers\PaymentController::class, 'success'])->name('payment.success');
+
+// Stripe Webhook
+Route::post('/stripe/webhook', [App\Http\Controllers\WebhookController::class, 'handle']);

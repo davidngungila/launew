@@ -14,7 +14,9 @@ class Booking extends Model
         'tour_id', 'user_id', 'customer_name', 'customer_email', 'customer_phone',
         'start_date', 'adults', 'children', 'special_requests', 'total_price',
         'status', 'payment_status', 'payment_method', 'payment_reference',
-        'guide_id', 'driver_id', 'vehicle_id', 'agent_id', 'agent_commission'
+        'guide_id', 'driver_id', 'vehicle_id', 'agent_id', 'agent_commission',
+        'stripe_payment_intent_id', 'stripe_payment_status',
+        'deposit_amount', 'is_deposit_paid', 'balance_amount'
     ];
 
     public function tour(): BelongsTo
