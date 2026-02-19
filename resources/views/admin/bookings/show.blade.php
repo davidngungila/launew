@@ -5,7 +5,7 @@
     <!-- Top Action Bar -->
     <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <div class="flex items-center gap-6">
-            <a href="{{ route('admin.bookings.index') }}" class="w-14 h-14 bg-white border border-slate-100 text-slate-400 rounded-3xl flex items-center justify-center hover:bg-slate-50 transition-all shadow-sm">
+            <a href="{{ route('admin.bookings.index') }}" class="w-14 h-14 bg-white border border-slate-100 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-slate-50 transition-all shadow-sm">
                 <i class="ph-bold ph-arrow-left text-xl"></i>
             </a>
             <div>
@@ -43,14 +43,14 @@
             
             <!-- Quick Info Cards -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm relative overflow-hidden group">
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden group">
                     <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Tour Package</p>
                     <h3 class="text-lg font-black text-slate-900 leading-tight">{{ $booking->tour->name ?? 'Custom Expedition' }}</h3>
                     <div class="absolute -bottom-4 -right-4 opacity-5 group-hover:scale-110 transition-transform">
                         <i class="ph ph-mountains text-7xl"></i>
                     </div>
                 </div>
-                <div class="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm relative overflow-hidden group">
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden group">
                     <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Departure Date</p>
                     <h3 class="text-lg font-black text-slate-900 leading-tight">{{ date('d M, Y', strtotime($booking->start_date)) }}</h3>
                     <p class="text-[10px] font-bold text-emerald-600 mt-2 uppercase">Scheduled Departure</p>
@@ -58,7 +58,7 @@
                         <i class="ph ph-calendar-check text-7xl"></i>
                     </div>
                 </div>
-                <div class="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm relative overflow-hidden group">
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden group">
                     <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Group Dynamics</p>
                     <h3 class="text-lg font-black text-slate-900 leading-tight">{{ $booking->adults + $booking->children }} Travelers</h3>
                     <p class="text-[10px] font-bold text-slate-500 mt-2 uppercase">{{ $booking->adults }} Adults, {{ $booking->children }} Child</p>
@@ -69,7 +69,7 @@
             </div>
 
             <!-- Detailed Dossier Section -->
-            <div class="bg-white rounded-[3rem] border border-slate-100 shadow-xl overflow-hidden">
+            <div class="bg-white rounded-2xl border border-slate-100 shadow-xl overflow-hidden">
                 <div class="bg-slate-50 border-b border-slate-100 px-10 py-6 flex items-center justify-between">
                     <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-900">Technical Specifications</h4>
                     <span class="px-3 py-1 bg-white border border-slate-200 rounded-lg text-[9px] font-black text-slate-400 uppercase tracking-widest">Live Record</span>
@@ -117,7 +117,7 @@
             </div>
 
             <!-- Logistics and Ground Support -->
-            <div class="bg-white rounded-[3rem] border border-slate-100 shadow-xl p-10 space-y-10">
+            <div class="bg-white rounded-2xl border border-slate-100 shadow-xl p-10 space-y-10">
                 <div class="flex items-end justify-between border-b border-slate-50 pb-8">
                     <div>
                         <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Ground Support</h4>
@@ -180,7 +180,7 @@
         <div class="lg:col-span-4 space-y-8">
             
             <!-- Financial Dossier -->
-            <div class="bg-slate-900 rounded-[3rem] p-10 text-white shadow-2xl relative overflow-hidden group">
+            <div class="bg-slate-900 rounded-2xl p-10 text-white shadow-2xl relative overflow-hidden group">
                 <!-- Decoration -->
                 <div class="absolute -top-20 -right-20 w-64 h-64 bg-emerald-500/10 rounded-full blur-[100px] group-hover:bg-emerald-500/20 transition-all duration-1000"></div>
 
@@ -193,7 +193,7 @@
                         </div>
                     </div>
 
-                    <div class="space-y-6 bg-white/5 rounded-[2rem] p-8 border border-white/10">
+                    <div class="space-y-6 bg-white/5 rounded-2xl p-8 border border-white/10">
                         <div class="flex justify-between items-center">
                             <span class="text-[10px] font-black uppercase text-white/60 tracking-widest">Payment Plan</span>
                             <span class="text-xs font-black uppercase tracking-widest text-emerald-400">{{ $booking->payment_status }}</span>
@@ -226,7 +226,7 @@
             </div>
 
             <!-- Booking Lifecycle Timeline -->
-            <div class="bg-white rounded-[3rem] border border-slate-100 shadow-xl p-10 space-y-8">
+            <div class="bg-white rounded-2xl border border-slate-100 shadow-xl p-10 space-y-8">
                 <div>
                     <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Audit Trace</h4>
                     <h3 class="text-xl font-black text-slate-900 tracking-tight">Timeline</h3>
@@ -286,7 +286,7 @@
             </div>
 
             <!-- Management Tools -->
-            <div class="bg-white rounded-[3rem] border border-slate-100 shadow-sm p-8 flex items-center justify-between group cursor-pointer hover:bg-slate-50 transition-all">
+            <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8 flex items-center justify-between group cursor-pointer hover:bg-slate-50 transition-all">
                 <div class="flex items-center gap-4">
                     <div class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-500 group-hover:bg-slate-900 group-hover:text-white transition-all">
                         <i class="ph ph-shield-warning text-xl"></i>

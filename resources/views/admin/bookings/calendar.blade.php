@@ -34,7 +34,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <!-- Calendar Main -->
         <div class="lg:col-span-3">
-            <div class="bg-white p-8 rounded-[3rem] border border-slate-100 shadow-xl relative overflow-hidden">
+            <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-xl relative overflow-hidden">
                 <div id="calendar" class="relative z-10"></div>
             </div>
         </div>
@@ -42,7 +42,7 @@
         <!-- Sidebar Actions & Intelligence -->
         <div class="space-y-6">
             <!-- Monthly Intelligence -->
-            <div class="bg-slate-900 rounded-[2.5rem] p-8 text-white shadow-2xl relative overflow-hidden group">
+            <div class="bg-slate-900 rounded-2xl p-8 text-white shadow-2xl relative overflow-hidden group">
                 <div class="relative z-10">
                     <h3 class="text-xl font-black mb-1 leading-tight">{{ date('F') }} Insights</h3>
                     <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-6">Monthly Targets</p>
@@ -68,7 +68,7 @@
             </div>
 
             <!-- Operational Alerts -->
-            <div class="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm p-6">
+            <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
                 <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6 flex items-center gap-2">
                     <i class="ph ph-warning-circle text-amber-500"></i> Critical Tasks
                 </h4>
@@ -103,7 +103,7 @@
 
 <!-- Detailed Workflow Modal -->
 <div id="eventModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
-    <div class="bg-white w-full max-w-lg rounded-[3.5rem] shadow-2xl relative overflow-hidden scale-95 opacity-0 duration-300 transition-all border border-slate-100" id="modalContent">
+    <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl relative overflow-hidden scale-95 opacity-0 duration-300 transition-all border border-slate-100" id="modalContent">
         <!-- Decoration -->
         <div class="absolute top-0 left-0 w-full h-32 bg-slate-50 -z-10"></div>
         

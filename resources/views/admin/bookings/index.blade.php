@@ -21,11 +21,10 @@
     </div>
 
     <!-- Quick Stats for Bookings -->
-    <!-- Quick Stats for Bookings -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
+        <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
             <div class="flex items-center justify-between mb-4">
-                <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <i class="ph ph-list-checks text-2xl"></i>
                 </div>
                 <span class="text-[10px] font-black text-emerald-500">+100%</span>
@@ -33,9 +32,9 @@
             <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Total Bookings</p>
             <h4 class="text-2xl font-black text-slate-900 tracking-tight">{{ number_format($stats['total']) }}</h4>
         </div>
-        <div class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
+        <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
             <div class="flex items-center justify-between mb-4">
-                <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <i class="ph ph-shield-check text-2xl"></i>
                 </div>
                 <span class="text-[10px] font-black text-emerald-500">Live</span>
@@ -43,9 +42,9 @@
             <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Pending Approvals</p>
             <h4 class="text-2xl font-black text-slate-900 tracking-tight">{{ number_format($stats['pending']) }}</h4>
         </div>
-        <div class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
+        <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
             <div class="flex items-center justify-between mb-4">
-                <div class="w-12 h-12 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <div class="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <i class="ph ph-currency-dollar text-2xl"></i>
                 </div>
                 <span class="text-[10px] font-black text-emerald-500">Total</span>
@@ -53,9 +52,9 @@
             <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Total Revenue</p>
             <h4 class="text-2xl font-black text-slate-900 tracking-tight">${{ number_format($stats['revenue'] / 1000, 1) }}k</h4>
         </div>
-        <div class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
+        <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
             <div class="flex items-center justify-between mb-4">
-                <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <i class="ph ph-check-circle text-2xl"></i>
                 </div>
                 <span class="text-[10px] font-black text-emerald-500">Active</span>
@@ -66,7 +65,7 @@
     </div>
 
     <!-- Table Section -->
-    <div class="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
         <!-- Filter Bar -->
         <div class="px-8 py-5 border-b border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-50/20">
             <div class="relative w-full max-w-sm">

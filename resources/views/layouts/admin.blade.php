@@ -310,12 +310,12 @@
                     <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400">
                         <i class="ph ph-magnifying-glass"></i>
                     </span>
-                    <input type="text" class="block w-full pl-11 pr-4 py-3 border border-slate-200 rounded-2xl bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all duration-300" placeholder="Search data, bookings or customers...">
+                    <input type="text" class="block w-full pl-11 pr-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all duration-300" placeholder="Search data, bookings or customers...">
                 </div>
             </div>
             
             <div class="flex items-center gap-2 sm:gap-4">
-                <div class="hidden md:flex items-center gap-3 px-4 py-2 bg-emerald-50 text-emerald-700 rounded-2xl border border-emerald-100">
+                <div class="hidden md:flex items-center gap-3 px-4 py-2 bg-emerald-50 text-emerald-700 rounded-xl border border-emerald-100">
                     <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
                     <span class="text-[10px] font-black uppercase tracking-widest leading-none">Live System</span>
                 </div>
@@ -325,18 +325,18 @@
                 <!-- Notifications -->
                 <div class="relative group" x-data="{ open: false }">
                     <button @click="open = !open" @click.away="open = false" 
-                            class="p-3 text-slate-500 hover:bg-emerald-50 hover:text-emerald-600 rounded-2xl relative transition-all duration-300">
+                            class="p-3 text-slate-500 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl relative transition-all duration-300">
                         <i class="ph ph-bell text-2xl transition-transform group-hover:rotate-12"></i>
                         <span class="absolute top-3 right-3 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white shadow-sm"></span>
                     </button>
-                    <!-- Notification Dropdown Placeholder -->
-                    <div x-show="open" x-transition class="absolute right-0 mt-4 w-80 bg-white rounded-3xl shadow-2xl border border-slate-100 p-4 z-50">
+                    <!-- Notification Dropdown -->
+                    <div x-show="open" x-transition class="absolute right-0 mt-4 w-80 bg-white rounded-2xl shadow-2xl border border-slate-100 p-4 z-50">
                         <div class="flex items-center justify-between mb-4 px-2">
                             <h4 class="font-black text-xs uppercase tracking-widest text-slate-900">Notifications</h4>
                             <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">3 New</span>
                         </div>
                         <div class="space-y-2">
-                            <div class="p-3 rounded-2xl bg-slate-50 hover:bg-emerald-50 transition-colors cursor-pointer border border-transparent hover:border-emerald-100">
+                            <div class="p-3 rounded-xl bg-slate-50 hover:bg-emerald-50 transition-colors cursor-pointer border border-transparent hover:border-emerald-100">
                                 <p class="text-sm font-bold text-slate-900">New Booking</p>
                                 <p class="text-xs text-slate-500">John Doe booked Serengeti Safari</p>
                             </div>
@@ -347,8 +347,8 @@
                 <!-- User Profile Dropdown -->
                 <div class="relative" x-data="{ open: false }">
                     <button @click="open = !open" @click.away="open = false" 
-                            class="flex items-center gap-3 p-1.5 pr-4 rounded-2xl hover:bg-slate-50 transition-all duration-300 group">
-                        <div class="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center text-white font-black shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
+                            class="flex items-center gap-3 p-1.5 pr-4 rounded-xl hover:bg-slate-50 transition-all duration-300 group">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-500 flex items-center justify-center text-white font-black shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
                             {{ substr(Auth::user()->name, 0, 1) }}
                         </div>
                         <div class="text-left hidden sm:block">
@@ -358,7 +358,7 @@
                         <i class="ph ph-caret-down text-xs text-slate-400 transition-transform hidden sm:block" :class="open ? 'rotate-180' : ''"></i>
                     </button>
 
-                    <!-- Dropdown Menu -->
+                    <!-- User Dropdown Menu -->
                     <div x-show="open" 
                          x-transition:enter="transition ease-out duration-200"
                          x-transition:enter-start="opacity-0 scale-95 translate-y-2"
@@ -366,7 +366,7 @@
                          x-transition:leave="transition ease-in duration-75"
                          x-transition:leave-start="opacity-100 scale-100 translate-y-0"
                          x-transition:leave-end="opacity-0 scale-95 translate-y-2"
-                         class="absolute right-0 mt-3 w-64 bg-white rounded-3xl shadow-2xl border border-slate-100 py-4 z-50 overflow-hidden">
+                         class="absolute right-0 mt-3 w-64 bg-white rounded-2xl shadow-2xl border border-slate-100 py-4 z-50 overflow-hidden">
                         
                         <div class="px-6 py-4 border-b border-slate-50 mb-2">
                             <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Signed in as</p>
