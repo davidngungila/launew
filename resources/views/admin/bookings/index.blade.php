@@ -21,9 +21,8 @@
     </div>
 
     <!-- Quick Stats for Bookings -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
     <!-- Quick Stats for Bookings -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
             <div class="flex items-center justify-between mb-4">
                 <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -69,21 +68,22 @@
     <!-- Table Section -->
     <div class="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
         <!-- Filter Bar -->
-        <div class="p-8 border-b border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-50/30">
+        <div class="px-8 py-5 border-b border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-50/20">
             <div class="relative w-full max-w-sm">
                 <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400">
                     <i class="ph ph-magnifying-glass"></i>
                 </span>
-                <input type="text" class="block w-full pl-11 pr-4 py-3 border border-slate-200 rounded-2xl bg-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-sm" placeholder="Search by name, trip ID or tour...">
+                <input type="text" class="block w-full pl-11 pr-4 py-2.5 border border-slate-200 rounded-xl bg-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all shadow-sm" placeholder="Search by name, ID or tour...">
             </div>
-            <div class="flex items-center gap-2">
-                <span class="text-xs font-bold text-slate-400 mr-2 uppercase tracking-widest">Sort By:</span>
-                <select class="bg-transparent text-sm font-black text-slate-900 focus:outline-none cursor-pointer">
-                    <option>Travel Date (Newest)</option>
-                    <option>Travel Date (Oldest)</option>
-                    <option>Total Value</option>
-                    <option>Payment Status</option>
-                </select>
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-2">
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sort:</span>
+                    <select class="bg-transparent text-xs font-black text-slate-900 focus:outline-none cursor-pointer border-none p-0">
+                        <option>Newest First</option>
+                        <option>Status</option>
+                        <option>Value</option>
+                    </select>
+                </div>
             </div>
         </div>
 
@@ -91,58 +91,73 @@
             <table class="w-full text-left">
                 <thead>
                     <tr class="bg-white">
-                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Client / ID</th>
-                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Booked On</th>
-                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Tour Package</th>
-                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Pax</th>
-                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Travel Dates</th>
-                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Payment</th>
-                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
-                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Actions</th>
+                        <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest min-w-[180px]">Client / ID</th>
+                        <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Booked</th>
+                        <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest min-w-[200px]">Tour Package</th>
+                        <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Pax</th>
+                        <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Travel Date</th>
+                        <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Payment</th>
+                        <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
+                        <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50">
                     @forelse($bookings as $booking)
-                    <tr class="hover:bg-slate-50 transition-colors group">
-                        <td class="px-8 py-6">
+                    <tr class="hover:bg-slate-50/50 transition-colors group">
+                        <td class="px-6 py-5">
                             <div class="flex flex-col">
                                 <span class="text-sm font-black text-slate-900">{{ $booking->customer_name }}</span>
-                                <span class="text-[10px] font-bold text-slate-400 mt-0.5 tracking-widest">BK-{{ str_pad($booking->id, 4, '0', STR_PAD_LEFT) }}</span>
+                                <span class="text-[10px] font-bold text-slate-400 mt-0.5 tracking-widest uppercase">#BK-{{ str_pad($booking->id, 4, '0', STR_PAD_LEFT) }}</span>
                             </div>
                         </td>
-                        <td class="px-8 py-6 text-center">
-                            <span class="text-[10px] font-bold text-slate-500">{{ $booking->created_at->format('M d, Y') }}</span>
+                        <td class="px-6 py-5">
+                            <span class="text-[10px] font-bold text-slate-500 bg-slate-100/50 px-2 py-1 rounded-md">{{ $booking->created_at->format('M d, Y') }}</span>
                         </td>
-                        <td class="px-8 py-6">
-                            <p class="text-sm font-bold text-slate-700 leading-tight w-48">{{ $booking->tour->name ?? 'Custom Safari' }}</p>
+                        <td class="px-6 py-5">
+                            <p class="text-sm font-bold text-slate-700 leading-tight truncate max-w-[200px]" title="{{ $booking->tour->name ?? 'Custom Safari' }}">
+                                {{ $booking->tour->name ?? 'Custom Safari' }}
+                            </p>
                         </td>
-                        <td class="px-8 py-6 text-center">
-                            <span class="text-xs font-black text-slate-900 bg-blue-50 text-blue-600 px-3 py-1 rounded-lg">{{ $booking->adults + $booking->children }} Pax</span>
+                        <td class="px-6 py-5 text-center">
+                            <span class="text-[10px] font-black text-slate-600 bg-blue-50 px-2 py-1 rounded-md border border-blue-100/50">{{ $booking->adults + $booking->children }} Pax</span>
                         </td>
-                        <td class="px-8 py-6 text-center">
-                            <span class="text-xs font-black text-slate-900 bg-slate-100 px-3 py-1.5 rounded-lg">{{ $booking->start_date ? date('M d, Y', strtotime($booking->start_date)) : 'TBD' }}</span>
+                        <td class="px-6 py-5 text-center">
+                            <span class="text-xs font-black text-slate-900">{{ $booking->start_date ? date('d M Y', strtotime($booking->start_date)) : 'TBD' }}</span>
                         </td>
-                        <td class="px-8 py-6">
-                            <div class="flex flex-col gap-1.5 min-w-[120px]">
+                        <td class="px-6 py-5">
+                            <div class="flex flex-col gap-1 min-w-[100px]">
                                 <div class="flex justify-between text-[10px] font-black text-slate-900">
                                     <span>${{ number_format($booking->total_price) }}</span>
-                                    <span>{{ $booking->payment_status === 'paid' ? '100%' : '30%' }}</span>
+                                    <span class="text-slate-400">{{ $booking->payment_status === 'paid' ? '100%' : ($booking->payment_status === 'partially_paid' ? '30%' : '0%') }}</span>
                                 </div>
-                                <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                                    <div class="h-full bg-{{ $booking->payment_status === 'paid' ? 'emerald' : 'orange' }}-500 rounded-full" style="width: {{ $booking->payment_status === 'paid' ? '100%' : '30%' }}%"></div>
+                                <div class="w-full h-1 bg-slate-100 rounded-full overflow-hidden">
+                                    @php
+                                        $prog = match($booking->payment_status) {
+                                            'paid' => '100%',
+                                            'partially_paid' => '30%',
+                                            default => '0%'
+                                        };
+                                        $barColor = match($booking->payment_status) {
+                                            'paid' => 'emerald',
+                                            'partially_paid' => 'orange',
+                                            default => 'slate'
+                                        };
+                                    @endphp
+                                    <div class="h-full bg-{{ $barColor }}-500 rounded-full" style="width: {{ $prog }}"></div>
                                 </div>
                             </div>
                         </td>
-                        <td class="px-8 py-6">
+                        <td class="px-6 py-5">
                             @php
                                 $color = match($booking->status) {
                                     'confirmed' => 'emerald',
                                     'pending' => 'orange',
                                     'cancelled' => 'red',
+                                    'completed' => 'blue',
                                     default => 'slate'
                                 };
                             @endphp
-                            <span class="inline-flex px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-{{ $color }}-50 text-{{ $color }}-600 border border-{{ $color }}-100">
+                            <span class="inline-flex px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest bg-{{ $color }}-50 text-{{ $color }}-600 border border-{{ $color }}-100/50">
                                 {{ $booking->status }}
                             </span>
                         </td>
