@@ -27,13 +27,19 @@
     <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
            class="fixed inset-y-0 left-0 w-72 bg-emerald-950 text-white flex-shrink-0 flex flex-col z-50 transition-transform duration-300 lg:translate-x-0 lg:static overflow-hidden shadow-2xl">
         
-        <!-- Logo Area -->
-        <div class="p-6 flex items-center gap-3 border-b border-white/5 bg-emerald-950/50 sticky top-0 z-10">
-            <img src="{{ asset('lau-adventuress-logo.png') }}" alt="Logo" class="h-10 w-auto object-contain">
-            <div class="flex flex-col">
-                <span class="text-xl font-black tracking-tighter text-white leading-none">LAU</span>
-                <span class="text-[9px] font-bold tracking-[0.2em] text-emerald-400 uppercase leading-none mt-1">PARADISE ADVENTURE</span>
+        <!-- Logo Area with Close Button for Mobile -->
+        <div class="p-6 flex items-center justify-between border-b border-white/5 bg-emerald-950/50 sticky top-0 z-10">
+            <div class="flex items-center gap-3">
+                <img src="{{ asset('lau-adventuress-logo.png') }}" alt="Logo" class="h-10 w-auto object-contain">
+                <div class="flex flex-col">
+                    <span class="text-xl font-black tracking-tighter text-white leading-none">LAU</span>
+                    <span class="text-[9px] font-bold tracking-[0.2em] text-emerald-400 uppercase leading-none mt-1">PARADISE ADVENTURE</span>
+                </div>
             </div>
+            <!-- Close Sidebar (Mobile Only) -->
+            <button @click="sidebarOpen = false" class="lg:hidden p-2 text-white/50 hover:text-white transition-colors">
+                <i class="ph-bold ph-x text-2xl"></i>
+            </button>
         </div>
         
         <!-- Navigation Area (Scrollable) -->
@@ -58,7 +64,7 @@
 
             {{-- Bookings --}}
             @if(!$hasRoleMethod || $user->hasAnyRole(['System Administrator', 'Travel Consultant', 'Reservations Officer']))
-            <div x-data="{ open: {{ request()->routeIs('admin.bookings.*') ? 'true' : 'false' }} }">
+            <div x-data="{ open: window.innerWidth < 1024 || {{ request()->routeIs('admin.bookings.*') ? 'true' : 'false' }} }">
                 <button @click="open = !open" 
                         class="w-full flex items-center justify-between px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl {{ request()->routeIs('admin.bookings.*') ? 'text-white' : '' }}">
                     <div class="flex items-center">
@@ -81,7 +87,7 @@
 
             {{-- Quotations --}}
             @if(!$hasRoleMethod || $user->hasAnyRole(['System Administrator', 'Travel Consultant', 'Reservations Officer']))
-            <div x-data="{ open: false }">
+            <div x-data="{ open: window.innerWidth < 1024 || {{ request()->routeIs('admin.quotations.*') ? 'true' : 'false' }} }">
                 <button @click="open = !open" class="w-full flex items-center justify-between px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl {{ request()->routeIs('admin.quotations.*') ? 'text-white bg-emerald-800' : '' }}">
                     <div class="flex items-center">
                         <i class="ph-bold ph-file-text mr-3 text-xl"></i>
@@ -99,7 +105,7 @@
 
             {{-- Customers --}}
             @if(!$hasRoleMethod || $user->hasAnyRole(['System Administrator', 'Travel Consultant', 'Reservations Officer']))
-            <div x-data="{ open: false }">
+            <div x-data="{ open: window.innerWidth < 1024 || {{ request()->routeIs('admin.customers.*') ? 'true' : 'false' }} }">
                 <button @click="open = !open" class="w-full flex items-center justify-between px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl {{ request()->routeIs('admin.customers.*') ? 'text-white bg-emerald-800' : '' }}">
                     <div class="flex items-center">
                         <i class="ph-bold ph-users mr-3 text-xl"></i>
@@ -119,7 +125,7 @@
 
             {{-- Tours & Packages --}}
             @if(!$hasRoleMethod || $user->hasAnyRole(['System Administrator', 'Content Manager', 'Travel Consultant']))
-            <div x-data="{ open: {{ request()->routeIs('admin.tours.*') ? 'true' : 'false' }} }">
+            <div x-data="{ open: window.innerWidth < 1024 || {{ request()->routeIs('admin.tours.*') ? 'true' : 'false' }} }">
                 <button @click="open = !open" 
                         class="w-full flex items-center justify-between px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl {{ request()->routeIs('admin.tours.*') ? 'text-white' : '' }}">
                     <div class="flex items-center">
@@ -140,7 +146,7 @@
 
             {{-- Hotels --}}
             @if(!$hasRoleMethod || $user->hasAnyRole(['System Administrator', 'Hotel Partner', 'Travel Consultant']))
-            <div x-data="{ open: false }">
+            <div x-data="{ open: window.innerWidth < 1024 || {{ request()->routeIs('admin.hotels.*') ? 'true' : 'false' }} }">
                 <button @click="open = !open" class="w-full flex items-center justify-between px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl {{ request()->routeIs('admin.hotels.*') ? 'text-white bg-emerald-800' : '' }}">
                     <div class="flex items-center">
                         <i class="ph-bold ph-buildings mr-3 text-xl"></i>
@@ -158,7 +164,7 @@
 
             {{-- Fleet & Drivers --}}
             @if(!$hasRoleMethod || $user->hasAnyRole(['System Administrator', 'Driver/Guide', 'Travel Consultant', 'Reservations Officer']))
-            <div x-data="{ open: false }">
+            <div x-data="{ open: window.innerWidth < 1024 || {{ request()->routeIs('admin.fleet.*') ? 'true' : 'false' }} }">
                 <button @click="open = !open" class="w-full flex items-center justify-between px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl {{ request()->routeIs('admin.fleet.*') ? 'text-white bg-emerald-800' : '' }}">
                     <div class="flex items-center">
                         <i class="ph-bold ph-jeep mr-3 text-xl"></i>
@@ -179,7 +185,7 @@
 
             {{-- Accounting --}}
             @if(!$hasRoleMethod || $user->hasAnyRole(['System Administrator', 'Finance Officer']))
-            <div x-data="{ open: false }">
+            <div x-data="{ open: window.innerWidth < 1024 || {{ request()->routeIs('admin.finance.*') ? 'true' : 'false' }} }">
                 <button @click="open = !open" class="w-full flex items-center justify-between px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl {{ request()->routeIs('admin.finance.*') ? 'text-white bg-emerald-800' : '' }}">
                     <div class="flex items-center">
                         <i class="ph-bold ph-currency-dollar mr-3 text-xl"></i>
@@ -198,7 +204,7 @@
 
             {{-- Statistics --}}
             @if(!$hasRoleMethod || $user->hasAnyRole(['System Administrator', 'Finance Officer', 'Travel Consultant']))
-            <div x-data="{ open: false }">
+            <div x-data="{ open: window.innerWidth < 1024 || {{ request()->routeIs('admin.statistics.*') ? 'true' : 'false' }} }">
                 <button @click="open = !open" class="w-full flex items-center justify-between px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl {{ request()->routeIs('admin.statistics.*') ? 'text-white bg-emerald-800' : '' }}">
                     <div class="flex items-center">
                         <i class="ph-bold ph-chart-pie mr-3 text-xl"></i>
@@ -219,7 +225,7 @@
 
             {{-- Marketing --}}
             @if(!$hasRoleMethod || $user->hasAnyRole(['System Administrator', 'Marketing Officer', 'Marketing Manager', 'Content Manager']))
-            <div x-data="{ open: false }">
+            <div x-data="{ open: window.innerWidth < 1024 || {{ request()->routeIs('admin.marketing.*') ? 'true' : 'false' }} }">
                 <button @click="open = !open" class="w-full flex items-center justify-between px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl {{ request()->routeIs('admin.marketing.*') ? 'text-white bg-emerald-800' : '' }}">
                     <div class="flex items-center">
                         <i class="ph-bold ph-megaphone mr-3 text-xl"></i>
@@ -237,7 +243,7 @@
 
             {{-- Website Sections --}}
             @if(!$hasRoleMethod || $user->hasAnyRole(['System Administrator', 'Content Manager']))
-            <div x-data="{ open: false }">
+            <div x-data="{ open: window.innerWidth < 1024 || {{ request()->routeIs('admin.website.*') ? 'true' : 'false' }} }">
                 <button @click="open = !open" class="w-full flex items-center justify-between px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl {{ request()->routeIs('admin.website.*') ? 'text-white bg-emerald-800' : '' }}">
                     <div class="flex items-center">
                         <i class="ph-bold ph-browser mr-3 text-xl"></i>
@@ -256,7 +262,7 @@
 
             {{-- Support & Notifications --}}
             @if(!$hasRoleMethod || $user->hasAnyRole(['System Administrator', 'Travel Consultant', 'Reservations Officer']))
-            <div x-data="{ open: false }">
+            <div x-data="{ open: window.innerWidth < 1024 || {{ request()->routeIs('admin.support.*') ? 'true' : 'false' }} }">
                 <button @click="open = !open" class="w-full flex items-center justify-between px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl {{ request()->routeIs('admin.support.*') ? 'text-white bg-emerald-800' : '' }}">
                     <div class="flex items-center">
                         <i class="ph-bold ph-chat-centered-text mr-3 text-xl"></i>
@@ -274,7 +280,7 @@
 
             {{-- User Settings --}}
             @if(!$hasRoleMethod || $user->hasAnyRole(['System Administrator', 'ICT Officer']))
-            <div x-data="{ open: false }">
+            <div x-data="{ open: window.innerWidth < 1024 || {{ request()->routeIs('admin.settings.*') ? 'true' : 'false' }} }">
                 <button @click="open = !open" class="w-full flex items-center justify-between px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl {{ request()->routeIs('admin.settings.*') ? 'text-white bg-emerald-800' : '' }}">
                     <div class="flex items-center">
                         <i class="ph-bold ph-gear mr-3 text-xl"></i>
