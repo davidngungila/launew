@@ -13,10 +13,10 @@
                 <i class="ph ph-funnel"></i>
                 Advanced Filter
             </button>
-            <button class="px-5 py-2.5 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2">
+            <a href="{{ route('admin.bookings.create') }}" class="px-5 py-2.5 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2">
                 <i class="ph ph-plus"></i>
                 New Manual Booking
-            </button>
+            </a>
         </div>
     </div>
 
@@ -140,7 +140,7 @@
                         </td>
                         <td class="px-8 py-6 text-right">
                             <div class="flex items-center justify-end gap-2">
-                                <button class="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all"><i class="ph-bold ph-eye text-lg"></i></button>
+                                <a href="{{ route('admin.bookings.show', $booking->id) }}" class="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all"><i class="ph-bold ph-eye text-lg"></i></a>
                                 <button class="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all"><i class="ph-bold ph-pencil-simple text-lg"></i></button>
                                 <button class="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><i class="ph-bold ph-trash text-lg"></i></button>
                             </div>

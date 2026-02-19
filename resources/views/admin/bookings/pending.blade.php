@@ -43,8 +43,7 @@
                         </td>
                         <td class="px-8 py-6 text-right">
                             <div class="flex items-center justify-end gap-2">
-                                <button class="px-4 py-2 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-emerald-700 transition-all">Approve</button>
-                                <button class="px-4 py-2 border border-slate-200 text-slate-400 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-red-50 hover:text-red-500 hover:border-red-100 transition-all">Reject</button>
+                                <a href="{{ route('admin.bookings.show', $booking->id) }}" class="px-4 py-2 bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-emerald-600 hover:text-white transition-all">Review</a>
                             </div>
                         </td>
                     </tr>

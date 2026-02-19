@@ -40,9 +40,37 @@ class BookingController extends Controller
                 'title' => $booking->customer_name . ' - ' . ($booking->tour->name ?? 'Safari'),
                 'start' => $booking->start_date,
                 'status' => $booking->status,
-                'url' => route('admin.bookings.index', ['search' => $booking->id])
+                'url' => route('admin.bookings.show', $booking->id)
             ];
         });
         return view('admin.bookings.calendar', compact('events'));
+    }
+
+    public function create()
+    {
+        $tours = \App\Models\Tour::all();
+        return view('admin.bookings.create', compact('tours'));
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'customer_name' => 'required|string|max:255',
+            'customer_email' => 'required|email',
+            'tour_id' => 'required|exists:tours,id',
+            'start_date' => 'required|date',
+            'adults' => 'required|integer|min:1',
+            'total_price' => 'required|numeric',
+        ]);
+
+        $booking = \App\Models\Booking::create(array_merge($validated, ['status' => 'pending']));
+
+        return redirect()->route('admin.bookings.index')->with('success', 'Booking created successfully');
+    }
+
+    public function show($id)
+    {
+        $booking = \App\Models\Booking::with(['tour', 'guide', 'driver', 'vehicle'])->findOrFail($id);
+        return view('admin.bookings.show', compact('booking'));
     }
 }

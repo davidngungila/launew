@@ -45,7 +45,7 @@
                             </div>
                         </td>
                         <td class="px-8 py-6 text-right">
-                             <button class="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all"><i class="ph-bold ph-eye text-lg"></i></button>
+                             <a href="{{ route('admin.bookings.show', $booking->id) }}" class="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all"><i class="ph-bold ph-eye text-lg"></i></a>
                         </td>
                     </tr>
                     @empty
