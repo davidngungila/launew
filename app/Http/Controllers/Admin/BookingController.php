@@ -33,7 +33,7 @@ class BookingController extends Controller
 
     public function calendar()
     {
-        $bookings = \App\Models\Booking::with('tour')->get();
+        $bookings = \App\Models\Booking::with(['tour', 'guide', 'driver'])->get();
         
         $events = $bookings->map(function($booking) {
             return [
@@ -43,7 +43,11 @@ class BookingController extends Controller
                 'status' => $booking->status,
                 'payment_status' => $booking->payment_status,
                 'customer' => $booking->customer_name,
+                'phone' => $booking->customer_phone,
                 'pax' => ($booking->adults + $booking->children),
+                'total_price' => $booking->total_price,
+                'guide' => $booking->guide->name ?? 'Unassigned',
+                'driver' => $booking->driver->name ?? 'Unassigned',
                 'url' => route('admin.bookings.show', $booking->id),
                 'color' => match($booking->status) {
                     'confirmed' => '#10b981', // Emerald
@@ -54,7 +58,15 @@ class BookingController extends Controller
                 }
             ];
         });
-        return view('admin.bookings.calendar', compact('events'));
+
+        // Calculate some dynamic stats for the sidebar
+        $monthStats = [
+            'total_this_month' => \App\Models\Booking::whereMonth('start_date', now()->month)->count(),
+            'confirmed_this_month' => \App\Models\Booking::whereMonth('start_date', now()->month)->where('status', 'confirmed')->count(),
+            'revenue_this_month' => \App\Models\Booking::whereMonth('start_date', now()->month)->sum('total_price'),
+        ];
+
+        return view('admin.bookings.calendar', compact('events', 'monthStats'));
     }
 
     public function create()
