@@ -100,43 +100,52 @@
                 <p class="text-slate-500 font-medium">Combining decades of expedition expertise with a passion for Tanzanian hospitality.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
                 @foreach([
                     [
                         'name' => 'Lazaro Peter',
                         'role' => 'Founder & Lead Guide',
-                        'bio' => 'With over 15 years in the Serengeti, Lazaro ensures every expedition is both thrilling and culturally respectful.',
+                        'bio' => '15+ years in the Serengeti, ensuring every expedition is culturally respectful.',
                         'image' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80'
                     ],
                     [
                         'name' => 'Emmanuel David',
                         'role' => 'Head of Logistics',
-                        'bio' => 'The mastermind behind our seamless fleet coordination and remote camps. David makes the impossible possible.',
+                        'bio' => 'Mastermind behind fleet coordination and remote camps. David is our expert.',
                         'image' => 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80'
                     ],
                     [
                         'name' => 'Neema John',
                         'role' => 'Customer Relations',
-                        'bio' => 'Neema brings a touch of luxury to every guest interaction, ensuring your stay exceeds 5-star expectations.',
+                        'bio' => 'Ensures your 5-star expectations are exceeded from inquiry to flight departure.',
                         'image' => 'https://images.unsplash.com/photo-1531123897727-8f129e16fd3c?auto=format&fit=crop&w=800&q=80'
+                    ],
+                    [
+                        'name' => 'Grace Lyimo',
+                        'role' => 'Finance Director',
+                        'bio' => 'Managing our sustainable investments and ensuring transparency in all operations.',
+                        'image' => 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=800&q=80'
+                    ],
+                    [
+                        'name' => 'Kelvin Massawe',
+                        'role' => 'Lead Photographer',
+                        'bio' => 'Capturing the raw beauty of Tanzania. Kelvin helps document your journey.',
+                        'image' => 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=800&q=80'
                     ]
                 ] as $member)
                 <div class="group">
-                    <div class="relative mb-8 overflow-hidden rounded-2xl aspect-[4/5] shadow-xl">
+                    <div class="relative mb-6 overflow-hidden rounded-2xl aspect-[3/4] shadow-lg">
                         <img src="{{ $member['image'] }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" alt="{{ $member['name'] }}">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-500"></div>
-                        <div class="absolute bottom-6 left-6 right-6 flex items-center gap-4 translate-y-12 group-hover:translate-y-0 transition-transform duration-500">
-                            <a href="#" class="w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-emerald-500 transition-colors">
+                        <div class="absolute bottom-4 left-4 right-4 flex items-center gap-3 translate-y-12 group-hover:translate-y-0 transition-transform duration-500">
+                            <a href="#" class="w-8 h-8 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-emerald-500 transition-colors text-xs">
                                 <i class="ph ph-linkedin-logo"></i>
-                            </a>
-                            <a href="#" class="w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-emerald-500 transition-colors">
-                                <i class="ph ph-instagram-logo"></i>
                             </a>
                         </div>
                     </div>
-                    <h3 class="text-xl font-black text-slate-900 mb-1 group-hover:text-emerald-600 transition-colors">{{ $member['name'] }}</h3>
-                    <p class="text-[10px] font-black uppercase tracking-widest text-emerald-500 mb-4">{{ $member['role'] }}</p>
-                    <p class="text-slate-500 text-sm leading-relaxed">{{ $member['bio'] }}</p>
+                    <h3 class="text-sm font-black text-slate-900 mb-1 group-hover:text-emerald-600 transition-colors">{{ $member['name'] }}</h3>
+                    <p class="text-[9px] font-black uppercase tracking-widest text-emerald-500 mb-3">{{ $member['role'] }}</p>
+                    <p class="text-slate-500 text-[11px] leading-relaxed line-clamp-2" title="{{ $member['bio'] }}">{{ $member['bio'] }}</p>
                 </div>
                 @endforeach
             </div>
