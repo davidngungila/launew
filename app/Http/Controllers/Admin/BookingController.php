@@ -33,14 +33,25 @@ class BookingController extends Controller
 
     public function calendar()
     {
-        $bookings = \App\Models\Booking::with('tour')->whereIn('status', ['confirmed', 'paid'])->get();
-        // Format for FullCalendar or similar
+        $bookings = \App\Models\Booking::with('tour')->get();
+        
         $events = $bookings->map(function($booking) {
             return [
-                'title' => $booking->customer_name . ' - ' . ($booking->tour->name ?? 'Safari'),
+                'id' => $booking->id,
+                'title' => ($booking->tour->name ?? 'Safari'),
                 'start' => $booking->start_date,
                 'status' => $booking->status,
-                'url' => route('admin.bookings.show', $booking->id)
+                'payment_status' => $booking->payment_status,
+                'customer' => $booking->customer_name,
+                'pax' => ($booking->adults + $booking->children),
+                'url' => route('admin.bookings.show', $booking->id),
+                'color' => match($booking->status) {
+                    'confirmed' => '#10b981', // Emerald
+                    'pending' => '#f59e0b',   // Amber
+                    'cancelled' => '#ef4444', // Red
+                    'completed' => '#3b82f6', // Blue
+                    default => '#94a3b8'     // Slate
+                }
             ];
         });
         return view('admin.bookings.calendar', compact('events'));
