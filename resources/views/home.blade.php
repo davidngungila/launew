@@ -123,44 +123,23 @@
 </script>
 
 <!-- Stats Bar -->
-<section class="relative z-20 -mt-10 max-w-6xl mx-auto px-6">
-    <div class="grid grid-cols-2 lg:grid-cols-4 bg-white rounded-[2.5rem] shadow-2xl p-10 border border-slate-100/50 backdrop-blur-xl relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-2 h-full bg-emerald-600"></div>
-        <div class="text-center px-6 py-4 flex flex-col items-center">
-            <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mb-4"><i class="ph ph-calendar-check text-2xl"></i></div>
-            <h3 class="text-4xl font-black text-slate-900 tracking-tighter">15+</h3>
-            <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mt-2">Years of Service</p>
+<section class="relative z-20 -mt-10 max-w-5xl mx-auto px-6">
+    <div class="grid grid-cols-2 md:grid-cols-4 bg-white rounded-2xl shadow-2xl p-8 border border-slate-100 divide-x divide-slate-100">
+        <div class="text-center px-4">
+            <h3 class="text-4xl font-bold text-slate-900">2025</h3>
+            <p class="text-sm text-slate-500 mt-2">Founded Year</p>
         </div>
-        <div class="text-center px-6 py-4 border-l border-slate-50 flex flex-col items-center">
-            <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-4"><i class="ph ph-users-four text-2xl"></i></div>
-            <h3 class="text-4xl font-black text-slate-900 tracking-tighter">12k+</h3>
-            <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mt-2">Global Explorers</p>
+        <div class="text-center px-4">
+            <h3 class="text-4xl font-bold text-slate-900">1k+</h3>
+            <p class="text-sm text-slate-500 mt-2">Tours Completed</p>
         </div>
-        <div class="text-center px-6 py-4 border-l border-slate-50 flex flex-col items-center">
-            <div class="w-12 h-12 bg-orange-50 text-orange-600 rounded-full flex items-center justify-center mb-4"><i class="ph ph-map-trifold text-2xl"></i></div>
-            <h3 class="text-4xl font-black text-slate-900 tracking-tighter">250+</h3>
-            <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mt-2">Unique Itineraries</p>
+        <div class="text-center px-4">
+            <h3 class="text-4xl font-bold text-slate-900">150+</h3>
+            <p class="text-sm text-slate-500 mt-2">Expert Guides</p>
         </div>
-        <div class="text-center px-6 py-4 border-l border-slate-50 flex flex-col items-center">
-            <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mb-4"><i class="ph ph-medal text-2xl"></i></div>
-            <h3 class="text-4xl font-black text-slate-900 tracking-tighter">98%</h3>
-            <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mt-2">Trip Advisor Rating</p>
-        </div>
-    </div>
-</section>
-
-<!-- Our Partners -->
-<section class="py-20 bg-white overflow-hidden">
-    <div class="max-w-7xl mx-auto px-6">
-        <p class="text-center text-[11px] font-black uppercase tracking-[0.3em] text-slate-400 mb-12">Proud Partners & Affiliations</p>
-        <div class="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
-            <img src="https://www.tanzaniatouristboard.go.tz/static/images/logo.png" alt="TTB" class="h-14 w-auto object-contain">
-            <img src="https://www.tanzaniatanzania.go.tz/assets/img/tanapa-logo.png" alt="TANAPA" class="h-16 w-auto object-contain">
-            <img src="https://www.tanzaniatanzania.go.tz/assets/img/ncaa-logo.png" alt="NCAA" class="h-16 w-auto object-contain">
-            <div class="flex items-center gap-2 font-black text-2xl text-slate-900">
-                <i class="ph ph-airplane-tilt text-emerald-600"></i>
-                Kili-Aviation
-            </div>
+        <div class="text-center px-4">
+            <h3 class="text-4xl font-bold text-slate-900">99%</h3>
+            <p class="text-sm text-slate-500 mt-2">Happy Clients</p>
         </div>
     </div>
 </section>
@@ -262,43 +241,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
-
-<!-- Testimonials Section -->
-<section class="py-32 bg-white relative overflow-hidden">
-    <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-50 rounded-full blur-3xl -mr-32 -mt-32"></div>
-    <div class="max-w-7xl mx-auto px-6 relative z-10">
-        <div class="text-center max-w-3xl mx-auto mb-20">
-            <span class="inline-block px-4 py-1.5 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-black tracking-widest uppercase mb-6">Real Stories</span>
-            <h2 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">Voices of Our <span class="text-emerald-500">Global Explorers</span></h2>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            @foreach([
-                ['name' => 'Sarah & John Mitchell', 'country' => 'United Kingdom', 'text' => "LAU Safaris transformed our honeymoon into a dream. Crossing the Serengeti during the migration was breathtaking. Our guide was incredibly knowledgeable and found lions we would have missed!", 'stars' => 5],
-                ['name' => 'Dr. Aris Petrov', 'country' => 'Germany', 'text' => "Superb organization. As a photographer, I needed patience and specific timing. They tailored the entire 12-day trip to my needs. The lodges were luxurious and sustainable.", 'stars' => 5],
-                ['name' => 'Elena Rodriguez', 'country' => 'Spain', 'text' => "Unforgettable! Climbing Kilimanjaro was the hardest thing I've ever done, but the support from the LAU team made it possible. We felt safe and motivated every step of the way.", 'stars' => 5]
-            ] as $review)
-            <div class="p-10 bg-slate-50 rounded-[3rem] border border-slate-100 hover:bg-white hover:shadow-2xl hover:shadow-emerald-500/10 transition-all duration-500 group">
-                <div class="flex gap-1 mb-6">
-                    @for($i=0; $i<$review['stars']; $i++)
-                    <i class="ph-fill ph-star text-orange-400"></i>
-                    @endfor
-                </div>
-                <p class="text-slate-600 leading-relaxed mb-8 italic text-lg line-clamp-4">"{{ $review['text'] }}"</p>
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 font-black text-xl">
-                        {{ substr($review['name'], 0, 1) }}
-                    </div>
-                    <div>
-                        <h4 class="text-sm font-black text-slate-900">{{ $review['name'] }}</h4>
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{{ $review['country'] }}</p>
-                    </div>
-                </div>
-            </div>
-            @endforeach
         </div>
     </div>
 </section>
