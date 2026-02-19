@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class BookingController extends Controller
+{
+    public function index()
+    {
+        $bookings = \App\Models\Booking::with('tour')->latest()->paginate(10);
+        $stats = [
+            'total' => \App\Models\Booking::count(),
+            'pending' => \App\Models\Booking::where('status', 'pending')->count(),
+            'confirmed' => \App\Models\Booking::where('status', 'confirmed')->count(),
+            'revenue' => \App\Models\Booking::sum('total_price'),
+        ];
+        return view('admin.bookings.index', compact('bookings', 'stats'));
+    }
+
+    public function pending()
+    {
+        $bookings = \App\Models\Booking::with('tour')->where('status', 'pending')->latest()->paginate(10);
+        return view('admin.bookings.pending', compact('bookings'));
+    }
+
+    public function confirmed()
+    {
+        $bookings = \App\Models\Booking::with('tour')->where('status', 'confirmed')->latest()->paginate(10);
+        return view('admin.bookings.confirmed', compact('bookings'));
+    }
+
+    public function calendar()
+    {
+        $bookings = \App\Models\Booking::with('tour')->whereIn('status', ['confirmed', 'paid'])->get();
+        // Format for FullCalendar or similar
+        $events = $bookings->map(function($booking) {
+            return [
+                'title' => $booking->customer_name . ' - ' . ($booking->tour->name ?? 'Safari'),
+                'start' => $booking->start_date,
+                'status' => $booking->status,
+                'url' => route('admin.bookings.index', ['search' => $booking->id])
+            ];
+        });
+        return view('admin.bookings.calendar', compact('events'));
+    }
+}

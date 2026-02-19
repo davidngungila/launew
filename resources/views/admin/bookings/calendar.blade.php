@@ -1,71 +1,60 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="h-[calc(100vh-10rem)] flex flex-col space-y-8">
+<div class="space-y-8">
+    <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-            <h1 class="text-3xl font-black text-slate-900 tracking-tight">Booking Calendar</h1>
-            <p class="text-slate-500 font-medium">Visual availability and scheduling timeline</p>
-        </div>
-        <div class="flex items-center gap-3">
-             <div class="flex bg-white rounded-2xl p-1 border border-slate-200">
-                <button class="px-5 py-2 hover:bg-slate-50 text-slate-400 font-bold text-xs rounded-xl transition-all">Day</button>
-                <button class="px-5 py-2 hover:bg-slate-50 text-slate-400 font-bold text-xs rounded-xl transition-all">Week</button>
-                <button class="px-5 py-2 bg-emerald-600 text-white font-black text-xs rounded-xl shadow-lg shadow-emerald-500/20">Month</button>
-            </div>
-            <div class="flex items-center gap-2">
-                <button class="w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-600 hover:bg-slate-50 transition-all"><i class="ph ph-caret-left"></i></button>
-                <span class="text-sm font-black text-slate-900 px-4">October 2026</span>
-                <button class="w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-600 hover:bg-slate-50 transition-all"><i class="ph ph-caret-right"></i></button>
-            </div>
+            <h1 class="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+                <i class="ph ph-calendar-blank text-emerald-600"></i>
+                Booking Calendar
+            </h1>
+            <p class="text-slate-500 font-medium">Visual overview of all scheduled safari departures</p>
         </div>
     </div>
 
-    <!-- Calendar Grid -->
-    <div class="flex-grow bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden flex flex-col">
-        <!-- Weekdays Header -->
-        <div class="grid grid-cols-7 border-b border-slate-100 bg-slate-50/50">
-            @foreach(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as $day)
-            <div class="py-4 text-center">
-                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">{{ $day }}</span>
-            </div>
-            @endforeach
-        </div>
-
-        <!-- Days Grid -->
-        <div class="flex-grow grid grid-cols-7 divide-x divide-y divide-slate-50 overflow-y-auto">
-            @for ($i = 1; $i <= 35; $i++)
-                @php
-                    $dayNum = $i - 3; // Shift to start month correctly
-                    $isCurrentMonth = $dayNum > 0 && $dayNum <= 31;
-                    $hasBooking = $dayNum == 12 || $dayNum == 15 || $dayNum == 22;
-                @endphp
-                <div class="min-h-[140px] p-4 bg-{{ $isCurrentMonth ? 'white' : 'slate-50/30 opacity-50' }} transition-colors hover:bg-emerald-50/20">
-                    <div class="flex justify-between items-center mb-4">
-                        <span class="text-sm font-black {{ $dayNum == 19 ? 'text-emerald-600' : 'text-slate-900' }}">{{ $isCurrentMonth ? $dayNum : '' }}</span>
-                        @if($isCurrentMonth && $dayNum == 19)
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/40"></span>
-                        @endif
-                    </div>
-
-                    @if($hasBooking)
-                        @foreach([1] as $b)
-                        <div class="p-2 bg-emerald-900 text-white rounded-lg shadow-sm mb-2 cursor-pointer hover:scale-105 transition-transform">
-                            <p class="text-[9px] font-black truncate">Michael C.</p>
-                            <p class="text-[8px] font-bold opacity-70 truncate tracking-tight">8 Days Northern...</p>
-                        </div>
-                        @endforeach
-                    @endif
-                    
-                    @if($dayNum == 22)
-                         <div class="p-2 bg-indigo-600 text-white rounded-lg shadow-sm cursor-pointer hover:scale-105 transition-transform">
-                            <p class="text-[9px] font-black truncate">Sarah J.</p>
-                            <p class="text-[8px] font-bold opacity-70 truncate tracking-tight">Kili Trek...</p>
-                        </div>
-                    @endif
-                </div>
-            @endfor
-        </div>
+    <!-- Calendar Card -->
+    <div class="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm">
+        <div id="calendar" class="min-h-[600px]"></div>
     </div>
 </div>
+
+@push('styles')
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+<style>
+    .fc { font-family: 'Manrope', sans-serif; --fc-border-color: #f1f5f9; --fc-today-bg-color: #ecfdf5; }
+    .fc .fc-toolbar-title { font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: -0.025em; font-size: 1.25rem; }
+    .fc .fc-button-primary { background-color: #10b981; border-color: #10b981; font-weight: 800; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.1em; border-radius: 0.75rem !important; padding: 0.75rem 1.25rem; }
+    .fc .fc-button-primary:hover { background-color: #059669; border-color: #059669; }
+    .fc .fc-event { border-radius: 0.5rem; padding: 2px 6px; font-weight: 700; border: none; font-size: 0.75rem; }
+    .fc-theme-standard td, .fc-theme-standard th { border-color: #f8fafc; }
+</style>
+@endpush
+
+@push('scripts')
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: @json($events),
+            eventClick: function(info) {
+                if (info.event.url) {
+                    window.location.href = info.event.url;
+                    return false;
+                }
+            },
+            eventDidMount: function(info) {
+                if (info.event.extendedProps.status === 'confirmed') {
+                    info.el.style.backgroundColor = '#10b981';
+                } else if (info.event.extendedProps.status === 'paid') {
+                    info.el.style.backgroundColor = '#0ea5e9';
+                }
+            }
+        });
+        calendar.render();
+    });
+</script>
+@endpush
 @endsection

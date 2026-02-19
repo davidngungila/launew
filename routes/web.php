@@ -32,10 +32,10 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::resource('tours', TourController::class);
     
     // CRM & Sales
-    Route::get('/bookings', function() { return view('admin.bookings.index'); })->name('bookings.index');
-    Route::get('/bookings/pending', function() { return view('admin.bookings.pending'); })->name('bookings.pending');
-    Route::get('/bookings/confirmed', function() { return view('admin.bookings.confirmed'); })->name('bookings.confirmed');
-    Route::get('/bookings/calendar', function() { return view('admin.bookings.calendar'); })->name('bookings.calendar');
+    Route::get('/bookings', [App\Http\Controllers\Admin\BookingController::class, 'index'])->name('bookings.index');
+    Route::get('/bookings/pending', [App\Http\Controllers\Admin\BookingController::class, 'pending'])->name('bookings.pending');
+    Route::get('/bookings/confirmed', [App\Http\Controllers\Admin\BookingController::class, 'confirmed'])->name('bookings.confirmed');
+    Route::get('/bookings/calendar', [App\Http\Controllers\Admin\BookingController::class, 'calendar'])->name('bookings.calendar');
     Route::get('/quotations', function() { return view('admin.quotations.index'); })->name('quotations.index');
     Route::get('/customers', function() { return view('admin.customers.index'); })->name('customers.index');
     

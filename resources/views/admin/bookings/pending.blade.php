@@ -2,74 +2,64 @@
 
 @section('content')
 <div class="space-y-8">
+    <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
             <h1 class="text-3xl font-black text-slate-900 tracking-tight">Pending Approvals</h1>
-            <p class="text-slate-500 font-medium">Review and verify new booking requests and payments</p>
-        </div>
-        <div class="flex items-center gap-2 px-4 py-2 bg-orange-50 text-orange-600 rounded-xl border border-orange-100">
-            <i class="ph-fill ph-warning-circle"></i>
-            <span class="text-xs font-black uppercase tracking-widest">12 Actions Needed</span>
+            <p class="text-slate-500 font-medium">Review and confirm new safari booking requests</p>
         </div>
     </div>
 
-    <!-- Stats for context -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        @foreach([
-            ['label' => 'New Inquiries', 'val' => '8', 'icon' => 'chat-circle-dots', 'color' => 'blue'],
-            ['label' => 'Payment Verification', 'val' => '14', 'icon' => 'currency-dollar', 'color' => 'orange'],
-            ['label' => 'Itinerary Review', 'val' => '4', 'icon' => 'file-text', 'color' => 'purple'],
-        ] as $stat)
-        <div class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-{{ $stat['color'] }}-50 text-{{ $stat['color'] }}-600 flex items-center justify-center">
-                    <i class="ph ph-{{ $stat['icon'] }} text-2xl"></i>
-                </div>
-                <div>
-                     <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-0.5">{{ $stat['label'] }}</p>
-                     <h4 class="text-xl font-black text-slate-900 leading-tight">{{ $stat['val'] }}</h4>
-                </div>
-            </div>
+    <!-- Table Section -->
+    <div class="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left">
+                <thead>
+                    <tr class="bg-white">
+                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Client / ID</th>
+                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Tour Package</th>
+                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Travel Date</th>
+                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Price</th>
+                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-50">
+                    @forelse($bookings as $booking)
+                    <tr class="hover:bg-slate-50 transition-colors group">
+                        <td class="px-8 py-6">
+                            <div class="flex flex-col">
+                                <span class="text-sm font-black text-slate-900">{{ $booking->customer_name }}</span>
+                                <span class="text-[10px] font-bold text-slate-400 mt-0.5 tracking-widest">BK-{{ str_pad($booking->id, 4, '0', STR_PAD_LEFT) }}</span>
+                            </div>
+                        </td>
+                        <td class="px-8 py-6">
+                            <p class="text-sm font-bold text-slate-700 leading-tight w-48">{{ $booking->tour->name ?? 'Custom Safari' }}</p>
+                        </td>
+                        <td class="px-8 py-6 text-center">
+                            <span class="text-xs font-black text-slate-900 bg-slate-100 px-3 py-1.5 rounded-lg">{{ $booking->start_date ? date('M d, Y', strtotime($booking->start_date)) : 'TBD' }}</span>
+                        </td>
+                        <td class="px-8 py-6">
+                            <span class="text-xs font-black text-slate-900">${{ number_format($booking->total_price) }}</span>
+                        </td>
+                        <td class="px-8 py-6 text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <button class="px-4 py-2 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-emerald-700 transition-all">Approve</button>
+                                <button class="px-4 py-2 border border-slate-200 text-slate-400 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-red-50 hover:text-red-500 hover:border-red-100 transition-all">Reject</button>
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="5" class="px-8 py-12 text-center text-slate-400 font-medium">No pending approvals</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
-        @endforeach
-    </div>
-
-    <!-- Review Queue -->
-    <div class="space-y-4">
-        @foreach([
-            ['client' => 'Marcus Aurelius', 'trip' => 'Serengeti Migration Premium', 'id' => 'BK-9286', 'reason' => 'Deposit Verification Required', 'type' => 'Payment', 'color' => 'orange'],
-            ['client' => 'Sarah Connor', 'trip' => '7 Days Kili Lemosho', 'id' => 'BK-9287', 'reason' => 'Custom Request Update', 'type' => 'Review', 'color' => 'blue'],
-            ['client' => 'Tony Stark', 'trip' => 'Zanzibar Luxury Honeymoon', 'id' => 'BK-9288', 'reason' => 'Hotel Availability Check', 'type' => 'Inventory', 'color' => 'purple'],
-        ] as $req)
-        <div class="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all flex flex-col md:flex-row items-center justify-between gap-6 group">
-            <div class="flex items-center gap-6">
-                <div class="w-16 h-16 rounded-[1.5rem] bg-slate-50 flex items-center justify-center font-black text-slate-300 text-xl group-hover:bg-emerald-50 group-hover:text-emerald-500 transition-all">
-                    {{ substr($req['client'], 0, 1) }}
-                </div>
-                <div class="space-y-1">
-                    <div class="flex items-center gap-2">
-                        <span class="text-xs font-black bg-{{ $req['color'] }}-100 text-{{ $req['color'] }}-600 px-2 py-0.5 rounded-lg uppercase tracking-widest">{{ $req['type'] }}</span>
-                        <span class="text-[10px] font-bold text-slate-400">{{ $req['id'] }}</span>
-                    </div>
-                    <h3 class="text-lg font-black text-slate-900 tracking-tight">{{ $req['client'] }}</h3>
-                    <p class="text-sm font-bold text-slate-500">{{ $req['trip'] }}</p>
-                </div>
-            </div>
-
-            <div class="flex items-center gap-12">
-                <div class="text-right hidden lg:block">
-                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Issue</p>
-                    <p class="text-sm font-black text-slate-900">{{ $req['reason'] }}</p>
-                </div>
-                <div class="flex items-center gap-3">
-                     <button class="px-6 py-3 bg-slate-900 text-white font-black text-xs uppercase tracking-[0.2em] rounded-2xl hover:bg-emerald-600 transition-all shadow-xl shadow-slate-900/10">Approve Booking</button>
-                     <button class="p-3 text-slate-400 hover:text-red-500 bg-slate-50 hover:bg-red-50 rounded-2xl transition-all">
-                        <i class="ph ph-x-circle text-2xl"></i>
-                     </button>
-                </div>
-            </div>
+        <div class="p-8 border-t border-slate-50 flex items-center justify-between">
+            <p class="text-xs font-bold text-slate-400">Showing <span class="text-slate-900">{{ $bookings->firstItem() ?? 0 }}</span> to <span class="text-slate-900">{{ $bookings->lastItem() ?? 0 }}</span> of <span class="text-slate-900">{{ $bookings->total() }}</span> Bookings</p>
+            <div>{{ $bookings->links('vendor.pagination.tailwind') }}</div>
         </div>
-        @endforeach
     </div>
 </div>
 @endsection
