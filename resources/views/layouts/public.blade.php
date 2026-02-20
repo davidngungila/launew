@@ -360,9 +360,9 @@
             </div>
         </div>
         <div class="max-w-7xl mx-auto px-6 pt-10 border-t border-slate-800">
-            <div class="flex flex-col lg:flex-row items-center justify-between gap-8">
-                <div class="flex flex-col gap-4">
-                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-y-2 gap-x-6 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+            <div class="flex flex-col items-center text-center gap-8">
+                <div class="flex flex-col items-center gap-4">
+                    <div class="flex flex-wrap items-center justify-center gap-y-2 gap-x-6 text-[11px] font-bold uppercase tracking-wider text-slate-500">
                         <a href="{{ route('terms') }}" class="hover:text-emerald-500 transition-colors">Terms & Conditions</a>
                         <a href="{{ route('privacy') }}" class="hover:text-emerald-500 transition-colors">Privacy Policy</a>
                         <a href="{{ route('cookies') }}" class="hover:text-emerald-500 transition-colors">Cookies Policy</a>
@@ -370,7 +370,7 @@
                         <a href="{{ route('editorial') }}" class="hover:text-emerald-500 transition-colors">Editorial Policy</a>
                         <a href="{{ route('sustainability') }}" class="hover:text-emerald-500 transition-colors">Sustainability Policy</a>
                     </div>
-                    <p class="text-sm text-center lg:text-left text-slate-500">© 2026 LAU PARADISE ADVENTURE. All rights reserved.</p>
+                    <p class="text-sm text-slate-500">© 2026 LAU PARADISE ADVENTURE. All rights reserved.</p>
                 </div>
                 <div class="flex items-center gap-6">
                     <a href="#" class="text-slate-500 hover:text-white transition-colors"><i class="ph ph-facebook-logo text-xl"></i></a>
