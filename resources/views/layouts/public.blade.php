@@ -89,6 +89,7 @@
             <!-- Desktop Layout -->
             <div class="hidden lg:flex items-center gap-10">
                 <a href="/" class="nav-link font-bold hover:text-emerald-600 transition-colors py-8">Home</a>
+                <a href="{{ route('kilimanjaro') }}" class="nav-link font-bold hover:text-emerald-600 transition-colors py-8">Kilimanjaro</a>
                 <!-- Safaris Dropdown -->
                 <div class="relative group py-8">
                     <a href="/tours" class="nav-link font-bold hover:text-emerald-600 transition-colors flex items-center gap-1">
@@ -249,6 +250,7 @@
 
                 <div class="space-y-6">
                     <a href="/" class="block text-2xl font-serif font-black text-slate-900 hover:text-emerald-600">Home</a>
+                    <a href="{{ route('kilimanjaro') }}" class="block text-2xl font-serif font-black text-slate-900 hover:text-emerald-600">Kilimanjaro</a>
                     
                     <div x-data="{ open: false }">
                         <button @click="open = !open" class="flex items-center justify-between w-full text-2xl font-serif font-black text-slate-900">
@@ -307,8 +309,9 @@
             <div>
                 <h4 class="font-bold mb-6">Quick Links</h4>
                 <ul class="space-y-4 text-sm text-slate-400">
-                    <li><a href="#" class="hover:text-white transition-colors">Home</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Our Tours</a></li>
+                    <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
+                    <li><a href="{{ route('kilimanjaro') }}" class="hover:text-white transition-colors">Kilimanjaro</a></li>
+                    <li><a href="/tours" class="hover:text-white transition-colors">Our Tours</a></li>
                     <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
                     <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
                 </ul>
@@ -316,10 +319,10 @@
             <div>
                 <h4 class="font-bold mb-6">Destinations</h4>
                 <ul class="space-y-4 text-sm text-slate-400">
-                    <li><a href="#" class="hover:text-white transition-colors">Serengeti NP</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Ngorongoro</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Kilimanjaro</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Zanzibar</a></li>
+                    <li><a href="/tours" class="hover:text-white transition-colors">Serengeti NP</a></li>
+                    <li><a href="/tours" class="hover:text-white transition-colors">Ngorongoro</a></li>
+                    <li><a href="{{ route('kilimanjaro') }}" class="hover:text-white transition-colors">Kilimanjaro</a></li>
+                    <li><a href="/tours" class="hover:text-white transition-colors">Zanzibar</a></li>
                 </ul>
             </div>
             <div>

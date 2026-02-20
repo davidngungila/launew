@@ -30,6 +30,10 @@ Route::post('/password/reset', function (Illuminate\Http\Request $request) {
     return back()->with('status', 'A recovery link has been sent to your inbox.');
 })->name('password.email');
 
+Route::get('/kilimanjaro', function () {
+    return view('kilimanjaro');
+})->name('kilimanjaro');
+
 Route::get('/tours', [PublicTourController::class, 'index'])->name('tours.index');
 Route::get('/tours/{id}', [PublicTourController::class, 'show'])->name('tours.show');
 Route::post('/bookings', [PublicBookingController::class, 'store'])->name('bookings.store');
