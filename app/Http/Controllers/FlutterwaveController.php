@@ -10,12 +10,22 @@ use Illuminate\Support\Facades\Log;
 class FlutterwaveController extends Controller
 {
     /**
-     * Initialize Flutterwave Payment
+     * Show Processing View
      */
     public function initialize(Request $request, $id)
     {
         $booking = Booking::with('tour')->findOrFail($id);
-        $type = $request->get('type', 'full'); // 'full' or 'deposit'
+        $type = $request->get('type', 'full');
+        return view('public.bookings.processing', compact('booking', 'type'));
+    }
+
+    /**
+     * Get Actual Payment Link (via AJAX)
+     */
+    public function getLink(Request $request, $id)
+    {
+        $booking = Booking::with('tour')->findOrFail($id);
+        $type = $request->get('type', 'full');
         
         $amount = $booking->total_price;
         $title = $booking->tour->name ?? 'Safari Expedition';
@@ -25,7 +35,6 @@ class FlutterwaveController extends Controller
             $title = "Deposit for " . $title;
         }
 
-        // Generate a unique reference
         $tx_ref = 'LAU_' . $booking->id . '_' . time();
 
         $response = Http::withHeaders([
@@ -36,6 +45,7 @@ class FlutterwaveController extends Controller
             'amount' => $amount,
             'currency' => 'USD',
             'redirect_url' => route('flutterwave.callback'),
+            'payment_options' => 'card,mobilemoneytanzania,banktransfer,ussd',
             'customer' => [
                 'email' => $booking->customer_email,
                 'phonenumber' => $booking->customer_phone,
@@ -43,8 +53,8 @@ class FlutterwaveController extends Controller
             ],
             'customizations' => [
                 'title' => 'LAU Paradise Adventure',
-                'description' => $title,
-                'logo' => asset('lau-adventuress-logo.png'),
+                'description' => $title . ' (Tanzania Secure Gateway)',
+                'logo' => asset('logo.png'),
             ],
             'meta' => [
                 'booking_id' => $booking->id,
@@ -54,22 +64,15 @@ class FlutterwaveController extends Controller
 
         if ($response->successful()) {
             $data = $response->json();
-            
-            // Save initial reference
             $booking->update([
                 'payment_reference' => $tx_ref,
                 'payment_method' => 'flutterwave',
             ]);
 
-            return redirect($data['data']['link']);
+            return response()->json(['link' => $data['data']['link']]);
         }
 
-        Log::error('Flutterwave Initialization Failed', [
-            'booking_id' => $booking->id,
-            'response' => $response->body()
-        ]);
-
-        return back()->with('error', 'Could not initialize payment. Please try again or contact support.');
+        return response()->json(['error' => 'Failed to initialize gateway'], 500);
     }
 
     /**
@@ -109,6 +112,16 @@ class FlutterwaveController extends Controller
                             'payment_status' => 'paid',
                             'payment_reference' => $transactionId,
                         ]);
+                    }
+
+                    // Send Confirmations
+                    try {
+                        \Illuminate\Support\Facades\Mail::to($booking->customer_email)
+                            ->send(new \App\Mail\BookingConfirmation($booking));
+                        
+                        Log::info("SMS SIMULATION: Sent confirmation to {$booking->customer_phone} for Booking #{$booking->id}");
+                    } catch (\Exception $e) {
+                        Log::error('Confirmation Emails Failed: ' . $e->getMessage());
                     }
 
                     return redirect()->route('payment.success', ['id' => $booking->id])

@@ -86,6 +86,7 @@ Route::get('/payment/success', [App\Http\Controllers\PaymentController::class, '
 
 // Flutterwave Payments
 Route::get('/pay-with-flutterwave/{id}', [App\Http\Controllers\FlutterwaveController::class, 'initialize'])->name('flutterwave.pay');
+Route::get('/flutterwave/get-link/{id}', [App\Http\Controllers\FlutterwaveController::class, 'getLink'])->name('flutterwave.get-link');
 Route::get('/flutterwave/callback', [App\Http\Controllers\FlutterwaveController::class, 'callback'])->name('flutterwave.callback');
 
 // Stripe Webhook
