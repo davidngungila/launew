@@ -9,7 +9,7 @@
             <!-- Slide 1: Serengeti -->
             <div class="swiper-slide relative flex items-center">
                 <div class="absolute inset-0 z-0">
-                    <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" alt="Serengeti" class="w-full h-full object-cover">
+                    <img src="https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766042771/8-Days-Tanzania-holiday-Wildebeest-migration-1536x1018_gyndkw.jpg" alt="Serengeti" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent"></div>
                 </div>
                 <div class="relative z-10 max-w-7xl mx-auto px-6 w-full pt-20">
@@ -32,7 +32,7 @@
             <!-- Slide 2: Kilimanjaro -->
             <div class="swiper-slide relative flex items-center">
                 <div class="absolute inset-0 z-0">
-                    <img src="https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" alt="Kilimanjaro" class="w-full h-full object-cover">
+                    <img src="https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766324377/7-Days-Mount-Kilimanjaro-Climb-Lemosho-Route-2.webp.bv.webp" alt="Kilimanjaro" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent"></div>
                 </div>
                 <div class="relative z-10 max-w-7xl mx-auto px-6 w-full pt-20">
@@ -55,7 +55,7 @@
             <!-- Slide 3: Ngorongoro -->
             <div class="swiper-slide relative flex items-center">
                 <div class="absolute inset-0 z-0">
-                    <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" alt="Ngorongoro" class="w-full h-full object-cover">
+                    <img src="https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766046228/tower-giraffes-gathered-around-bushes-open-woodlan_fsgqe3.jpg" alt="Ngorongoro" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent"></div>
                 </div>
                 <div class="relative z-10 max-w-7xl mx-auto px-6 w-full pt-20">

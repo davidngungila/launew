@@ -5,7 +5,7 @@
     <!-- Hero Section -->
     <section class="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" 
+            <img src="https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766042771/8-Days-Tanzania-holiday-Wildebeest-migration-1536x1018_gyndkw.jpg" 
                  class="w-full h-full object-cover scale-105" alt="Serengeti Sunset">
             <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px]"></div>
         </div>
@@ -25,11 +25,11 @@
             <div class="relative">
                 <div class="grid grid-cols-2 gap-4">
                     <div class="space-y-4">
-                        <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=400&q=80" class="rounded-[2rem] shadow-2xl transition-transform hover:-translate-y-2 duration-500" alt="Wildlife">
-                        <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=400&q=80" class="rounded-[2rem] shadow-2xl transition-transform hover:translate-y-2 duration-500" alt="Safari jeep">
+                        <img src="https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766042771/7-DAYS-SAFARI-TANZANIA--1536x1024_d9kzfh.webp" class="rounded-[2rem] shadow-2xl transition-transform hover:-translate-y-2 duration-500" alt="Wildlife">
+                        <img src="https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766324502/tourist-carrying-luggage-_2_yqtggh.jpg" class="rounded-[2rem] shadow-2xl transition-transform hover:translate-y-2 duration-500" alt="Safari jeep">
                     </div>
                     <div class="pt-12">
-                        <img src="https://images.unsplash.com/photo-1493612276216-ee3925520721?auto=format&fit=crop&w=400&q=80" class="rounded-[2.5rem] shadow-2xl transition-transform hover:-translate-x-2 duration-500" alt="Lodge">
+                        <img src="https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766046154/Angata-Tarangire-2-1-1536x863_amthnm.jpg" class="rounded-[2.5rem] shadow-2xl transition-transform hover:-translate-x-2 duration-500" alt="Lodge">
                     </div>
                 </div>
                 <!-- Experience Badge -->
@@ -154,8 +154,8 @@
 
     <!-- CTA Section -->
     <section class="py-24 bg-emerald-950 relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10">
-            <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=2000&q=80" class="w-full h-full object-cover">
+        <div class="absolute inset-0 opacity-20">
+            <img src="https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766262401/beautiful-scenery-amazing-breathtaking-large-waterfalls-wild.jpg" class="w-full h-full object-cover">
         </div>
         <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
             <h2 class="text-4xl md:text-5xl font-serif font-bold text-white mb-8">Ready to Start Your Story?</h2>
