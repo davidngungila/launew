@@ -127,7 +127,12 @@
                             <div class="flex flex-col gap-1 min-w-[100px]">
                                 <div class="flex justify-between text-[10px] font-black text-slate-900">
                                     <span>${{ number_format($booking->total_price) }}</span>
-                                    <span class="text-slate-400">{{ $booking->payment_status === 'paid' ? '100%' : ($booking->payment_status === 'partially_paid' ? '30%' : '0%') }}</span>
+                                    <div class="flex items-center gap-1">
+                                        @if($booking->payment_method === 'flutterwave')
+                                            <span class="text-[8px] font-black text-blue-600 bg-blue-50 px-1 py-0.5 rounded uppercase border border-blue-100">FW</span>
+                                        @endif
+                                        <span class="text-slate-400">{{ $booking->payment_status === 'paid' ? '100%' : ($booking->payment_status === 'partially_paid' ? '30%' : '0%') }}</span>
+                                    </div>
                                 </div>
                                 <div class="w-full h-1 bg-slate-100 rounded-full overflow-hidden">
                                     @php
