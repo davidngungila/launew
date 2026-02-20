@@ -21,82 +21,42 @@
         <div class="flex flex-col lg:flex-row items-center justify-between mb-16 gap-8 bg-slate-50 p-6 rounded-3xl border border-slate-100">
             <div class="flex flex-wrap items-center gap-4">
                 <div class="relative">
-                    <select class="appearance-none bg-white border border-slate-200 rounded-2xl px-6 py-3 pr-12 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all">
-                        <option>Destination: All</option>
-                        <option>Serengeti</option>
-                        <option>Ngorongoro</option>
-                        <option>Kilimanjaro</option>
-                        <option>Tarangire</option>
+                    <select id="filter-destination" class="appearance-none bg-white border border-slate-200 rounded-2xl px-6 py-3 pr-12 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all">
+                        <option value="All">Destination: All</option>
+                        <option value="Serengeti">Serengeti</option>
+                        <option value="Ngorongoro">Ngorongoro</option>
+                        <option value="Kilimanjaro">Kilimanjaro</option>
+                        <option value="Tarangire">Tarangire</option>
                     </select>
                     <i class="ph ph-caret-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
                 </div>
                 
                 <div class="relative">
-                    <select class="appearance-none bg-white border border-slate-200 rounded-2xl px-6 py-3 pr-12 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all">
-                        <option>Price: Low to High</option>
-                        <option>Price: High to Low</option>
+                    <select id="filter-sort" class="appearance-none bg-white border border-slate-200 rounded-2xl px-6 py-3 pr-12 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all">
+                        <option value="Low to High">Price: Low to High</option>
+                        <option value="High to Low">Price: High to Low</option>
                     </select>
                     <i class="ph ph-caret-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
                 </div>
                 
                 <div class="relative">
-                    <select class="appearance-none bg-white border border-slate-200 rounded-2xl px-6 py-3 pr-12 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all">
-                        <option>Duration: Any</option>
-                        <option>1-3 Days</option>
-                        <option>4-7 Days</option>
-                        <option>8+ Days</option>
+                    <select id="filter-duration" class="appearance-none bg-white border border-slate-200 rounded-2xl px-6 py-3 pr-12 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all">
+                        <option value="Any">Duration: Any</option>
+                        <option value="1-3 Days">1-3 Days</option>
+                        <option value="4-7 Days">4-7 Days</option>
+                        <option value="8+ Days">8+ Days</option>
                     </select>
                     <i class="ph ph-caret-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
                 </div>
-            </div>
-            
-            <div class="text-slate-500 text-sm">
-                Showing <span class="text-slate-900 font-bold font-serif">{{ $tours->firstItem() }}</span> to <span class="text-slate-900 font-bold font-serif">{{ $tours->lastItem() }}</span> of <span class="text-slate-900 font-bold font-serif">{{ $tours->total() }}</span> safari packages
+                
+                <div id="filter-loader" class="hidden">
+                    <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-emerald-600"></div>
+                </div>
             </div>
         </div>
         
-        <!-- Tours Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            @forelse ($tours as $tour)
-            <div class="group bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-slate-100">
-                <div class="relative h-64 overflow-hidden">
-                    @php $images = json_decode($tour->images, true) ?? []; @endphp
-                    <img src="{{ $images[0] ?? 'https://images.unsplash.com/photo-1516426122078-c23e76319801' }}?auto=format&fit=crop&w=800&q=80" alt="{{ $tour->name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                    <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-md p-2 rounded-full text-emerald-500 shadow-sm">
-                        <i class="ph-bold ph-heart text-xl"></i>
-                    </div>
-                </div>
-                <div class="p-8">
-                    <div class="flex items-center gap-3 text-xs font-bold text-emerald-600 uppercase tracking-widest mb-4">
-                        <span class="flex items-center gap-1"><i class="ph ph-map-pin"></i> {{ Str::before($tour->location, ',') }}</span>
-                        <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
-                        <span class="flex items-center gap-1"><i class="ph ph-clock"></i> {{ $tour->duration_days }} Days</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-4 group-hover:text-emerald-600 transition-colors line-clamp-1">{{ $tour->name }}</h3>
-                    <p class="text-slate-500 text-sm leading-relaxed mb-8 line-clamp-2">{{ $tour->description }}</p>
-                    
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="text-slate-400 text-[10px] font-bold uppercase tracking-widest block mb-1">Per Person</span>
-                            <span class="text-2xl font-bold text-slate-900">${{ number_format($tour->base_price) }}</span>
-                        </div>
-                        <a href="{{ route('tours.show', $tour->id) }}" class="inline-flex items-center gap-2 bg-slate-900 text-white px-6 py-3 rounded-2xl font-bold hover:bg-emerald-600 transition-colors">
-                            Details <i class="ph ph-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            @empty
-            <div class="col-span-full py-20 bg-slate-50 rounded-[3rem] text-center border-2 border-dashed border-slate-200">
-                <p class="text-slate-400 font-bold uppercase tracking-[0.2em] mb-2">No Expeditions Found</p>
-                <p class="text-slate-500">We are currently preparing more amazing adventures for you. Please check back later.</p>
-            </div>
-            @endforelse
-        </div>
-        
-        <!-- Pagination -->
-        <div class="mt-20 flex justify-center pagination-premium">
-            {{ $tours->links() }}
+        <div id="tour-grid-wrapper">
+            @include('tours.partials.tour_grid')
         </div>
     </div>
 </section>
@@ -144,7 +104,77 @@
     /* Hide default laravel pagination junk */
     .pagination-premium nav div:first-child { display: none; }
     .pagination-premium nav div:last-child { display: block !important; }
+    
+    #tour-grid-wrapper.loading {
+        opacity: 0.5;
+        pointer-events: none;
+    }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const destinationFilter = document.getElementById('filter-destination');
+    const sortFilter = document.getElementById('filter-sort');
+    const durationFilter = document.getElementById('filter-duration');
+    const gridWrapper = document.getElementById('tour-grid-wrapper');
+    const loader = document.getElementById('filter-loader');
+
+    function fetchTours(url = null) {
+        if (!url) {
+            const params = new URLSearchParams({
+                destination: destinationFilter.value,
+                sort: sortFilter.value,
+                duration: durationFilter.value
+            });
+            url = `{{ route('tours.index') }}?${params.toString()}`;
+        }
+
+        gridWrapper.classList.add('loading');
+        loader.classList.remove('hidden');
+
+        fetch(url, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.text())
+        .then(html => {
+            gridWrapper.innerHTML = html;
+            gridWrapper.classList.remove('loading');
+            loader.classList.add('hidden');
+            
+            // Re-bind pagination clicks
+            bindPaginationLinks();
+            
+            // Smooth scroll to results
+            if (url.includes('page=')) {
+                gridWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching tours:', error);
+            gridWrapper.classList.remove('loading');
+            loader.classList.add('hidden');
+        });
+    }
+
+    function bindPaginationLinks() {
+        const pageLinks = gridWrapper.querySelectorAll('.pagination-premium a');
+        pageLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                fetchTours(this.getAttribute('href'));
+            });
+        });
+    }
+
+    [destinationFilter, sortFilter, durationFilter].forEach(filter => {
+        filter.addEventListener('change', () => fetchTours());
+    });
+
+    bindPaginationLinks();
+});
+</script>
     </div>
 </section>
 @endsection
