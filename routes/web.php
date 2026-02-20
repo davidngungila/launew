@@ -34,6 +34,14 @@ Route::get('/kilimanjaro', function () {
     return view('kilimanjaro');
 })->name('kilimanjaro');
 
+// Legal & Policies
+Route::get('/terms', function () { return view('legal.terms'); })->name('terms');
+Route::get('/privacy', function () { return view('legal.privacy'); })->name('privacy');
+Route::get('/cookies', function () { return view('legal.cookies'); })->name('cookies');
+Route::get('/refund-policy', function () { return view('legal.refund'); })->name('refund');
+Route::get('/editorial-policy', function () { return view('legal.editorial'); })->name('editorial');
+Route::get('/sustainability-policy', function () { return view('legal.sustainability'); })->name('sustainability');
+
 Route::get('/tours', [PublicTourController::class, 'index'])->name('tours.index');
 Route::get('/tours/{id}', [PublicTourController::class, 'show'])->name('tours.show');
 Route::post('/bookings', [PublicBookingController::class, 'store'])->name('bookings.store');

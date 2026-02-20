@@ -293,8 +293,8 @@
 
     <!-- Footer -->
     <footer class="bg-slate-900 text-white pt-20 pb-10">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
-            <div class="col-span-1 md:col-span-1">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-12 mb-20">
+            <div class="col-span-1 md:col-span-1 lg:col-span-1">
                 <a href="/" class="flex items-center gap-3 mb-6">
                     <img src="{{ asset('lau-adventuress-logo.png') }}" alt="LAU Safaris Logo" class="h-10 w-auto object-contain">
                     <div class="flex flex-col">
@@ -302,31 +302,42 @@
                         <span class="text-[9px] font-bold tracking-[0.2em] text-emerald-400 uppercase leading-none">PARADISE ADVENTURE</span>
                     </div>
                 </a>
-                <p class="text-slate-400 leading-relaxed text-sm">
-                    A new generation of authentic African safari excellence starting in 2025. Discover the beauty of Tanzania's wildlife with expert guides at LAU Paradise Adventure.
+                <p class="text-slate-400 leading-relaxed text-sm italic">
+                    Authentic African safari excellence starting in 2025. Discover the beauty of Tanzania's wildlife with expert guides.
                 </p>
             </div>
             <div>
-                <h4 class="font-bold mb-6">Quick Links</h4>
+                <h4 class="font-bold mb-6 text-emerald-500">Quick Links</h4>
                 <ul class="space-y-4 text-sm text-slate-400">
                     <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
                     <li><a href="{{ route('kilimanjaro') }}" class="hover:text-white transition-colors">Kilimanjaro</a></li>
-                    <li><a href="/tours" class="hover:text-white transition-colors">Our Tours</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+                    <li><a href="{{ route('tours.index') }}" class="hover:text-white transition-colors">Our Tours</a></li>
+                    <li><a href="{{ route('about') }}" class="hover:text-white transition-colors">About Us</a></li>
+                    <li><a href="{{ route('contact') }}" class="hover:text-white transition-colors">Contact Us</a></li>
                 </ul>
             </div>
             <div>
-                <h4 class="font-bold mb-6">Destinations</h4>
+                <h4 class="font-bold mb-6 text-emerald-500">Our Policies</h4>
                 <ul class="space-y-4 text-sm text-slate-400">
-                    <li><a href="/tours" class="hover:text-white transition-colors">Serengeti NP</a></li>
-                    <li><a href="/tours" class="hover:text-white transition-colors">Ngorongoro</a></li>
-                    <li><a href="{{ route('kilimanjaro') }}" class="hover:text-white transition-colors">Kilimanjaro</a></li>
-                    <li><a href="/tours" class="hover:text-white transition-colors">Zanzibar</a></li>
+                    <li><a href="{{ route('terms') }}" class="hover:text-white transition-colors">Terms & Conditions</a></li>
+                    <li><a href="{{ route('privacy') }}" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                    <li><a href="{{ route('cookies') }}" class="hover:text-white transition-colors">Cookies Policy</a></li>
+                    <li><a href="{{ route('refund') }}" class="hover:text-white transition-colors">Refund Policy</a></li>
+                    <li><a href="{{ route('editorial') }}" class="hover:text-white transition-colors">Editorial Policy</a></li>
+                    <li><a href="{{ route('sustainability') }}" class="hover:text-white transition-colors">Sustainability Policy</a></li>
                 </ul>
             </div>
             <div>
-                <h4 class="font-bold mb-6">Contact Info</h4>
+                <h4 class="font-bold mb-6 text-emerald-500">Destinations</h4>
+                <ul class="space-y-4 text-sm text-slate-400">
+                    <li><a href="{{ route('tours.index') }}" class="hover:text-white transition-colors">Serengeti NP</a></li>
+                    <li><a href="{{ route('tours.index') }}" class="hover:text-white transition-colors">Ngorongoro</a></li>
+                    <li><a href="{{ route('kilimanjaro') }}" class="hover:text-white transition-colors">Kilimanjaro</a></li>
+                    <li><a href="{{ route('tours.index') }}" class="hover:text-white transition-colors">Zanzibar</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6 text-emerald-500">Contact Info</h4>
                 <ul class="space-y-4 text-sm text-slate-400">
                     <li class="flex items-center gap-3">
                         <i class="ph ph-phone text-emerald-500"></i> +255 683 163 219
@@ -334,7 +345,7 @@
                     <li class="flex items-center gap-3">
                         <i class="ph ph-envelope text-emerald-500"></i> lauparadiseadventure@gmail.com
                     </li>
-                    <li class="flex items-center gap-3">
+                    <li class="flex items-center gap-3 font-bold">
                         <i class="ph ph-map-pin text-emerald-500"></i> Moshi, Tanzania
                     </li>
                 </ul>
