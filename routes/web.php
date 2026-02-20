@@ -8,7 +8,8 @@ use App\Http\Controllers\Public\TourController as PublicTourController;
 use App\Http\Controllers\Public\BookingController as PublicBookingController;
 
 Route::get('/', function () {
-    return view('home');
+    $featuredTours = \App\Models\Tour::where('status', 'active')->where('featured', true)->take(3)->get();
+    return view('home', compact('featuredTours'));
 });
 
 Route::get('/about', function () {

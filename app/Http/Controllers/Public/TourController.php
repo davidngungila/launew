@@ -10,15 +10,13 @@ class TourController extends Controller
 {
     public function index()
     {
-        // For now using empty list or dummy data until seeder is ready
-        $tours = Tour::where('status', 'active')->get();
+        $tours = Tour::where('status', 'active')->orderBy('featured', 'desc')->get();
         return view('tours.index', compact('tours'));
     }
 
     public function show($id)
     {
-        // For now simple find or fail
-        // $tour = Tour::with('itineraries')->findOrFail($id);
-        return view('tours.show');
+        $tour = Tour::with('itineraries')->findOrFail($id);
+        return view('tours.show', compact('tour'));
     }
 }

@@ -158,89 +158,40 @@
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Tour Card 1 -->
+            @forelse($featuredTours as $tour)
+            <!-- Tour Card -->
             <div class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-slate-100">
                 <div class="relative h-72 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Serengeti" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    @php $images = json_decode($tour->images, true); @endphp
+                    <img src="{{ $images[0] ?? 'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e' }}?auto=format&fit=crop&w=800&q=80" alt="{{ $tour->name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-xs font-bold text-slate-900 shadow-sm uppercase tracking-wider">
-                        5 Days
-                    </div>
-                </div>
-                <div class="p-8">
-                    <div class="flex items-center gap-2 text-emerald-500 text-sm font-bold mb-4">
-                        <i class="ph-fill ph-star"></i>
-                        <span class="text-slate-900">4.9</span>
-                        <span class="text-slate-400 font-medium">(120 Reviews)</span>
-                    </div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-4 group-hover:text-emerald-600 transition-colors">Serengeti Classic Safari</h3>
-                    <p class="text-slate-500 text-sm leading-relaxed mb-6">Witness the legendary Great Migration and explore the endless plains of the Serengeti.</p>
-                    <div class="pt-6 border-t border-slate-100 flex items-center justify-between">
-                        <div>
-                            <span class="text-slate-400 text-xs font-medium uppercase block">Starting from</span>
-                            <span class="text-2xl font-bold text-slate-900 leading-none">$1,250</span>
-                        </div>
-                        <a href="/tours/1" class="p-4 bg-slate-900 text-white rounded-2xl hover:bg-emerald-600 transition-colors">
-                            <i class="ph ph-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Tour Card 2 -->
-            <div class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-slate-100">
-                <div class="relative h-72 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1549366021-9f761d450615?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Kilimanjaro" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                    <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-xs font-bold text-slate-900 shadow-sm uppercase tracking-wider">
-                        7 Days
+                        {{ $tour->duration_days }} Days
                     </div>
                 </div>
                 <div class="p-8">
                     <div class="flex items-center gap-2 text-emerald-500 text-sm font-bold mb-4">
                         <i class="ph-fill ph-star"></i>
                         <span class="text-slate-900">5.0</span>
-                        <span class="text-slate-400 font-medium">(85 Reviews)</span>
+                        <span class="text-slate-400 font-medium">(Verified)</span>
                     </div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-4 group-hover:text-emerald-600 transition-colors">Mount Kilimanjaro Trek</h3>
-                    <p class="text-slate-500 text-sm leading-relaxed mb-6">Conquer the Roof of Africa via the beautiful Machame route. A challenge worth taking.</p>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4 group-hover:text-emerald-600 transition-colors line-clamp-1">{{ $tour->name }}</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6 line-clamp-2">{{ $tour->description }}</p>
                     <div class="pt-6 border-t border-slate-100 flex items-center justify-between">
                         <div>
                             <span class="text-slate-400 text-xs font-medium uppercase block">Starting from</span>
-                            <span class="text-2xl font-bold text-slate-900 leading-none">$1,850</span>
+                            <span class="text-2xl font-bold text-slate-900 leading-none">${{ number_format($tour->base_price) }}</span>
                         </div>
-                        <a href="#" class="p-4 bg-slate-900 text-white rounded-2xl hover:bg-emerald-600 transition-colors">
+                        <a href="{{ route('tours.show', $tour->id) }}" class="p-4 bg-slate-900 text-white rounded-2xl hover:bg-emerald-600 transition-colors">
                             <i class="ph ph-arrow-right"></i>
                         </a>
                     </div>
                 </div>
             </div>
-            
-            <!-- Tour Card 3 -->
-            <div class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-slate-100">
-                <div class="relative h-72 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1534177714502-0ee856cc4605?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Ngorongoro" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                    <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-xs font-bold text-slate-900 shadow-sm uppercase tracking-wider">
-                        3 Days
-                    </div>
-                </div>
-                <div class="p-8">
-                    <div class="flex items-center gap-2 text-emerald-500 text-sm font-bold mb-4">
-                        <i class="ph-fill ph-star"></i>
-                        <span class="text-slate-900">4.8</span>
-                        <span class="text-slate-400 font-medium">(42 Reviews)</span>
-                    </div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-4 group-hover:text-emerald-600 transition-colors">Ngorongoro Crater Tour</h3>
-                    <p class="text-slate-500 text-sm leading-relaxed mb-6">Experience the high concentration of wildlife in the largest inactive caldera in the world.</p>
-                    <div class="pt-6 border-t border-slate-100 flex items-center justify-between">
-                        <div>
-                            <span class="text-slate-400 text-xs font-medium uppercase block">Starting from</span>
-                            <span class="text-2xl font-bold text-slate-900 leading-none">$850</span>
-                        </div>
-                        <a href="#" class="p-4 bg-slate-900 text-white rounded-2xl hover:bg-emerald-600 transition-colors">
-                            <i class="ph ph-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
+            @empty
+            <div class="col-span-3 py-12 text-center text-slate-400 italic">
+                Our featured expeditions are being updated. Check back soon!
             </div>
+            @endforelse
         </div>
     </div>
 </section>

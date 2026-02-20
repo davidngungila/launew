@@ -103,34 +103,34 @@
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
                 @foreach([
                     [
-                        'name' => 'Lazaro Peter',
-                        'role' => 'Founder & Lead Guide',
-                        'bio' => '15+ years in the Serengeti, ensuring every expedition is culturally respectful.',
-                        'image' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80'
+                        'name' => 'Laurence',
+                        'role' => 'Managing Director',
+                        'bio' => 'Visionary leader driving LAU Paradise to new heights of excellence.',
+                        'image' => 'https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766237623/w4f02zqo47s1wfsujsce.jpg'
                     ],
                     [
-                        'name' => 'Emmanuel David',
-                        'role' => 'Head of Logistics',
-                        'bio' => 'Mastermind behind fleet coordination and remote camps. David is our expert.',
-                        'image' => 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80'
+                        'name' => 'Laurencia',
+                        'role' => 'Accountant',
+                        'bio' => 'Ensuring financial integrity and sustainable growth for every expedition.',
+                        'image' => 'https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766745727/tphzp4qgxua6vpa49cm8.jpg'
                     ],
                     [
-                        'name' => 'Neema John',
-                        'role' => 'Customer Relations',
-                        'bio' => 'Ensures your 5-star expectations are exceeded from inquiry to flight departure.',
-                        'image' => 'https://images.unsplash.com/photo-1531123897727-8f129e16fd3c?auto=format&fit=crop&w=800&q=80'
+                        'name' => 'Dionis',
+                        'role' => 'Media Operator',
+                        'bio' => 'Documenting the wild through professional lenses and cinematic storytelling.',
+                        'image' => 'https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766324505/dionis_eoxtng.jpg'
                     ],
                     [
-                        'name' => 'Grace Lyimo',
-                        'role' => 'Finance Director',
-                        'bio' => 'Managing our sustainable investments and ensuring transparency in all operations.',
-                        'image' => 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=800&q=80'
+                        'name' => 'Media Artistic',
+                        'role' => 'Creative Specialist',
+                        'bio' => 'Crafting the visual soul and artistic identity of our safari brand.',
+                        'image' => 'https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766237613/coiaxoth1yvmfgu3g86n.jpg'
                     ],
                     [
-                        'name' => 'Kelvin Massawe',
-                        'role' => 'Lead Photographer',
-                        'bio' => 'Capturing the raw beauty of Tanzania. Kelvin helps document your journey.',
-                        'image' => 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=800&q=80'
+                        'name' => 'David',
+                        'role' => 'Software Developer',
+                        'bio' => 'Architect of our digital experience, bridging tech with the wild.',
+                        'image' => 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80'
                     ]
                 ] as $member)
                 <div class="group">
