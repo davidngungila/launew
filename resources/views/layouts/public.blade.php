@@ -3,54 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf-token() }}">
-    
-    <!-- Dynamic SEO Meta Tags -->
-    <title>@yield('title', 'LAU Paradise Adventure | Discover the Wild Safaris in Tanzania')</title>
-    <meta name="description" content="@yield('meta_description', 'Experience the best Tanzania safaris, Kilimanjaro treks, and Zanzibar beach holidays with LAU Paradise Adventure. Authentically African, exceptionally curated.')">
-    <meta name="keywords" content="@yield('meta_keywords', 'Tanzania Safari, Serengeti Great Migration, Kilimanjaro Climbing, Zanzibar Holiday, Ngorongoro Crater, African Wildlife Tours')">
-    <meta name="author" content="LAU Paradise Adventure">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="{{ url()->current() }}">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:title" content="@yield('title', 'LAU Paradise Adventure | Discover the Wild')">
-    <meta property="og:description" content="@yield('meta_description', 'Experience the best Tanzania safaris and Kilimanjaro treks.')">
-    <meta property="og:image" content="@yield('og_image', asset('lau-adventuress-logo.png'))">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="{{ url()->current() }}">
-    <meta property="twitter:title" content="@yield('title', 'LAU Paradise Adventure | Discover the Wild')">
-    <meta property="twitter:description" content="@yield('meta_description', 'Experience the best Tanzania safaris and Kilimanjaro treks.')">
-    <meta property="twitter:image" content="@yield('og_image', asset('lau-adventuress-logo.png'))">
-
-    <!-- Structured Data (JSON-LD) -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "LAU Paradise Adventure",
-        "url": "{{ url('/') }}",
-        "logo": "{{ asset('lau-adventuress-logo.png') }}",
-        "sameAs": [
-            "https://facebook.com/lauparadise",
-            "https://instagram.com/lauparadise",
-            "https://twitter.com/lauparadise"
-        ],
-        "contactPoint": {
-            "@type": "ContactPoint",
-            "telephone": "+255683163219",
-            "contactType": "Customer Service",
-            "areaServed": "TZ",
-            "availableLanguage": "English"
-        }
-    }
-    </script>
-    @yield('structured_data')
-
+    <title>LAU Paradise Adventure | Discover the Wild</title>
     <link rel="icon" type="image/png" href="{{ asset('lau-adventuress-logo.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

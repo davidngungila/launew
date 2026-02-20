@@ -1,8 +1,5 @@
 @extends('layouts.public')
 
-@section('title', 'About Us | LAU Paradise Adventure | Our Story & Safari Mission')
-@section('meta_description', 'Discover the story behind LAU Paradise Adventure. Learn about our mission to provide authentic, sustainable, and unforgettable safari experiences in Tanzania.')
-
 @section('content')
 <div class="pt-24">
     <!-- Hero Section -->

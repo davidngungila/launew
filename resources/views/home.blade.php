@@ -1,10 +1,5 @@
 @extends('layouts.public')
 
-@section('title', 'LAU Paradise Adventure | Best Tanzania Safaris & Kilimanjaro Climbing')
-@section('meta_description', 'Experience the best Tanzania safaris, Serengeti Great Migration, Kilimanjaro climbing, and Zanzibar holidays with the most trusted local experts. Plan your bespoke African safari today.')
-@section('meta_keywords', 'Tanzania Safari, Moshi Safari Company, Best Kilimanjaro Guides, Serengeti Tours, Luxury Tanzania Safaris, Arusha Safari')
-@section('og_image', 'https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766042771/8-Days-Tanzania-holiday-Wildebeest-migration-1536x1018_gyndkw.jpg')
-
 @section('content')
 <!-- Hero Slider -->
 <section class="relative h-screen overflow-hidden">
@@ -304,94 +299,6 @@
     </div>
 </section>
 
-<!-- Reviews Section -->
-<section class="py-24 bg-slate-50 overflow-hidden">
-    <div class="max-w-7xl mx-auto px-6">
-        <div class="text-center mb-16">
-            <span class="text-emerald-600 font-bold uppercase tracking-[0.3em] text-xs">Guest Experiences</span>
-            <h2 class="text-4xl md:text-5xl font-serif text-slate-900 mt-4 font-bold">What Our Explorers Say</h2>
-        </div>
-
-        <div class="swiper reviewSwiper pb-12">
-            <div class="swiper-wrapper">
-                <!-- Review 1 -->
-                <div class="swiper-slide h-auto">
-                    <div class="bg-white p-10 rounded-[2.5rem] shadow-xl border border-slate-100 flex flex-col h-full hover:-translate-y-2 transition-transform duration-500">
-                        <div class="flex gap-1 text-amber-400 mb-6 font-bold">
-                            <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
-                        </div>
-                        <p class="text-slate-600 italic leading-relaxed mb-8 flex-grow font-medium">"Our 8-day Serengeti migration safari was beyond words. The attention to detail and knowledge of our guide from LAU Paradise made every moment magical. We saw the big five in just two days!"</p>
-                        <div class="flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-2xl bg-slate-100 overflow-hidden">
-                                <img src="https://i.pravatar.cc/150?u=sarah" alt="Sarah J." class="w-full h-full object-cover">
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-slate-900">Sarah Jenkins</h4>
-                                <span class="text-slate-400 text-xs font-bold uppercase tracking-widest">London, UK</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Review 2 -->
-                <div class="swiper-slide h-auto">
-                    <div class="bg-white p-10 rounded-[2.5rem] shadow-xl border border-slate-100 flex flex-col h-full hover:-translate-y-2 transition-transform duration-500">
-                        <div class="flex gap-1 text-amber-400 mb-6 font-bold">
-                            <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
-                        </div>
-                        <p class="text-slate-600 italic leading-relaxed mb-8 flex-grow font-medium">"Summitting Kilimanjaro via the Lemosho route was the toughest and most rewarding thing I've ever done. The LAU team was incredible—safety, food, and encouragement were top notch."</p>
-                        <div class="flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-2xl bg-slate-100 overflow-hidden">
-                                <img src="https://i.pravatar.cc/150?u=mark" alt="Mark T." class="w-full h-full object-cover">
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-slate-900">Mark Thompson</h4>
-                                <span class="text-slate-400 text-xs font-bold uppercase tracking-widest">Munich, Germany</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Review 3 -->
-                <div class="swiper-slide h-auto">
-                    <div class="bg-white p-10 rounded-[2.5rem] shadow-xl border border-slate-100 flex flex-col h-full hover:-translate-y-2 transition-transform duration-500">
-                        <div class="flex gap-1 text-amber-400 mb-6 font-bold">
-                            <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
-                        </div>
-                        <p class="text-slate-600 italic leading-relaxed mb-8 flex-grow font-medium">"Everything was perfectly organized from airport pickup to our Zanzibar resort. Professional, reliable, and authentic. Highly recommend for anyone visiting East Africa."</p>
-                        <div class="flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-2xl bg-slate-100 overflow-hidden">
-                                <img src="https://i.pravatar.cc/150?u=elena" alt="Elena V." class="w-full h-full object-cover">
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-slate-900">Elena Volkov</h4>
-                                <span class="text-slate-400 text-xs font-bold uppercase tracking-widest">Toronto, CA</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="swiper-pagination !-bottom-2"></div>
-        </div>
-    </div>
-</section>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        new Swiper(".reviewSwiper", {
-            slidesPerView: 1,
-            spaceBetween: 30,
-            loop: true,
-            autoplay: { delay: 5000 },
-            pagination: { el: ".swiper-pagination", clickable: true },
-            breakpoints: {
-                768: { slidesPerView: 2 },
-                1024: { slidesPerView: 3 }
-            }
-        });
-    });
-</script>
-
 <!-- Call to Action -->
 <section class="py-24 bg-emerald-600">
     <div class="max-w-7xl mx-auto px-6 text-center">
@@ -407,4 +314,155 @@
         </div>
     </div>
 </section>
+<!-- Testimonials -->
+<section class="py-32 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-20">
+            <span class="text-emerald-600 font-black text-xs uppercase tracking-[0.4em] mb-4 inline-block">Worldwide Recognition</span>
+            <h2 class="text-4xl md:text-5xl font-serif text-slate-900 font-bold mb-6">Trusted by Adventurers</h2>
+            <div class="flex items-center justify-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-700">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Tripadvisor_logo.svg/1024px-Tripadvisor_logo.svg.png" alt="TripAdvisor" class="h-8">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/1200px-Google_2015_logo.svg.png" alt="Google" class="h-8">
+            </div>
+        </div>
+
+        <div class="swiper reviewsSwiper pb-16">
+            <div class="swiper-wrapper">
+                <!-- Review 1 -->
+                <div class="swiper-slide">
+                    <div class="bg-slate-50 rounded-[2.5rem] p-10 border border-slate-100 flex flex-col h-full">
+                        <div class="flex items-center justify-between mb-8">
+                            <div class="flex gap-1 text-yellow-400">
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                            </div>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2048px-Google_%22G%22_Logo.svg.png" alt="Google" class="h-6">
+                        </div>
+                        <p class="text-slate-600 text-lg leading-relaxed mb-10 italic">"Lau Paradise provided an exceptional 8-day Serengeti safari. Our guide, Emanuel, was incredibly knowledgeable about the wildlife. Every camp was perfectly chosen. 5 stars!"</p>
+                        <div class="mt-auto flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-2xl bg-slate-200 overflow-hidden">
+                                <img src="https://i.pravatar.cc/150?u=sarah" alt="Sarah Jenkins" class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900">Sarah Jenkins</h4>
+                                <p class="text-sm text-slate-500">United Kingdom</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="swiper-slide">
+                    <div class="bg-slate-50 rounded-[2.5rem] p-10 border border-slate-100 flex flex-col h-full">
+                        <div class="flex items-center justify-between mb-8">
+                            <div class="flex gap-1 text-emerald-500">
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                            </div>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Tripadvisor_Logo.svg/1024px-Tripadvisor_Logo.svg.png" alt="TripAdvisor" class="h-6">
+                        </div>
+                        <p class="text-slate-600 text-lg leading-relaxed mb-10 italic">"The Kilimanjaro trek via Lemosho was challenging but perfectly organized by the LAU team. The equipment was top-notch and the food on the mountain was surprisingly great!"</p>
+                        <div class="mt-auto flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-2xl bg-slate-200 overflow-hidden">
+                                <img src="https://i.pravatar.cc/150?u=marco" alt="Marco Rossi" class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900">Marco Rossi</h4>
+                                <p class="text-sm text-slate-500">Italy</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="swiper-slide">
+                    <div class="bg-slate-50 rounded-[2.5rem] p-10 border border-slate-100 flex flex-col h-full">
+                        <div class="flex items-center justify-between mb-8">
+                            <div class="flex gap-1 text-yellow-400">
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                            </div>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2048px-Google_%22G%22_Logo.svg.png" alt="Google" class="h-6">
+                        </div>
+                        <p class="text-slate-600 text-lg leading-relaxed mb-10 italic">"Amazing cultural experience with the Hadzabe tribe. It felt authentic and respectful. Lau Paradise really understands how to provide ethical tourism in Tanzania."</p>
+                        <div class="mt-auto flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-2xl bg-slate-200 overflow-hidden">
+                                <img src="https://i.pravatar.cc/150?u=elena" alt="Elena Petrova" class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900">Elena Petrova</h4>
+                                <p class="text-sm text-slate-500">Germany</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 4 -->
+                <div class="swiper-slide">
+                    <div class="bg-slate-50 rounded-[2.5rem] p-10 border border-slate-100 flex flex-col h-full">
+                        <div class="flex items-center justify-between mb-8">
+                            <div class="flex gap-1 text-emerald-500">
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                            </div>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Tripadvisor_Logo.svg/1024px-Tripadvisor_Logo.svg.png" alt="TripAdvisor" class="h-6">
+                        </div>
+                        <p class="text-slate-600 text-lg leading-relaxed mb-10 italic">"The best safari operator in Moshi. Their attention to detail and safety standards are unmatched. From pickup to drop-off, everything was professional."</p>
+                        <div class="mt-auto flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-2xl bg-slate-200 overflow-hidden">
+                                <img src="https://i.pravatar.cc/150?u=david" alt="David Thompson" class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900">David Thompson</h4>
+                                <p class="text-sm text-slate-500">USA</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-pagination-reviews !bottom-0"></div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .swiper-pagination-reviews .swiper-pagination-bullet { width: 10px; height: 10px; background: #e2e8f0; opacity: 1; margin: 0 6px !important; }
+    .swiper-pagination-reviews .swiper-pagination-bullet-active { background: #10b981; width: 24px; border-radius: 5px; }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const reviewsSwiper = new Swiper('.reviewsSwiper', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination-reviews',
+                clickable: true,
+            },
+            breakpoints: {
+                640: { slidesPerView: 1 },
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 },
+            }
+        });
+    });
+</script>
+
 @endsection
