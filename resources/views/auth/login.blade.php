@@ -129,7 +129,7 @@
                     <i class="ph ph-user absolute left-5 top-1/2 -translate-y-1/2 text-slate-500"></i>
                     <input type="email" name="email" required 
                            class="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-sm text-white focus:ring-1 focus:ring-emerald-500 transition-all outline-none" 
-                           placeholder="Identity: Email Address">
+                           placeholder="Email Address">
                 </div>
 
                 <div class="relative">
