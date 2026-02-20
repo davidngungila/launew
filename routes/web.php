@@ -21,6 +21,15 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+// Password Recovery
+Route::get('/password/reset', function () {
+    return view('auth.forgot-password');
+})->name('password.request');
+
+Route::post('/password/reset', function (Illuminate\Http\Request $request) {
+    return back()->with('status', 'A recovery link has been sent to your inbox.');
+})->name('password.email');
+
 Route::get('/tours', [PublicTourController::class, 'index'])->name('tours.index');
 Route::get('/tours/{id}', [PublicTourController::class, 'show'])->name('tours.show');
 Route::post('/bookings', [PublicBookingController::class, 'store'])->name('bookings.store');

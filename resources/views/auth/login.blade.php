@@ -144,7 +144,7 @@
                         <input type="checkbox" name="remember" class="w-4 h-4 rounded-md bg-white/5 border-white/10 text-emerald-600 focus:ring-0">
                         Remember
                     </label>
-                    <a href="/password/reset" class="text-slate-600 hover:text-emerald-500 transition-colors">Recovery</a>
+                    <a href="{{ route('password.request') }}" class="text-slate-600 hover:text-emerald-500 transition-colors">Recovery</a>
                 </div>
 
                 <button type="submit" class="w-full py-4 bg-emerald-600 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-xl hover:bg-emerald-500 transition-all shadow-lg shadow-emerald-900/20">
