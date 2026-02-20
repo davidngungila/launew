@@ -34,6 +34,10 @@ Route::get('/kilimanjaro', function () {
     return view('kilimanjaro');
 })->name('kilimanjaro');
 
+Route::get('/group-departures', function () {
+    return view('group-departures');
+})->name('group-departures');
+
 // Legal & Policies
 Route::get('/terms', function () { return view('legal.terms'); })->name('terms');
 Route::get('/privacy', function () { return view('legal.privacy'); })->name('privacy');

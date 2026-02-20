@@ -131,6 +131,9 @@
                                     <a href="/tours" class="flex items-center gap-3 text-slate-700 hover:text-emerald-600 font-bold group/sub transition-colors">
                                         <i class="ph ph-camera text-xl opacity-50 group-hover/sub:opacity-100"></i> Photographic Safaris
                                     </a>
+                                    <a href="{{ route('group-departures') }}" class="flex items-center gap-3 text-emerald-600 hover:text-emerald-700 font-bold group/sub transition-colors">
+                                        <i class="ph-bold ph-calendar-plus text-xl"></i> Group Departures
+                                    </a>
                                 </div>
                                 <div class="mt-8 pt-6 border-t border-slate-50">
                                     <a href="/tours" class="text-sm font-black text-emerald-600 flex items-center gap-2 hover:gap-3 transition-all">
@@ -274,6 +277,7 @@
                             <a href="/tours" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Private Safaris</a>
                             <a href="/tours" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Luxury Camping</a>
                             <a href="{{ route('kilimanjaro') }}" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Kilimanjaro Climbing</a>
+                            <a href="{{ route('group-departures') }}" class="block text-sm font-bold text-emerald-600 italic">Group Departures</a>
                         </div>
                     </div>
 
@@ -324,6 +328,7 @@
                 <h4 class="font-bold mb-6 text-emerald-500">Quick Links</h4>
                 <ul class="space-y-4 text-sm text-slate-400">
                     <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
+                    <li><a href="{{ route('group-departures') }}" class="hover:text-white transition-colors">Group Departures</a></li>
                     <li><a href="{{ route('kilimanjaro') }}" class="hover:text-white transition-colors">Kilimanjaro</a></li>
                     <li><a href="{{ route('tours.index') }}" class="hover:text-white transition-colors">Our Tours</a></li>
                     <li><a href="{{ route('about') }}" class="hover:text-white transition-colors">About Us</a></li>
