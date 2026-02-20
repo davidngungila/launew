@@ -158,7 +158,7 @@
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            @forelse($featuredTours as $tour)
+            @forelse($featuredTours ?? [] as $tour)
             <!-- Tour Card -->
             <div class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-slate-100">
                 <div class="relative h-72 overflow-hidden">

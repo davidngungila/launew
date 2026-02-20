@@ -7,10 +7,7 @@ use App\Http\Controllers\Admin\TourController;
 use App\Http\Controllers\Public\TourController as PublicTourController;
 use App\Http\Controllers\Public\BookingController as PublicBookingController;
 
-Route::get('/', function () {
-    $featuredTours = \App\Models\Tour::where('status', 'active')->where('featured', true)->take(3)->get();
-    return view('home', compact('featuredTours'));
-});
+Route::get('/', [PublicTourController::class, 'home'])->name('home');
 
 Route::get('/about', function () {
     return view('about');
