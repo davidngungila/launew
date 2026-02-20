@@ -25,6 +25,7 @@ Route::get('/tours', [PublicTourController::class, 'index'])->name('tours.index'
 Route::get('/tours/{id}', [PublicTourController::class, 'show'])->name('tours.show');
 Route::post('/bookings', [PublicBookingController::class, 'store'])->name('bookings.store');
 Route::get('/bookings/{id}/checkout', [PublicBookingController::class, 'checkout'])->name('bookings.checkout');
+Route::get('/bookings/{id}/invoice', [PublicBookingController::class, 'downloadInvoice'])->name('bookings.invoice');
 
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
