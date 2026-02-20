@@ -257,7 +257,7 @@
                         <div>
                             <p class="text-[10px] font-black uppercase tracking-widest text-blue-600 mb-1">Payment Verified</p>
                             <p class="text-xs font-bold text-slate-900">{{ $booking->updated_at->format('M d, Y • H:i') }}</p>
-                            <p class="text-[10px] text-slate-400 mt-1">Stripe Checkout session authorized.</p>
+                            <p class="text-[10px] text-slate-400 mt-1">{{ $booking->payment_method === 'flutterwave' ? 'Flutterwave' : 'Stripe' }} transaction authorized.</p>
                         </div>
                     </div>
                     @else
@@ -283,6 +283,42 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Financial Management (Flutterwave) -->
+            <div class="bg-white rounded-2xl border border-slate-100 shadow-xl p-10 space-y-6">
+                <div>
+                    <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Financial Control</h4>
+                    <h3 class="text-xl font-black text-slate-900 tracking-tight">Transaction Management</h3>
+                </div>
+
+                <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Gateway</span>
+                        <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded text-[9px] font-black uppercase">Flutterwave</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Reference</span>
+                        <span class="text-xs font-mono font-bold text-slate-600">{{ $booking->payment_reference ?? 'N/A' }}</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-3">
+                    <form action="{{ route('admin.bookings.verify-payment', $booking->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="w-full flex items-center justify-center gap-3 px-6 py-4 bg-emerald-500 text-white font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/20">
+                            <i class="ph-bold ph-shield-check text-lg"></i>
+                            Verify Transaction Status
+                        </button>
+                    </form>
+                    
+                    <button class="w-full flex items-center justify-center gap-3 px-6 py-4 bg-white border border-slate-200 text-slate-600 font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-slate-50 transition-all">
+                        <i class="ph-bold ph-receipt text-lg"></i>
+                        Generate Receipt
+                    </button>
+                </div>
+                
+                <p class="text-[9px] text-center text-slate-400 font-bold uppercase tracking-widest">Use this to manually sync payment status from Flutterwave</p>
             </div>
 
             <!-- Management Tools -->

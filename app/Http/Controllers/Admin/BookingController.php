@@ -96,4 +96,32 @@ class BookingController extends Controller
         $booking = \App\Models\Booking::with(['tour', 'guide', 'driver', 'vehicle'])->findOrFail($id);
         return view('admin.bookings.show', compact('booking'));
     }
+
+    public function verifyPayment($id)
+    {
+        $booking = \App\Models\Booking::findOrFail($id);
+        $reference = $booking->payment_reference;
+
+        if (!$reference) {
+            return back()->with('error', 'No payment reference found for this booking.');
+        }
+
+        $response = \Illuminate\Support\Facades\Http::withHeaders([
+            'Authorization' => 'Bearer ' . config('services.flutterwave.secret_key'),
+        ])->get("https://api.flutterwave.com/v3/transactions/verify_by_reference?tx_ref={$reference}");
+
+        if ($response->successful()) {
+            $data = $response->json();
+            
+            if ($data['status'] === 'success' && $data['data']['status'] === 'successful') {
+                $booking->update([
+                    'payment_status' => 'paid',
+                    'payment_method' => 'flutterwave',
+                ]);
+                return back()->with('success', 'Payment verified successfully!');
+            }
+        }
+
+        return back()->with('error', 'Payment could not be verified. Flutterwave Status: ' . ($data['message'] ?? 'Unknown Error'));
+    }
 }

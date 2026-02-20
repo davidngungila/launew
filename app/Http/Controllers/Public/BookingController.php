@@ -41,6 +41,12 @@ class BookingController extends Controller
             'payment_status' => 'unpaid',
         ]);
 
-        return back()->with('success', 'Your booking request has been submitted. We will contact you shortly!');
+        return redirect()->route('bookings.checkout', ['id' => $booking->id]);
+    }
+
+    public function checkout($id)
+    {
+        $booking = Booking::findOrFail($id);
+        return view('public.bookings.checkout', compact('booking'));
     }
 }

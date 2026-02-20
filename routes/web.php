@@ -26,6 +26,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/tours', [PublicTourController::class, 'index'])->name('tours.index');
 Route::get('/tours/{id}', [PublicTourController::class, 'show'])->name('tours.show');
 Route::post('/bookings', [PublicBookingController::class, 'store'])->name('bookings.store');
+Route::get('/bookings/{id}/checkout', [PublicBookingController::class, 'checkout'])->name('bookings.checkout');
 
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -39,6 +40,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/bookings/create', [App\Http\Controllers\Admin\BookingController::class, 'create'])->name('bookings.create');
     Route::post('/bookings', [App\Http\Controllers\Admin\BookingController::class, 'store'])->name('bookings.store');
     Route::get('/bookings/{id}', [App\Http\Controllers\Admin\BookingController::class, 'show'])->name('bookings.show');
+    Route::post('/bookings/{id}/verify-payment', [App\Http\Controllers\Admin\BookingController::class, 'verifyPayment'])->name('bookings.verify-payment');
     Route::get('/quotations', function() { return view('admin.quotations.index'); })->name('quotations.index');
     Route::get('/customers', function() { return view('admin.customers.index'); })->name('customers.index');
     
@@ -80,6 +82,10 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
 Route::get('/checkout/{id}', [App\Http\Controllers\PaymentController::class, 'checkout'])->name('checkout');
 Route::post('/create-payment-intent', [App\Http\Controllers\PaymentController::class, 'createPaymentIntent'])->name('payment.intent');
 Route::get('/payment/success', [App\Http\Controllers\PaymentController::class, 'success'])->name('payment.success');
+
+// Flutterwave Payments
+Route::get('/pay-with-flutterwave/{id}', [App\Http\Controllers\FlutterwaveController::class, 'initialize'])->name('flutterwave.pay');
+Route::get('/flutterwave/callback', [App\Http\Controllers\FlutterwaveController::class, 'callback'])->name('flutterwave.callback');
 
 // Stripe Webhook
 Route::post('/stripe/webhook', [App\Http\Controllers\WebhookController::class, 'handle']);

@@ -57,6 +57,8 @@ class PaymentController extends Controller
 
     public function success(Request $request)
     {
-        return view('payment.success');
+        $id = $request->get('id');
+        $booking = $id ? Booking::with('tour')->find($id) : null;
+        return view('payment.success', compact('booking'));
     }
 }
