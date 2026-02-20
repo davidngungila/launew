@@ -94,44 +94,50 @@
                     <a href="/tours" class="nav-link font-bold hover:text-emerald-600 transition-colors flex items-center gap-1">
                         Safaris <i class="ph ph-caret-down text-xs transition-transform group-hover:rotate-180"></i>
                     </a>
-                    <div class="mega-menu absolute top-full left-0 w-[300px] bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-6 z-50">
-                        <div class="space-y-4">
-                            <a href="/tours" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
-                                <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl">
-                                    <i class="ph ph-brand-safari"></i>
+                    <div class="mega-menu absolute top-full left-0 w-[600px] bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-8 z-50">
+                        <div class="grid grid-cols-2 gap-8">
+                            <div>
+                                <h4 class="text-xs font-black uppercase tracking-widest text-emerald-600 mb-6">Adventure Types</h4>
+                                <div class="space-y-4">
+                                    <a href="/tours" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
+                                        <div class="w-12 h-12 rounded-xl overflow-hidden">
+                                            <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover">
+                                        </div>
+                                        <div>
+                                            <p class="font-bold text-slate-900 group-hover/item:text-emerald-700">Classic Serengeti</p>
+                                            <p class="text-xs text-slate-500">Best Seller Experience</p>
+                                        </div>
+                                    </a>
+                                    <a href="/tours" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
+                                        <div class="w-12 h-12 rounded-xl overflow-hidden">
+                                            <img src="http://res.cloudinary.com/dmqdm8gfk/image/upload/v1766042771/8-Days-Tanzania-holiday-Wildebeest-migration-1536x1018_gyndkw.jpg" class="w-full h-full object-cover">
+                                        </div>
+                                        <div>
+                                            <p class="font-bold text-slate-900 group-hover/item:text-emerald-700">Luxury Camping</p>
+                                            <p class="text-xs text-slate-500">Wild & Comfortable</p>
+                                        </div>
+                                    </a>
                                 </div>
-                                <div>
-                                    <p class="font-bold text-slate-900 text-sm group-hover/item:text-emerald-700">Classic Serengeti</p>
-                                    <p class="text-[10px] text-slate-500 uppercase font-black">Best Seller</p>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-black uppercase tracking-widest text-emerald-600 mb-6">Experience Styles</h4>
+                                <div class="space-y-4">
+                                    <a href="/tours" class="flex items-center gap-3 text-slate-700 hover:text-emerald-600 font-bold group/sub transition-colors">
+                                        <i class="ph ph-users-four text-xl opacity-50 group-hover/sub:opacity-100"></i> Private Safaris
+                                    </a>
+                                    <a href="{{ route('kilimanjaro') }}" class="flex items-center gap-3 text-slate-700 hover:text-emerald-600 font-bold group/sub transition-colors">
+                                        <i class="ph ph-mountains text-xl opacity-50 group-hover/sub:opacity-100"></i> Kilimanjaro Treks
+                                    </a>
+                                    <a href="/tours" class="flex items-center gap-3 text-slate-700 hover:text-emerald-600 font-bold group/sub transition-colors">
+                                        <i class="ph ph-camera text-xl opacity-50 group-hover/sub:opacity-100"></i> Photographic Safaris
+                                    </a>
                                 </div>
-                            </a>
-                            <a href="/tours" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
-                                <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center text-xl">
-                                    <i class="ph ph-users-four"></i>
+                                <div class="mt-8 pt-6 border-t border-slate-50">
+                                    <a href="/tours" class="text-sm font-black text-emerald-600 flex items-center gap-2 hover:gap-3 transition-all">
+                                        Explore All Safaris <i class="ph ph-arrow-right"></i>
+                                    </a>
                                 </div>
-                                <div>
-                                    <p class="font-bold text-slate-900 text-sm group-hover/item:text-emerald-700">Private Safaris</p>
-                                    <p class="text-[10px] text-slate-500 uppercase font-black">Tailored</p>
-                                </div>
-                            </a>
-                            <a href="/tours" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
-                                <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center text-xl">
-                                    <i class="ph ph-tent"></i>
-                                </div>
-                                <div>
-                                    <p class="font-bold text-slate-900 text-sm group-hover/item:text-emerald-700">Luxury Camping</p>
-                                    <p class="text-[10px] text-slate-500 uppercase font-black">Wild Experience</p>
-                                </div>
-                            </a>
-                            <a href="{{ route('kilimanjaro') }}" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
-                                <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl">
-                                    <i class="ph ph-mountains"></i>
-                                </div>
-                                <div>
-                                    <p class="font-bold text-slate-900 text-sm group-hover/item:text-emerald-700">Kilimanjaro Treks</p>
-                                    <p class="text-[10px] text-slate-500 uppercase font-black">Roof of Africa</p>
-                                </div>
-                            </a>
+                            </div>
                         </div>
                     </div>
                 </div>
