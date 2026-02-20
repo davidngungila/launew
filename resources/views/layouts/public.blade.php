@@ -75,30 +75,11 @@
     </style>
 </head>
 <body class="bg-white text-slate-900 antialiased font-medium" x-data="{ mobileMenuOpen: false }">
-    <!-- Top Info Bar -->
-    <div class="hidden lg:block bg-slate-900 text-white/70 py-2 border-b border-white/5">
-        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
-            <div class="flex items-center gap-8">
-                <span class="flex items-center gap-2"><i class="ph-bold ph-phone text-emerald-400"></i> +255 683 163 219</span>
-                <span class="flex items-center gap-2"><i class="ph-bold ph-envelope text-emerald-400"></i> lauparadiseadventure@gmail.com</span>
-                <span class="flex items-center gap-2"><i class="ph-bold ph-map-pin text-emerald-400"></i> Moshi, Tanzania</span>
-            </div>
-            <div class="flex items-center gap-6">
-                <a href="#" class="hover:text-emerald-400 transition-colors">FB</a>
-                <a href="#" class="hover:text-emerald-400 transition-colors">IG</a>
-                <a href="#" class="hover:text-emerald-400 transition-colors">TW</a>
-                <a href="#" class="hover:text-emerald-400 transition-colors">YT</a>
-            </div>
-        </div>
-    </div>
-
     <!-- Navbar -->
-    <nav class="sticky top-0 w-full z-50 glass border-b border-slate-100 h-24 flex items-center">
-        <div class="max-w-7xl mx-auto px-6 w-full flex items-center justify-between">
+    <nav class="fixed top-0 w-full z-50 glass border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
             <a href="/" class="flex items-center gap-3 group/logo">
-                <div class="relative w-14 h-14 rounded-2xl bg-emerald-50 flex items-center justify-center p-2 group-hover/logo:bg-emerald-100 transition-colors">
-                    <img src="{{ asset('lau-adventuress-logo.png') }}" alt="LAU Safaris Logo" class="w-full h-full object-contain transition-transform group-hover/logo:scale-110">
-                </div>
+                <img src="{{ asset('lau-adventuress-logo.png') }}" alt="LAU Safaris Logo" class="h-14 w-auto object-contain transition-transform group-hover/logo:scale-105">
                 <div class="flex flex-col">
                     <span class="text-2xl font-black tracking-tighter text-slate-900 leading-none">LAU</span>
                     <span class="text-[11px] font-extrabold tracking-[0.25em] text-emerald-600 uppercase leading-none mt-1">PARADISE ADVENTURE</span>
@@ -106,46 +87,91 @@
             </a>
             
             <!-- Desktop Layout -->
-            <div class="hidden lg:flex items-center gap-8">
-                <a href="/" class="nav-link font-bold text-sm tracking-tight hover:text-emerald-600 transition-colors py-4">Home</a>
-                
-                <!-- Safaris Mega Menu -->
-                <div class="relative group py-4">
-                    <a href="/tours" class="nav-link font-bold text-sm tracking-tight hover:text-emerald-600 transition-colors flex items-center gap-1 cursor-pointer">
-                        Safaris <i class="ph ph-caret-down text-[10px] transition-transform group-hover:rotate-180"></i>
+            <div class="hidden lg:flex items-center gap-10">
+                <a href="/" class="nav-link font-bold hover:text-emerald-600 transition-colors py-8">Home</a>
+                <!-- Safaris Dropdown -->
+                <div class="relative group py-8">
+                    <a href="/tours" class="nav-link font-bold hover:text-emerald-600 transition-colors flex items-center gap-1">
+                        Safaris <i class="ph ph-caret-down text-xs transition-transform group-hover:rotate-180"></i>
                     </a>
-                    <div class="mega-menu absolute top-[calc(100%+0px)] -left-20 w-[650px] bg-white rounded-[2.5rem] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] border border-slate-100 p-8 z-50">
+                    <div class="mega-menu absolute top-full left-0 w-[300px] bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-6 z-50">
+                        <div class="space-y-4">
+                            <a href="/tours" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl">
+                                    <i class="ph ph-brand-safari"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-slate-900 text-sm group-hover/item:text-emerald-700">Classic Serengeti</p>
+                                    <p class="text-[10px] text-slate-500 uppercase font-black">Best Seller</p>
+                                </div>
+                            </a>
+                            <a href="/tours" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center text-xl">
+                                    <i class="ph ph-users-four"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-slate-900 text-sm group-hover/item:text-emerald-700">Private Safaris</p>
+                                    <p class="text-[10px] text-slate-500 uppercase font-black">Tailored</p>
+                                </div>
+                            </a>
+                            <a href="/tours" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center text-xl">
+                                    <i class="ph ph-tent"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-slate-900 text-sm group-hover/item:text-emerald-700">Luxury Camping</p>
+                                    <p class="text-[10px] text-slate-500 uppercase font-black">Wild Experience</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tours Mega Menu -->
+                <div class="relative group py-8">
+                    <a href="/tours" class="nav-link font-bold hover:text-emerald-600 transition-colors flex items-center gap-1">
+                        Destinations <i class="ph ph-caret-down text-xs transition-transform group-hover:rotate-180"></i>
+                    </a>
+                    <div class="mega-menu absolute top-full -left-20 w-[600px] bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-8 z-50">
                         <div class="grid grid-cols-2 gap-8">
-                            <div class="space-y-2">
-                                <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-600 mb-4 px-3">Top Expeditions</h4>
-                                <a href="/tours" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50/50 transition-all border border-transparent hover:border-emerald-100">
-                                    <div class="w-12 h-12 rounded-xl overflow-hidden shadow-inner">
-                                        <img src="https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766042771/8-Days-Tanzania-holiday-Wildebeest-migration-1536x1018_gyndkw.jpg" class="w-full h-full object-cover">
-                                    </div>
-                                    <div>
-                                        <p class="font-bold text-slate-900 text-sm">Great Migration</p>
-                                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Seasonal Peak</p>
-                                    </div>
-                                </a>
-                                <a href="/tours" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50/50 transition-all border border-transparent hover:border-emerald-100">
-                                    <div class="w-12 h-12 rounded-xl overflow-hidden shadow-inner">
-                                        <img src="https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766046350/kilimanjaro-climbing_bvcs7p.jpg" class="w-full h-full object-cover">
-                                    </div>
-                                    <div>
-                                        <p class="font-bold text-slate-900 text-sm">Mount Kilimanjaro</p>
-                                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Roof of Africa</p>
-                                    </div>
-                                </a>
+                            <div>
+                                <h4 class="text-xs font-black uppercase tracking-widest text-emerald-600 mb-6">Popular Regions</h4>
+                                <div class="space-y-4">
+                                    <a href="/tours" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
+                                        <div class="w-12 h-12 rounded-xl overflow-hidden">
+                                            <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover">
+                                        </div>
+                                        <div>
+                                            <p class="font-bold text-slate-900 group-hover/item:text-emerald-700">Serengeti NP</p>
+                                            <p class="text-xs text-slate-500">The Great Migration</p>
+                                        </div>
+                                    </a>
+                                    <a href="/tours" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
+                                        <div class="w-12 h-12 rounded-xl overflow-hidden">
+                                            <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover">
+                                        </div>
+                                        <div>
+                                            <p class="font-bold text-slate-900 group-hover/item:text-emerald-700">Ngorongoro</p>
+                                            <p class="text-xs text-slate-500">UNESCO World Heritage</p>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
-                            <div class="bg-slate-50 rounded-3xl p-6">
-                                <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-600 mb-4">Quick Links</h4>
-                                <ul class="space-y-4">
-                                    <li><a href="/tours" class="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-emerald-600 transition-colors"><i class="ph ph-shield-check text-emerald-500"></i> Safety & Guidelines</a></li>
-                                    <li><a href="/tours" class="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-emerald-600 transition-colors"><i class="ph ph-backpack text-emerald-500"></i> Essential Packing List</a></li>
-                                    <li><a href="/tours" class="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-emerald-600 transition-colors"><i class="ph ph-camera text-emerald-500"></i> Photo Safari Special</a></li>
-                                </ul>
-                                <div class="mt-6 pt-6 border-t border-slate-200">
-                                    <a href="/tours" class="text-xs font-black text-emerald-700 bg-white px-5 py-3 rounded-xl shadow-sm border border-slate-100 flex items-center justify-between hover:bg-emerald-500 hover:text-white transition-all">
+                            <div>
+                                <h4 class="text-xs font-black uppercase tracking-widest text-emerald-600 mb-6">Tanzania Specialties</h4>
+                                <div class="space-y-4">
+                                    <a href="/tours" class="flex items-center gap-3 text-slate-700 hover:text-emerald-600 font-bold group/sub transition-colors">
+                                        <i class="ph ph-mountain text-xl opacity-50 group-hover/sub:opacity-100"></i> Kilimanjaro Treks
+                                    </a>
+                                    <a href="/tours" class="flex items-center gap-3 text-slate-700 hover:text-emerald-600 font-bold group/sub transition-colors">
+                                        <i class="ph ph-umbrella text-xl opacity-50 group-hover/sub:opacity-100"></i> Zanzibar Beaches
+                                    </a>
+                                    <a href="/tours" class="flex items-center gap-3 text-slate-700 hover:text-emerald-600 font-bold group/sub transition-colors">
+                                        <i class="ph ph-bird text-xl opacity-50 group-hover/sub:opacity-100"></i> Bird Watching Tours
+                                    </a>
+                                </div>
+                                <div class="mt-8 pt-6 border-t border-slate-50">
+                                    <a href="/tours" class="text-sm font-black text-emerald-600 flex items-center gap-2 hover:gap-3 transition-all">
                                         View All Packages <i class="ph ph-arrow-right"></i>
                                     </a>
                                 </div>
@@ -154,25 +180,41 @@
                     </div>
                 </div>
 
-                <a href="/about" class="nav-link font-bold text-sm tracking-tight hover:text-emerald-600 transition-colors py-4">Our Story</a>
-                <a href="/contact" class="nav-link font-bold text-sm tracking-tight hover:text-emerald-600 transition-colors py-4">Connect</a>
+                <!-- About Us Mega Menu -->
+                <div class="relative group py-8">
+                    <a href="/about" class="nav-link font-bold hover:text-emerald-600 transition-colors flex items-center gap-1">
+                        About Us <i class="ph ph-caret-down text-xs transition-transform group-hover:rotate-180"></i>
+                    </a>
+                    <div class="mega-menu absolute top-full -left-40 w-[500px] bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-8 z-50">
+                        <div class="grid grid-cols-2 gap-6">
+                            <a href="/about" class="block p-5 bg-slate-50 rounded-2xl hover:bg-emerald-600 hover:text-white group/box transition-all">
+                                <i class="ph-bold ph-strategy text-3xl mb-4 text-emerald-600 group-hover/box:text-white"></i>
+                                <h5 class="font-black mb-2">Our Story</h5>
+                                <p class="text-xs opacity-70">New Gen started in 2025</p>
+                            </a>
+                            <a href="/contact" class="block p-5 bg-slate-50 rounded-2xl hover:bg-emerald-600 hover:text-white group/box transition-all">
+                                <i class="ph-bold ph-chat-circle-dots text-3xl mb-4 text-emerald-600 group-hover/box:text-white"></i>
+                                <h5 class="font-black mb-2">Expert Consultation</h5>
+                                <p class="text-xs opacity-70">Talk to our safari specialists</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="/contact" class="nav-link font-bold hover:text-emerald-600 transition-colors py-8">Contact</a>
             </div>
             
             <div class="flex items-center gap-4">
-                <div class="hidden md:flex items-center px-4 py-2 bg-slate-50 rounded-2xl border border-slate-100">
-                    <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse mr-3"></div>
-                    <span class="text-[10px] font-black uppercase tracking-wider text-slate-500">Guides Online</span>
-                </div>
-                <a href="{{ route('login') }}" class="hidden sm:inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-slate-700 hover:text-emerald-600 transition-all">
-                    Portal
+                <a href="{{ route('login') }}" class="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-slate-700 bg-white border border-slate-200 px-5 py-2.5 rounded-full hover:bg-slate-50 transition-all">
+                    Login
                 </a>
-                <a href="/tours" class="hidden md:inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-white bg-slate-900 border-2 border-slate-900 px-8 py-3 rounded-full hover:bg-emerald-600 hover:border-emerald-600 shadow-xl shadow-slate-900/10 transition-all">
-                    Start Planning
+                <a href="/tours" class="hidden md:inline-flex items-center gap-2 text-sm font-semibold text-white bg-emerald-600 px-6 py-2.5 rounded-full hover:bg-emerald-700 shadow-lg shadow-emerald-600/20 transition-all">
+                    Book Now
                 </a>
                 
                 <!-- Mobile Toggle -->
-                <button @click="mobileMenuOpen = true" class="lg:hidden w-12 h-12 bg-emerald-600 text-white rounded-2xl flex items-center justify-center hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-600/20">
-                    <i class="ph-bold ph-list text-2xl"></i>
+                <button @click="mobileMenuOpen = true" class="lg:hidden w-12 h-12 bg-slate-50 text-slate-900 rounded-2xl flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-all">
+                    <i class="ph ph-list text-2xl"></i>
                 </button>
             </div>
         </div>
@@ -181,16 +223,16 @@
 
     <!-- Mobile Menu Overlay -->
     <div x-show="mobileMenuOpen" 
-         x-transition:enter="transition ease-out duration-400"
+         x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0 translate-x-full"
          x-transition:enter-end="opacity-100 translate-x-0"
-         x-transition:leave="transition ease-in duration-300"
+         x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100 translate-x-0"
          x-transition:leave-end="opacity-0 translate-x-full"
-         class="fixed inset-0 z-[100] lg:hidden" x-cloak>
+         class="fixed inset-0 z-[100] lg:hidden">
         
         <!-- Backdrop -->
-        <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm" @click="mobileMenuOpen = false"></div>
+        <div class="absolute inset-0 bg-slate-950/60 backdrop-blur-md" @click="mobileMenuOpen = false"></div>
         
         <!-- Sidebar -->
         <div class="absolute right-0 top-0 bottom-0 w-[85%] max-w-sm bg-white shadow-2xl overflow-y-auto">
@@ -198,43 +240,47 @@
                 <div class="flex items-center justify-between mb-12">
                     <div class="flex items-center gap-3">
                         <img src="{{ asset('lau-adventuress-logo.png') }}" class="h-10 w-auto" alt="Logo">
-                        <div class="flex flex-col">
-                            <span class="font-black text-slate-900 leading-none">LAU</span>
-                            <span class="text-[8px] font-black tracking-widest text-emerald-600 uppercase">Paradise</span>
-                        </div>
+                        <span class="font-black text-slate-900">LAU SAFARIS</span>
                     </div>
-                    <button @click="mobileMenuOpen = false" class="w-12 h-12 bg-slate-100 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-rose-50 hover:text-rose-500 transition-all">
+                    <button @click="mobileMenuOpen = false" class="w-10 h-10 bg-slate-100 text-slate-400 rounded-xl flex items-center justify-center hover:bg-rose-50 hover:text-rose-500 transition-all">
                         <i class="ph ph-x text-2xl"></i>
                     </button>
                 </div>
 
-                <div class="space-y-8">
-                    <a href="/" class="block text-3xl font-serif font-black text-slate-900 hover:text-emerald-600 transition-colors">Home</a>
-                    <a href="/tours" class="block text-3xl font-serif font-black text-slate-900 hover:text-emerald-600 transition-colors">Our Safaris</a>
-                    <a href="/about" class="block text-3xl font-serif font-black text-slate-900 hover:text-emerald-600 transition-colors">Our Story</a>
-                    <a href="/contact" class="block text-3xl font-serif font-black text-slate-900 hover:text-emerald-600 transition-colors">Connect</a>
+                <div class="space-y-6">
+                    <a href="/" class="block text-2xl font-serif font-black text-slate-900 hover:text-emerald-600">Home</a>
+                    
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="flex items-center justify-between w-full text-2xl font-serif font-black text-slate-900">
+                            Safaris <i class="ph ph-caret-down text-lg transition-transform" :class="open ? 'rotate-180' : ''"></i>
+                        </button>
+                        <div x-show="open" x-collapse class="pl-4 mt-4 space-y-4">
+                            <a href="/tours" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Classic Serengeti</a>
+                            <a href="/tours" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Private Safaris</a>
+                            <a href="/tours" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Luxury Camping</a>
+                        </div>
+                    </div>
+
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="flex items-center justify-between w-full text-2xl font-serif font-black text-slate-900">
+                            Destinations <i class="ph ph-caret-down text-lg transition-transform" :class="open ? 'rotate-180' : ''"></i>
+                        </button>
+                        <div x-show="open" x-collapse class="pl-4 mt-4 space-y-4">
+                            <a href="/tours" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Serengeti NP</a>
+                            <a href="/tours" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Ngorongoro Crater</a>
+                            <a href="/tours" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Kilimanjaro</a>
+                        </div>
+                    </div>
+
+                    <a href="/about" class="block text-2xl font-serif font-black text-slate-900 hover:text-emerald-600">About Us</a>
+                    <a href="/contact" class="block text-2xl font-serif font-black text-slate-900 hover:text-emerald-600">Contact</a>
                 </div>
 
-                <div class="mt-20 pt-10 border-t border-slate-100 space-y-8">
-                    <div class="flex flex-col gap-4">
-                        <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Direct Contact</h4>
-                        <a href="tel:+255683163219" class="text-lg font-bold text-slate-900 flex items-center gap-3">
-                            <span class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center"><i class="ph ph-phone"></i></span>
-                            +255 683 163 219
-                        </a>
-                        <a href="mailto:lauparadiseadventure@gmail.com" class="text-sm font-bold text-slate-500 flex items-center gap-3">
-                            <span class="w-10 h-10 rounded-xl bg-slate-50 text-slate-400 flex items-center justify-center"><i class="ph ph-envelope"></i></span>
-                            lauparadiseadventure@gmail.com
-                        </a>
-                    </div>
-                    
-                    <div class="bg-emerald-950 p-8 rounded-[3rem] text-white overflow-hidden relative group">
-                        <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-125 transition-transform duration-700">
-                            <i class="ph-bold ph-brand-safari text-8xl"></i>
-                        </div>
-                        <h4 class="text-xl font-serif font-black mb-2 relative z-10">Start Your Story</h4>
-                        <p class="text-sm text-emerald-100/60 mb-8 leading-relaxed relative z-10">Tanzania is waiting for you. Let's design the perfect journey.</p>
-                        <a href="/tours" class="w-full inline-block py-4 bg-emerald-500 text-white font-black text-xs uppercase tracking-[0.2em] text-center rounded-2xl shadow-xl shadow-emerald-500/20 relative z-10 border border-emerald-400/20">Book Adventure</a>
+                <div class="mt-20 pt-10 border-t border-slate-100">
+                    <div class="bg-emerald-950 p-8 rounded-[2.5rem] text-white">
+                        <h4 class="text-lg font-serif font-black mb-2">Ready to Start?</h4>
+                        <p class="text-sm text-emerald-100/60 mb-8 leading-relaxed">Let's build your dream itinerary together.</p>
+                        <a href="/tours" class="w-full inline-block py-4 bg-emerald-500 text-white font-black text-xs uppercase tracking-widest text-center rounded-2xl shadow-xl shadow-emerald-500/20">Book Adventure</a>
                     </div>
                 </div>
             </div>
@@ -244,125 +290,59 @@
     @yield('content')
 
     <!-- Footer -->
-    <footer class="bg-slate-950 text-white pt-24 pb-12 relative overflow-hidden">
-        <!-- Background Decoration -->
-        <div class="absolute inset-0 z-0 pointer-events-none opacity-[0.03]">
-            <img src="https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766262424/biologist-forest.jpg" class="w-full h-full object-cover grayscale">
+    <footer class="bg-slate-900 text-white pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
+            <div class="col-span-1 md:col-span-1">
+                <a href="/" class="flex items-center gap-3 mb-6">
+                    <img src="{{ asset('lau-adventuress-logo.png') }}" alt="LAU Safaris Logo" class="h-10 w-auto object-contain">
+                    <div class="flex flex-col">
+                        <span class="text-lg font-black tracking-tighter text-white leading-none">LAU</span>
+                        <span class="text-[9px] font-bold tracking-[0.2em] text-emerald-400 uppercase leading-none">PARADISE ADVENTURE</span>
+                    </div>
+                </a>
+                <p class="text-slate-400 leading-relaxed text-sm">
+                    A new generation of authentic African safari excellence starting in 2025. Discover the beauty of Tanzania's wildlife with expert guides at LAU Paradise Adventure.
+                </p>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6">Quick Links</h4>
+                <ul class="space-y-4 text-sm text-slate-400">
+                    <li><a href="#" class="hover:text-white transition-colors">Home</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Our Tours</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6">Destinations</h4>
+                <ul class="space-y-4 text-sm text-slate-400">
+                    <li><a href="#" class="hover:text-white transition-colors">Serengeti NP</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Ngorongoro</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Kilimanjaro</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Zanzibar</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6">Contact Info</h4>
+                <ul class="space-y-4 text-sm text-slate-400">
+                    <li class="flex items-center gap-3">
+                        <i class="ph ph-phone text-emerald-500"></i> +255 683 163 219
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="ph ph-envelope text-emerald-500"></i> lauparadiseadventure@gmail.com
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="ph ph-map-pin text-emerald-500"></i> Moshi, Tanzania
+                    </li>
+                </ul>
+            </div>
         </div>
-        
-        <div class="max-w-7xl mx-auto px-6 relative z-10">
-            <!-- Newsletter Section -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 pb-20 border-b border-white/5 items-center">
-                <div>
-                    <span class="inline-block px-4 py-1.5 bg-emerald-900/30 text-emerald-400 text-[10px] font-black uppercase tracking-[0.2em] rounded-full mb-6 border border-emerald-900/50">Stay Inspired</span>
-                    <h2 class="text-3xl md:text-5xl font-serif font-black mb-4 leading-tight">Join the Inner Circle of <br> <span class="text-emerald-500 italic">Safari Enthusiasts</span></h2>
-                    <p class="text-slate-400 text-lg">Receive exclusive travel guides, wildlife news, and member-only offers.</p>
-                </div>
-                <div class="max-w-md lg:ml-auto w-full">
-                    <form class="flex gap-2 p-2 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-md focus-within:border-emerald-500/50 transition-all">
-                        <input type="email" placeholder="Email Address" class="bg-transparent border-none focus:ring-0 text-white flex-1 px-4 placeholder:text-slate-500 font-bold">
-                        <button class="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-xl shadow-emerald-900/20">
-                            Join
-                        </button>
-                    </form>
-                    <p class="text-[10px] text-slate-500 mt-4 text-center px-4">By subscribing, you agree to our Privacy Policy and consent to receive marketing emails.</p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 py-20">
-                <!-- Branding -->
-                <div class="space-y-8">
-                    <a href="/" class="flex flex-col group">
-                        <div class="flex items-center gap-3 mb-4">
-                            <div class="w-12 h-12 rounded-xl bg-white/5 p-2 border border-white/10 group-hover:bg-emerald-600 group-hover:border-emerald-600 transition-all duration-500">
-                                <img src="{{ asset('lau-adventuress-logo.png') }}" alt="Logo" class="w-full h-full object-contain">
-                            </div>
-                            <span class="text-3xl font-black tracking-tighter group-hover:text-emerald-500 transition-colors">LAU</span>
-                        </div>
-                        <span class="text-[10px] font-black tracking-[0.4em] text-emerald-500 uppercase leading-none px-1">PARADISE ADVENTURE</span>
-                    </a>
-                    <p class="text-slate-400 leading-relaxed text-sm">
-                        Crafting a new generation of safari excellence. We merge modern luxury with the raw, authentic spirit of the Tanzanian wilderness. Founded in 2025, dedicated to the wild.
-                    </p>
-                    <div class="flex items-center gap-4">
-                        @foreach(['facebook', 'instagram', 'linkedin-logo', 'youtube-logo'] as $icon)
-                        <a href="#" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-emerald-600 hover:text-white hover:-translate-y-1 transition-all">
-                            <i class="ph ph-{{ $icon }} text-xl"></i>
-                        </a>
-                        @endforeach
-                    </div>
-                </div>
-
-                <!-- Explore -->
-                <div>
-                    <h4 class="text-xs font-black uppercase tracking-[0.3em] text-white mb-8 border-l-2 border-emerald-500 pl-4">The Collection</h4>
-                    <ul class="space-y-5 text-sm font-bold text-slate-400">
-                        <li><a href="/tours" class="hover:text-emerald-500 transition-all flex items-center gap-2 group"><span class="w-1.5 h-1.5 rounded-full bg-slate-800 group-hover:bg-emerald-500 transition-all"></span> Great Migration Safaris</a></li>
-                        <li><a href="/tours" class="hover:text-emerald-500 transition-all flex items-center gap-2 group"><span class="w-1.5 h-1.5 rounded-full bg-slate-800 group-hover:bg-emerald-500 transition-all"></span> Kilimanjaro Climbing</a></li>
-                        <li><a href="/tours" class="hover:text-emerald-500 transition-all flex items-center gap-2 group"><span class="w-1.5 h-1.5 rounded-full bg-slate-800 group-hover:bg-emerald-500 transition-all"></span> Zanzibar Retreats</a></li>
-                        <li><a href="/tours" class="hover:text-emerald-500 transition-all flex items-center gap-2 group"><span class="w-1.5 h-1.5 rounded-full bg-slate-800 group-hover:bg-emerald-500 transition-all"></span> Cultural Encounters</a></li>
-                    </ul>
-                </div>
-
-                <!-- Company -->
-                <div>
-                    <h4 class="text-xs font-black uppercase tracking-[0.3em] text-white mb-8 border-l-2 border-emerald-500 pl-4">Expertise</h4>
-                    <ul class="space-y-5 text-sm font-bold text-slate-400">
-                        <li><a href="/about" class="hover:text-emerald-500 transition-all">Our Story & Vision</a></li>
-                        <li><a href="/contact" class="hover:text-emerald-500 transition-all">Meet Our Guides</a></li>
-                        <li><a href="/contact" class="hover:text-emerald-500 transition-all">Sustainable Tourism</a></li>
-                        <li><a href="/contact" class="hover:text-emerald-500 transition-all">Travel Blog</a></li>
-                    </ul>
-                </div>
-
-                <!-- Contact -->
-                <div>
-                    <h4 class="text-xs font-black uppercase tracking-[0.3em] text-white mb-8 border-l-2 border-emerald-500 pl-4">Contact</h4>
-                    <ul class="space-y-6">
-                        <li class="flex items-start gap-4">
-                            <div class="w-10 h-10 rounded-xl bg-emerald-950/50 flex items-center justify-center shrink-0 border border-emerald-900/30">
-                                <i class="ph-bold ph-phone text-emerald-500"></i>
-                            </div>
-                            <div>
-                                <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Direct Line</p>
-                                <p class="text-sm font-black">+255 683 163 219</p>
-                            </div>
-                        </li>
-                        <li class="flex items-start gap-4">
-                            <div class="w-10 h-10 rounded-xl bg-emerald-950/50 flex items-center justify-center shrink-0 border border-emerald-900/30">
-                                <i class="ph-bold ph-envelope text-emerald-500"></i>
-                            </div>
-                            <div>
-                                <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">Inquiries</p>
-                                <p class="text-sm font-black">lauparadiseadventure@gmail.com</p>
-                            </div>
-                        </li>
-                        <li class="flex items-start gap-4">
-                            <div class="w-10 h-10 rounded-xl bg-emerald-950/50 flex items-center justify-center shrink-0 border border-emerald-900/30">
-                                <i class="ph-bold ph-map-pin text-emerald-500"></i>
-                            </div>
-                            <div>
-                                <p class="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">HQ Office</p>
-                                <p class="text-sm font-black">Moshi, Tanzania</p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Bottom Bar -->
-            <div class="pt-10 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">
-                <div class="flex items-center gap-8">
-                    <p class="text-[11px] font-bold text-slate-500 tracking-wider">© 2026 LAU PARADISE ADVENTURE. ALL RIGHTS RESERVED.</p>
-                </div>
-                <div class="flex items-center gap-8 text-[11px] font-black uppercase tracking-widest text-slate-500">
-                    <a href="#" class="hover:text-emerald-500 transition-colors">Privacy</a>
-                    <a href="#" class="hover:text-emerald-500 transition-colors">Terms</a>
-                    <a href="#" class="hover:text-emerald-500 transition-colors">Cookies</a>
-                    <div class="flex items-center gap-4 ml-4">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Flag_of_Tanzania.svg/320px-Flag_of_Tanzania.svg.png" class="h-3 w-auto opacity-50 grayscale hover:grayscale-0 transition-all cursor-help" title="Proudly Tanzanian">
-                    </div>
-                </div>
+        <div class="max-w-7xl mx-auto px-6 pt-10 border-t border-slate-800 flex flex-col md:flex-row items-center justify-between gap-6">
+            <p class="text-sm text-slate-500">© 2026 LAU PARADISE ADVENTURE. All rights reserved.</p>
+            <div class="flex items-center gap-6">
+                <a href="#" class="text-slate-500 hover:text-white transition-colors"><i class="ph ph-facebook-logo text-xl"></i></a>
+                <a href="#" class="text-slate-500 hover:text-white transition-colors"><i class="ph ph-instagram-logo text-xl"></i></a>
+                <a href="#" class="text-slate-500 hover:text-white transition-colors"><i class="ph ph-twitter-logo text-xl"></i></a>
             </div>
         </div>
     </footer>
