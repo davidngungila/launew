@@ -110,83 +110,53 @@
          class="relative z-10 w-full max-w-[440px]">
         
         <!-- Identity -->
-        <div class="text-center mb-10">
-            <div class="inline-flex items-center justify-center w-16 h-16 bg-emerald-500/10 rounded-2xl mb-6 border border-emerald-500/20 shadow-xl shadow-emerald-500/10">
-                <i class="ph-fill ph-shield-checkered text-3xl text-emerald-500"></i>
-            </div>
-            <h2 class="text-3xl font-serif text-white mb-2 leading-tight">Member Access</h2>
-            <p class="text-slate-400 font-bold text-[10px] uppercase tracking-[0.3em]">Guardian of the Paradise Adventures</p>
+        <div class="text-center mb-8">
+            <h2 class="text-2xl font-serif text-white mb-1">Access</h2>
+            <p class="text-slate-500 font-bold text-[9px] uppercase tracking-[0.3em]">LAU Paradise Security</p>
         </div>
 
         <!-- Form Card -->
-        <div class="glass rounded-[2.5rem] p-10 shadow-2xl overflow-hidden relative group">
-            <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/[0.05] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
-            
+        <div class="glass rounded-[2rem] p-8 shadow-2xl relative overflow-hidden max-w-[360px] mx-auto">
             @if($errors->any())
-                <div class="mb-8 p-4 bg-red-500/10 border border-red-500/20 text-red-200 rounded-2xl text-[10px] font-bold uppercase tracking-widest text-center">
-                    <i class="ph ph-warning-circle mr-2"></i> {{ $errors->first() }}
+                <div class="mb-6 p-3 bg-red-500/10 border border-red-500/20 text-red-200 rounded-xl text-[9px] font-bold uppercase tracking-widest text-center">
+                    Invalid Credentials
                 </div>
             @endif
 
-            <form action="{{ route('login') }}" method="POST" class="space-y-6 relative z-10">
+            <form action="{{ route('login') }}" method="POST" class="space-y-4">
                 @csrf
-                <div class="space-y-2">
-                    <label class="text-[10px] font-black text-emerald-500 uppercase tracking-widest ml-1">Identity</label>
-                    <div class="relative group/input">
-                        <i class="ph ph-user absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within/input:text-emerald-500 transition-colors"></i>
-                        <input type="email" name="email" required 
-                               class="w-full bg-white/5 border border-white/10 rounded-2xl pl-14 pr-6 py-4 text-sm font-medium text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white/10 transition-all outline-none" 
-                               placeholder="Email Address">
-                    </div>
+                <div class="relative">
+                    <i class="ph ph-user absolute left-5 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                    <input type="email" name="email" required 
+                           class="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-sm text-white focus:ring-1 focus:ring-emerald-500 transition-all outline-none" 
+                           placeholder="Identity: Email Address">
                 </div>
 
-                <div class="space-y-2">
-                    <div class="flex items-center justify-between ml-1">
-                        <label class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Passphrase</label>
-                        @if (Route::has('password.request'))
-                            <a href="{{ route('password.request') }}" class="text-[9px] font-bold text-slate-500 uppercase hover:text-emerald-500 transition-colors">Lost Access?</a>
-                        @endif
-                    </div>
-                    <div class="relative group/input">
-                        <i class="ph ph-lock-key absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within/input:text-emerald-500 transition-colors"></i>
-                        <input type="password" name="password" required 
-                               class="w-full bg-white/5 border border-white/10 rounded-2xl pl-14 pr-6 py-4 text-sm font-medium text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white/10 transition-all outline-none" 
-                               placeholder="••••••••">
-                    </div>
+                <div class="relative">
+                    <i class="ph ph-lock absolute left-5 top-1/2 -translate-y-1/2 text-slate-500"></i>
+                    <input type="password" name="password" required 
+                           class="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-sm text-white focus:ring-1 focus:ring-emerald-500 transition-all outline-none" 
+                           placeholder="Passphrase">
                 </div>
 
-                <div class="flex items-center justify-between px-1">
-                    <label class="flex items-center gap-3 cursor-pointer group/check">
-                        <div class="relative flex items-center">
-                            <input type="checkbox" name="remember" class="peer appearance-none w-5 h-5 rounded-lg bg-white/5 border border-white/10 checked:bg-emerald-600 checked:border-emerald-600 transition-all cursor-pointer">
-                            <i class="ph ph-check absolute inset-0 text-white text-xs flex items-center justify-center opacity-0 peer-checked:opacity-100 transition-opacity"></i>
-                        </div>
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest group-hover/check:text-slate-200 transition-colors">Keep Session Active</span>
+                <div class="flex items-center justify-between px-1 text-[10px]">
+                    <label class="flex items-center gap-2 cursor-pointer text-slate-400 hover:text-slate-200 transition-colors">
+                        <input type="checkbox" name="remember" class="w-4 h-4 rounded-md bg-white/5 border-white/10 text-emerald-600 focus:ring-0">
+                        Remember
                     </label>
+                    <a href="/password/reset" class="text-slate-600 hover:text-emerald-500 transition-colors">Recovery</a>
                 </div>
 
-                <button type="submit" class="group relative w-full py-5 bg-emerald-600 overflow-hidden text-white font-black text-xs uppercase tracking-[0.3em] rounded-2xl shadow-xl shadow-emerald-600/20 hover:bg-emerald-500 transition-all duration-500">
-                    <span class="relative z-10 flex items-center justify-center gap-2">
-                        Enter Gateway <i class="ph-bold ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
-                    </span>
-                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                <button type="submit" class="w-full py-4 bg-emerald-600 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-xl hover:bg-emerald-500 transition-all shadow-lg shadow-emerald-900/20">
+                    Verify & Enter
                 </button>
             </form>
         </div>
 
         <!-- Footer -->
-        <div class="mt-12 text-center space-y-6">
-            <div class="flex items-center justify-center gap-6">
-                <a href="/" class="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] hover:text-emerald-500 transition-colors flex items-center gap-2">
-                    <i class="ph ph-house"></i> Return Home
-                </a>
-                <span class="w-1 h-1 rounded-full bg-slate-700"></span>
-                <a href="/contact" class="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] hover:text-emerald-500 transition-colors flex items-center gap-2">
-                    <i class="ph ph-info"></i> Support
-                </a>
-            </div>
+        <div class="mt-8 text-center">
             <p class="text-[9px] font-black text-slate-600 uppercase tracking-[0.4em]">
-                &copy; {{ date('Y') }} LAU Paradise Adventure System
+                &copy; {{ date('Y') }} LAU PARADISE
             </p>
         </div>
     </div>
