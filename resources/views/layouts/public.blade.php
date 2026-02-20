@@ -89,7 +89,6 @@
             <!-- Desktop Layout -->
             <div class="hidden lg:flex items-center gap-10">
                 <a href="/" class="nav-link font-bold hover:text-emerald-600 transition-colors py-8">Home</a>
-                <a href="{{ route('kilimanjaro') }}" class="nav-link font-bold hover:text-emerald-600 transition-colors py-8">Kilimanjaro</a>
                 <!-- Safaris Dropdown -->
                 <div class="relative group py-8">
                     <a href="/tours" class="nav-link font-bold hover:text-emerald-600 transition-colors flex items-center gap-1">
@@ -122,6 +121,15 @@
                                 <div>
                                     <p class="font-bold text-slate-900 text-sm group-hover/item:text-emerald-700">Luxury Camping</p>
                                     <p class="text-[10px] text-slate-500 uppercase font-black">Wild Experience</p>
+                                </div>
+                            </a>
+                            <a href="{{ route('kilimanjaro') }}" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl">
+                                    <i class="ph ph-mountains"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-slate-900 text-sm group-hover/item:text-emerald-700">Kilimanjaro Treks</p>
+                                    <p class="text-[10px] text-slate-500 uppercase font-black">Roof of Africa</p>
                                 </div>
                             </a>
                         </div>
@@ -161,7 +169,7 @@
                             <div>
                                 <h4 class="text-xs font-black uppercase tracking-widest text-emerald-600 mb-6">Tanzania Specialties</h4>
                                 <div class="space-y-4">
-                                    <a href="/tours" class="flex items-center gap-3 text-slate-700 hover:text-emerald-600 font-bold group/sub transition-colors">
+                                    <a href="{{ route('kilimanjaro') }}" class="flex items-center gap-3 text-slate-700 hover:text-emerald-600 font-bold group/sub transition-colors">
                                         <i class="ph ph-mountain text-xl opacity-50 group-hover/sub:opacity-100"></i> Kilimanjaro Treks
                                     </a>
                                     <a href="/tours" class="flex items-center gap-3 text-slate-700 hover:text-emerald-600 font-bold group/sub transition-colors">
@@ -250,7 +258,6 @@
 
                 <div class="space-y-6">
                     <a href="/" class="block text-2xl font-serif font-black text-slate-900 hover:text-emerald-600">Home</a>
-                    <a href="{{ route('kilimanjaro') }}" class="block text-2xl font-serif font-black text-slate-900 hover:text-emerald-600">Kilimanjaro</a>
                     
                     <div x-data="{ open: false }">
                         <button @click="open = !open" class="flex items-center justify-between w-full text-2xl font-serif font-black text-slate-900">
@@ -260,6 +267,7 @@
                             <a href="/tours" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Classic Serengeti</a>
                             <a href="/tours" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Private Safaris</a>
                             <a href="/tours" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Luxury Camping</a>
+                            <a href="{{ route('kilimanjaro') }}" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Kilimanjaro Climbing</a>
                         </div>
                     </div>
 
@@ -270,7 +278,7 @@
                         <div x-show="open" x-collapse class="pl-4 mt-4 space-y-4">
                             <a href="/tours" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Serengeti NP</a>
                             <a href="/tours" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Ngorongoro Crater</a>
-                            <a href="/tours" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Kilimanjaro</a>
+                            <a href="{{ route('kilimanjaro') }}" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Kilimanjaro Treks</a>
                         </div>
                     </div>
 
