@@ -38,5 +38,20 @@ class ItinerarySeeder extends Seeder
                 ['day_number' => 7, 'title' => 'Summit Day: Uhuru Peak', 'description' => 'Midnight start to reach the summit at sunrise. Descent to Mweka Gate.', 'accommodation' => 'Arusha Hotel', 'meals' => 'B, L'],
             ]);
         }
+        // Generate generic itineraries for any tour without one
+        $allTours = Tour::whereDoesntHave('itineraries')->get();
+        foreach ($allTours as $tour) {
+            $days = [];
+            for ($i = 1; $i <= min($tour->duration_days, 3); $i++) {
+                $days[] = [
+                    'day_number' => $i,
+                    'title' => 'Adventure Day ' . $i,
+                    'description' => 'Experience the highlights of ' . $tour->location . ' with expert guidance.',
+                    'accommodation' => 'Luxury Wilderness Lodge',
+                    'meals' => 'B, L, D'
+                ];
+            }
+            $tour->itineraries()->createMany($days);
+        }
     }
 }

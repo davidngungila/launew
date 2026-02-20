@@ -16,7 +16,7 @@ class TourController extends Controller
 
     public function index()
     {
-        $tours = Tour::where('status', 'active')->orderBy('featured', 'desc')->get();
+        $tours = Tour::where('status', 'active')->orderBy('featured', 'desc')->paginate(6);
         return view('tours.index', compact('tours'));
     }
 

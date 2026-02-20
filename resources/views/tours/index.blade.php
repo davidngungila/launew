@@ -51,7 +51,7 @@
             </div>
             
             <div class="text-slate-500 text-sm">
-                Showing <span class="text-slate-900 font-bold font-serif">{{ $tours->count() }}</span> safari packages
+                Showing <span class="text-slate-900 font-bold font-serif">{{ $tours->firstItem() }}</span> to <span class="text-slate-900 font-bold font-serif">{{ $tours->lastItem() }}</span> of <span class="text-slate-900 font-bold font-serif">{{ $tours->total() }}</span> safari packages
             </div>
         </div>
         
@@ -95,19 +95,56 @@
         </div>
         
         <!-- Pagination -->
-        <div class="mt-20 flex justify-center">
-            <nav class="flex items-center gap-2">
-                <button class="w-12 h-12 rounded-2xl border border-slate-200 flex items-center justify-center text-slate-400 hover:border-emerald-500 hover:text-emerald-500 transition-all">
-                    <i class="ph ph-caret-left"></i>
-                </button>
-                <button class="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-bold">1</button>
-                <button class="w-12 h-12 rounded-2xl border border-slate-200 flex items-center justify-center font-bold text-slate-600 hover:border-emerald-500 hover:text-emerald-500 transition-all">2</button>
-                <button class="w-12 h-12 rounded-2xl border border-slate-200 flex items-center justify-center font-bold text-slate-600 hover:border-emerald-500 hover:text-emerald-500 transition-all">3</button>
-                <button class="w-12 h-12 rounded-2xl border border-slate-200 flex items-center justify-center text-slate-400 hover:border-emerald-500 hover:text-emerald-500 transition-all">
-                    <i class="ph ph-caret-right"></i>
-                </button>
-            </nav>
+        <div class="mt-20 flex justify-center pagination-premium">
+            {{ $tours->links() }}
         </div>
+    </div>
+</section>
+
+<style>
+    .pagination-premium .pagination {
+        display: flex;
+        gap: 0.75rem;
+        list-style: none;
+        align-items: center;
+        padding: 0;
+    }
+    .pagination-premium .page-item .page-link {
+        width: 3.5rem;
+        height: 3.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 1.25rem;
+        background: white;
+        border: 1px solid #f1f5f9;
+        color: #64748b;
+        font-weight: 700;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-decoration: none;
+        font-size: 0.9rem;
+    }
+    .pagination-premium .page-item.active .page-link {
+        background: #059669;
+        border-color: #059669;
+        color: white;
+        box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.3);
+    }
+    .pagination-premium .page-item .page-link:hover:not(.active) {
+        border-color: #10b981;
+        color: #10b981;
+        transform: translateY(-3px);
+        background: #f0fdf4;
+    }
+    .pagination-premium .page-item.disabled .page-link {
+        opacity: 0.4;
+        cursor: not-allowed;
+        background: #f8fafc;
+    }
+    /* Hide default laravel pagination junk */
+    .pagination-premium nav div:first-child { display: none; }
+    .pagination-premium nav div:last-child { display: block !important; }
+</style>
     </div>
 </section>
 @endsection
