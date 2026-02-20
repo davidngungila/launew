@@ -5,12 +5,16 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Tour;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Schema;
 
 class TourSeeder extends Seeder
 {
     public function run(): void
     {
+        Schema::disableForeignKeyConstraints();
         Tour::truncate();
+        Schema::enableForeignKeyConstraints();
+        
         $tours = [
             [
                 'name' => '8 Days Great Wildebeest Migration Safari',
