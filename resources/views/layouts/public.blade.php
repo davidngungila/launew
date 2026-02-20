@@ -311,7 +311,7 @@
 
     <!-- Footer -->
     <footer class="bg-slate-900 text-white pt-20 pb-10">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-12 mb-20">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
             <div class="col-span-1 md:col-span-1 lg:col-span-1">
                 <a href="/" class="flex items-center gap-3 mb-6">
                     <img src="{{ asset('lau-adventuress-logo.png') }}" alt="LAU Safaris Logo" class="h-10 w-auto object-contain">
@@ -333,17 +333,6 @@
                     <li><a href="{{ route('tours.index') }}" class="hover:text-white transition-colors">Our Tours</a></li>
                     <li><a href="{{ route('about') }}" class="hover:text-white transition-colors">About Us</a></li>
                     <li><a href="{{ route('contact') }}" class="hover:text-white transition-colors">Contact Us</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold mb-6 text-emerald-500">Our Policies</h4>
-                <ul class="space-y-4 text-sm text-slate-400">
-                    <li><a href="{{ route('terms') }}" class="hover:text-white transition-colors">Terms & Conditions</a></li>
-                    <li><a href="{{ route('privacy') }}" class="hover:text-white transition-colors">Privacy Policy</a></li>
-                    <li><a href="{{ route('cookies') }}" class="hover:text-white transition-colors">Cookies Policy</a></li>
-                    <li><a href="{{ route('refund') }}" class="hover:text-white transition-colors">Refund Policy</a></li>
-                    <li><a href="{{ route('editorial') }}" class="hover:text-white transition-colors">Editorial Policy</a></li>
-                    <li><a href="{{ route('sustainability') }}" class="hover:text-white transition-colors">Sustainability Policy</a></li>
                 </ul>
             </div>
             <div>
@@ -370,12 +359,24 @@
                 </ul>
             </div>
         </div>
-        <div class="max-w-7xl mx-auto px-6 pt-10 border-t border-slate-800 flex flex-col md:flex-row items-center justify-between gap-6">
-            <p class="text-sm text-slate-500">© 2026 LAU PARADISE ADVENTURE. All rights reserved.</p>
-            <div class="flex items-center gap-6">
-                <a href="#" class="text-slate-500 hover:text-white transition-colors"><i class="ph ph-facebook-logo text-xl"></i></a>
-                <a href="#" class="text-slate-500 hover:text-white transition-colors"><i class="ph ph-instagram-logo text-xl"></i></a>
-                <a href="#" class="text-slate-500 hover:text-white transition-colors"><i class="ph ph-twitter-logo text-xl"></i></a>
+        <div class="max-w-7xl mx-auto px-6 pt-10 border-t border-slate-800">
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-8">
+                <div class="flex flex-col gap-4">
+                    <p class="text-sm text-slate-500">© 2026 LAU PARADISE ADVENTURE. All rights reserved.</p>
+                    <div class="flex flex-wrap items-center gap-y-2 gap-x-6 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                        <a href="{{ route('terms') }}" class="hover:text-emerald-500 transition-colors">Terms & Conditions</a>
+                        <a href="{{ route('privacy') }}" class="hover:text-emerald-500 transition-colors">Privacy Policy</a>
+                        <a href="{{ route('cookies') }}" class="hover:text-emerald-500 transition-colors">Cookies Policy</a>
+                        <a href="{{ route('refund') }}" class="hover:text-emerald-500 transition-colors">Refund Policy</a>
+                        <a href="{{ route('editorial') }}" class="hover:text-emerald-500 transition-colors">Editorial Policy</a>
+                        <a href="{{ route('sustainability') }}" class="hover:text-emerald-500 transition-colors">Sustainability Policy</a>
+                    </div>
+                </div>
+                <div class="flex items-center gap-6">
+                    <a href="#" class="text-slate-500 hover:text-white transition-colors"><i class="ph ph-facebook-logo text-xl"></i></a>
+                    <a href="#" class="text-slate-500 hover:text-white transition-colors"><i class="ph ph-instagram-logo text-xl"></i></a>
+                    <a href="#" class="text-slate-500 hover:text-white transition-colors"><i class="ph ph-twitter-logo text-xl"></i></a>
+                </div>
             </div>
         </div>
     </footer>
