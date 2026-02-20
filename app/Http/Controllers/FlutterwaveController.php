@@ -96,7 +96,7 @@ class FlutterwaveController extends Controller
                 if ($data['data']['status'] === 'successful') {
                     $bookingId = $data['data']['meta']['booking_id'];
                     $type = $data['data']['meta']['payment_type'];
-                    $booking = Booking::findOrFail($bookingId);
+                    $booking = Booking::with('tour')->findOrFail($bookingId);
 
                     // Update Booking Payment Status
                     if ($type === 'deposit') {

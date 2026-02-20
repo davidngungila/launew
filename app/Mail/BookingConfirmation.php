@@ -50,6 +50,11 @@ class BookingConfirmation extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.invoice', ['booking' => $this->booking]);
+        
+        return [
+            \Illuminate\Mail\Mailables\Attachment::fromData(fn () => $pdf->output(), 'Safari_Invoice_#' . $this->booking->id . '.pdf')
+                ->withMime('application/pdf'),
+        ];
     }
 }
