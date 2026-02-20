@@ -32,7 +32,7 @@
             <!-- Slide 2: Kilimanjaro -->
             <div class="swiper-slide relative flex items-center">
                 <div class="absolute inset-0 z-0">
-                    <img src="https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766324377/7-Days-Mount-Kilimanjaro-Climb-Lemosho-Route-2.webp.bv.webp" alt="Kilimanjaro" class="w-full h-full object-cover">
+                    <img src="https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766046350/kilimanjaro-climbing_bvcs7p.jpg" alt="Kilimanjaro" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent"></div>
                 </div>
                 <div class="relative z-10 max-w-7xl mx-auto px-6 w-full pt-20">
@@ -62,13 +62,70 @@
                     <div class="max-w-2xl translate-y-10 opacity-0 transition-all duration-1000 slide-content">
                         <span class="inline-block px-4 py-1.5 bg-emerald-600/20 text-emerald-400 rounded-full text-xs font-bold tracking-widest uppercase mb-6 border border-emerald-600/30">Natural Wonders</span>
                         <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif text-white mb-8 leading-[1.1] md:whitespace-nowrap">Visit the <span class="text-emerald-500">Garden of Eden</span></h1>
-                        <p class="text-xl text-slate-200 mb-12 leading-relaxed">Explore the Ngorongoro Crater, a UNESCO World Heritage site and home to the highest density of big game in Africa.</p>
+                        <p class="text-xl text-slate-200 mb-12 leading-relaxed">Explore the Ngorongoro Crater, home to the highest density of big game in Africa.</p>
                         <div class="flex flex-col sm:flex-row items-center gap-4">
                             <a href="/tours" class="w-full sm:w-auto px-10 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 shadow-xl shadow-emerald-600/30 transition-all text-center">
                                 Discover the Crater
                             </a>
-                            <a href="#" class="w-full sm:w-auto px-10 py-4 bg-white/10 text-white font-bold rounded-full border border-white/20 hover:bg-white/20 transition-all text-center backdrop-blur-md flex items-center justify-center gap-2 group">
-                                <i class="ph-fill ph-play-circle text-2xl group-hover:scale-110 transition-transform"></i> Watch Film
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Tarangire -->
+            <div class="swiper-slide relative flex items-center">
+                <div class="absolute inset-0 z-0">
+                    <img src="https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766046154/Angata-Tarangire-2-1-1536x863_amthnm.jpg" alt="Tarangire" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent"></div>
+                </div>
+                <div class="relative z-10 max-w-7xl mx-auto px-6 w-full pt-20">
+                    <div class="max-w-2xl translate-y-10 opacity-0 transition-all duration-1000 slide-content">
+                        <span class="inline-block px-4 py-1.5 bg-emerald-600/20 text-emerald-400 rounded-full text-xs font-bold tracking-widest uppercase mb-6 border border-emerald-600/30">Land of Giants</span>
+                        <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif text-white mb-8 leading-[1.1] md:whitespace-nowrap">Tarangire's <span class="text-emerald-500">Baobab Forests</span></h1>
+                        <p class="text-xl text-slate-200 mb-12 leading-relaxed">Walk among ancient giants and massive elephant herds in one of Tanzania's most unique national parks.</p>
+                        <div class="flex flex-col sm:flex-row items-center gap-4">
+                            <a href="/tours" class="w-full sm:w-auto px-10 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 shadow-xl shadow-emerald-600/30 transition-all text-center">
+                                View Tarangire Tours
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Culture -->
+            <div class="swiper-slide relative flex items-center">
+                <div class="absolute inset-0 z-0">
+                    <img src="https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766046195/hadzabe_qgukhh.jpg" alt="Hadzabe" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent"></div>
+                </div>
+                <div class="relative z-10 max-w-7xl mx-auto px-6 w-full pt-20">
+                    <div class="max-w-2xl translate-y-10 opacity-0 transition-all duration-1000 slide-content">
+                        <span class="inline-block px-4 py-1.5 bg-emerald-600/20 text-emerald-400 rounded-full text-xs font-bold tracking-widest uppercase mb-6 border border-emerald-600/30">Human Heritage</span>
+                        <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif text-white mb-8 leading-[1.1] md:whitespace-nowrap">The <span class="text-emerald-500">Hadzabe Tribe</span></h1>
+                        <p class="text-xl text-slate-200 mb-12 leading-relaxed">Experience an authentic encounter with one of the last true hunter-gatherer tribes on Earth.</p>
+                        <div class="flex flex-col sm:flex-row items-center gap-4">
+                            <a href="/tours" class="w-full sm:w-auto px-10 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 transition-all text-center">
+                                Cultural Expeditions
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Elephants -->
+            <div class="swiper-slide relative flex items-center">
+                <div class="absolute inset-0 z-0">
+                    <img src="https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766324498/long-range-shot-elephants-walking-grassy-field-near-trees_inlucz.jpg" alt="Elephants" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent"></div>
+                </div>
+                <div class="relative z-10 max-w-7xl mx-auto px-6 w-full pt-20">
+                    <div class="max-w-2xl translate-y-10 opacity-0 transition-all duration-1000 slide-content">
+                        <span class="inline-block px-4 py-1.5 bg-emerald-600/20 text-emerald-400 rounded-full text-xs font-bold tracking-widest uppercase mb-6 border border-emerald-600/30">Majestic Wildlife</span>
+                        <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif text-white mb-8 leading-[1.1] md:whitespace-nowrap">Wild <span class="text-emerald-500">Elephant Safaris</span></h1>
+                        <p class="text-xl text-slate-200 mb-12 leading-relaxed">Follow the footsteps of these majestic creatures across the golden savannahs of Northern Tanzania.</p>
+                        <div class="flex flex-col sm:sm:flex-row items-center gap-4">
+                            <a href="/tours" class="w-full sm:w-auto px-10 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 transition-all text-center">
+                                Start Your Journey
                             </a>
                         </div>
                     </div>
