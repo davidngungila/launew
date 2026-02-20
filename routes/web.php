@@ -96,5 +96,11 @@ Route::get('/pay-with-flutterwave/{id}', [App\Http\Controllers\FlutterwaveContro
 Route::get('/flutterwave/get-link/{id}', [App\Http\Controllers\FlutterwaveController::class, 'getLink'])->name('flutterwave.get-link');
 Route::get('/flutterwave/callback', [App\Http\Controllers\FlutterwaveController::class, 'callback'])->name('flutterwave.callback');
 
+// Sitemap
+Route::get('/sitemap.xml', function () {
+    $tours = Tour::where('status', 'active')->get();
+    return response()->view('sitemap', compact('tours'))->header('Content-Type', 'text/xml');
+});
+
 // Stripe Webhook
 Route::post('/stripe/webhook', [App\Http\Controllers\WebhookController::class, 'handle']);

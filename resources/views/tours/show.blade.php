@@ -1,5 +1,52 @@
 @extends('layouts.public')
 
+@section('title', $tour->name . ' | LAU Paradise Adventure')
+@section('meta_description', Str::limit(strip_tags($tour->description), 155))
+@php 
+    $images = json_decode($tour->images, true) ?? [];
+    $firstImage = $images[0] ?? asset('lau-adventuress-logo.png');
+@endphp
+@section('og_image', $firstImage)
+
+@section('structured_data')
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "{{ $tour->name }}",
+    "description": "{{ strip_tags($tour->description) }}",
+    "image": "{{ $firstImage }}",
+    "offers": {
+        "@type": "Offer",
+        "url": "{{ url()->current() }}",
+        "priceCurrency": "USD",
+        "price": "{{ $tour->base_price }}",
+        "availability": "https://schema.org/InStock"
+    }
+},
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "{{ url('/') }}"
+    },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Safari Packages",
+        "item": "{{ route('tours.index') }}"
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "{{ $tour->name }}",
+        "item": "{{ url()->current() }}"
+    }]
+}
+</script>
+@endsection
+
 @section('content')
 <!-- Tour Header & Gallery -->
 <section class="pt-32 pb-12 bg-white">

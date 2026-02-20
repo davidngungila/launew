@@ -1,6 +1,28 @@
 @extends('layouts.public')
 
-@section('content')
+@section('title', 'Tanzania Safari Packages & Kilimanjaro Climbs | LAU Paradise Adventure')
+@section('meta_description', 'Discover our wide range of Tanzania safari packages, including Serengeti, Ngorongoro, Kilimanjaro climbs, and Zanzibar holidays. Book your adventure with local experts.')
+@section('meta_keywords', 'Safari Packages Tanzania, Serengeti Migration Tours, Kilimanjaro Routes, Zanzibar Beach Holidays, Tanzania Tour Operator')
+
+@section('structured_data')
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "{{ url('/') }}"
+    },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Safari Packages",
+        "item": "{{ url()->current() }}"
+    }]
+}
+</script>
+@endsection
 <!-- Page Header -->
 <section class="relative pt-40 pb-20 bg-slate-900 overflow-hidden">
     <div class="absolute inset-0 z-0">

@@ -1,5 +1,10 @@
 @extends('layouts.public')
 
+@section('title', 'LAU Paradise Adventure | Best Tanzania Safaris & Kilimanjaro Climbing')
+@section('meta_description', 'Experience the best Tanzania safaris, Serengeti Great Migration, Kilimanjaro climbing, and Zanzibar holidays with the most trusted local experts. Plan your bespoke African safari today.')
+@section('meta_keywords', 'Tanzania Safari, Moshi Safari Company, Best Kilimanjaro Guides, Serengeti Tours, Luxury Tanzania Safaris, Arusha Safari')
+@section('og_image', 'https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766042771/8-Days-Tanzania-holiday-Wildebeest-migration-1536x1018_gyndkw.jpg')
+
 @section('content')
 <!-- Hero Slider -->
 <section class="relative h-screen overflow-hidden">
@@ -298,6 +303,94 @@
         </div>
     </div>
 </section>
+
+<!-- Reviews Section -->
+<section class="py-24 bg-slate-50 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <span class="text-emerald-600 font-bold uppercase tracking-[0.3em] text-xs">Guest Experiences</span>
+            <h2 class="text-4xl md:text-5xl font-serif text-slate-900 mt-4 font-bold">What Our Explorers Say</h2>
+        </div>
+
+        <div class="swiper reviewSwiper pb-12">
+            <div class="swiper-wrapper">
+                <!-- Review 1 -->
+                <div class="swiper-slide h-auto">
+                    <div class="bg-white p-10 rounded-[2.5rem] shadow-xl border border-slate-100 flex flex-col h-full hover:-translate-y-2 transition-transform duration-500">
+                        <div class="flex gap-1 text-amber-400 mb-6 font-bold">
+                            <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                        </div>
+                        <p class="text-slate-600 italic leading-relaxed mb-8 flex-grow font-medium">"Our 8-day Serengeti migration safari was beyond words. The attention to detail and knowledge of our guide from LAU Paradise made every moment magical. We saw the big five in just two days!"</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-2xl bg-slate-100 overflow-hidden">
+                                <img src="https://i.pravatar.cc/150?u=sarah" alt="Sarah J." class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900">Sarah Jenkins</h4>
+                                <span class="text-slate-400 text-xs font-bold uppercase tracking-widest">London, UK</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="swiper-slide h-auto">
+                    <div class="bg-white p-10 rounded-[2.5rem] shadow-xl border border-slate-100 flex flex-col h-full hover:-translate-y-2 transition-transform duration-500">
+                        <div class="flex gap-1 text-amber-400 mb-6 font-bold">
+                            <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                        </div>
+                        <p class="text-slate-600 italic leading-relaxed mb-8 flex-grow font-medium">"Summitting Kilimanjaro via the Lemosho route was the toughest and most rewarding thing I've ever done. The LAU team was incredible—safety, food, and encouragement were top notch."</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-2xl bg-slate-100 overflow-hidden">
+                                <img src="https://i.pravatar.cc/150?u=mark" alt="Mark T." class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900">Mark Thompson</h4>
+                                <span class="text-slate-400 text-xs font-bold uppercase tracking-widest">Munich, Germany</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="swiper-slide h-auto">
+                    <div class="bg-white p-10 rounded-[2.5rem] shadow-xl border border-slate-100 flex flex-col h-full hover:-translate-y-2 transition-transform duration-500">
+                        <div class="flex gap-1 text-amber-400 mb-6 font-bold">
+                            <i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i>
+                        </div>
+                        <p class="text-slate-600 italic leading-relaxed mb-8 flex-grow font-medium">"Everything was perfectly organized from airport pickup to our Zanzibar resort. Professional, reliable, and authentic. Highly recommend for anyone visiting East Africa."</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-2xl bg-slate-100 overflow-hidden">
+                                <img src="https://i.pravatar.cc/150?u=elena" alt="Elena V." class="w-full h-full object-cover">
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900">Elena Volkov</h4>
+                                <span class="text-slate-400 text-xs font-bold uppercase tracking-widest">Toronto, CA</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-pagination !-bottom-2"></div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        new Swiper(".reviewSwiper", {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            autoplay: { delay: 5000 },
+            pagination: { el: ".swiper-pagination", clickable: true },
+            breakpoints: {
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 }
+            }
+        });
+    });
+</script>
 
 <!-- Call to Action -->
 <section class="py-24 bg-emerald-600">

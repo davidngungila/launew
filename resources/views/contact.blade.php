@@ -1,5 +1,8 @@
 @extends('layouts.public')
 
+@section('title', 'Contact Us | LAU Paradise Adventure | Start Planning Your Safari')
+@section('meta_description', 'Have questions about your Tanzania safari? Get in touch with LAU Paradise Adventure. Our safari experts are ready to help you plan your dream African expedition.')
+
 @section('content')
 <div class="pt-24">
     <!-- Hero Section -->
