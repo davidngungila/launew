@@ -12,13 +12,23 @@ class Tour extends Model
 
     protected $fillable = [
         'name', 'slug', 'description', 'location', 'duration_days', 
-        'base_price', 'images', 'inclusions', 'exclusions', 'featured', 'status'
+        'base_price', 'international_price_min', 'international_price_max',
+        'best_season',
+        'images', 'inclusions', 'exclusions',
+        'package_destinations', 'target_markets',
+        'interactive_features', 'addons', 'conversion_triggers',
+        'featured', 'status'
     ];
 
     protected $casts = [
         'images' => 'array',
         'inclusions' => 'array',
         'exclusions' => 'array',
+        'package_destinations' => 'array',
+        'target_markets' => 'array',
+        'interactive_features' => 'array',
+        'addons' => 'array',
+        'conversion_triggers' => 'array',
         'featured' => 'boolean',
     ];
 

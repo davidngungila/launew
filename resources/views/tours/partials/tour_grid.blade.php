@@ -4,7 +4,7 @@
         @forelse ($tours as $tour)
         <div class="group bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-slate-100">
             <div class="relative h-64 overflow-hidden">
-                @php $images = json_decode($tour->images, true) ?? []; @endphp
+                @php $images = $tour->images ?? []; @endphp
                 <img src="{{ $images[0] ?? 'https://images.unsplash.com/photo-1516426122078-c23e76319801' }}?auto=format&fit=crop&w=800&q=80" alt="{{ $tour->name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                 <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-md p-2 rounded-full text-emerald-500 shadow-sm">
                     <i class="ph-bold ph-heart text-xl"></i>

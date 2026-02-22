@@ -26,7 +26,7 @@
         </div>
         
         <!-- Gallery Grid -->
-        @php $images = json_decode($tour->images, true) ?? []; @endphp
+        @php $images = $tour->images ?? []; @endphp
         <div class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-4 h-[600px] rounded-[2.5rem] overflow-hidden shadow-2xl">
             <div class="md:col-span-2 md:row-span-2 relative group cursor-pointer">
                 <img src="{{ $images[0] ?? 'https://images.unsplash.com/photo-1516426122078-c23e76319801' }}?auto=format&fit=crop&w=1200&q=80" alt="{{ $tour->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
@@ -95,8 +95,8 @@
 
                 <!-- Inclusions / Exclusions -->
                 @php 
-                    $inclusions = json_decode($tour->inclusions, true) ?? [];
-                    $exclusions = json_decode($tour->exclusions, true) ?? [];
+                    $inclusions = $tour->inclusions ?? [];
+                    $exclusions = $tour->exclusions ?? [];
                 @endphp
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
                     <div>
@@ -114,6 +114,103 @@
                             <li class="flex items-center gap-3 text-slate-600 text-sm"><i class="ph-fill ph-x-circle text-rose-400 text-lg"></i> {{ $exc }}</li>
                             @endforeach
                         </ul>
+                    </div>
+                </div>
+
+                @php
+                    $packageDestinations = $tour->package_destinations ?? [];
+                    $targetMarkets = $tour->target_markets ?? [];
+                    $interactiveFeatures = $tour->interactive_features ?? [];
+                    $addons = $tour->addons ?? [];
+                    $conversionTriggers = $tour->conversion_triggers ?? [];
+                @endphp
+
+                <div class="mb-16">
+                    <h2 class="text-3xl font-serif font-bold text-slate-900 mb-8">Each package includes:</h2>
+                    <div class="bg-slate-50 rounded-[3rem] p-10 md:p-14 border border-slate-100">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-900 mb-4 font-serif">Destinations</h3>
+                                <div class="flex flex-wrap gap-2">
+                                    @forelse($packageDestinations as $dest)
+                                        @php $label = is_array($dest) ? ($dest['label'] ?? null) : $dest; @endphp
+                                        @if($label)
+                                            <span class="bg-white px-4 py-2 rounded-2xl text-xs font-bold text-slate-600 border border-slate-100">{{ $label }}</span>
+                                        @endif
+                                    @empty
+                                        <span class="text-slate-400 text-sm font-medium italic">Not specified</span>
+                                    @endforelse
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div class="bg-white rounded-[2rem] p-6 border border-slate-100">
+                                    <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Target market</div>
+                                    <div class="text-sm font-bold text-slate-900">
+                                        {{ empty($targetMarkets) ? 'Not specified' : implode(', ', $targetMarkets) }}
+                                    </div>
+                                </div>
+                                <div class="bg-white rounded-[2rem] p-6 border border-slate-100">
+                                    <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Duration</div>
+                                    <div class="text-sm font-bold text-slate-900">{{ $tour->duration_days }} Days</div>
+                                </div>
+                                <div class="bg-white rounded-[2rem] p-6 border border-slate-100">
+                                    <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Price range (International market)</div>
+                                    <div class="text-sm font-bold text-slate-900">
+                                        @if(!is_null($tour->international_price_min) && !is_null($tour->international_price_max))
+                                            ${{ number_format($tour->international_price_min) }} – ${{ number_format($tour->international_price_max) }}
+                                        @else
+                                            Not specified
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="bg-white rounded-[2rem] p-6 border border-slate-100">
+                                    <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Best season</div>
+                                    <div class="text-sm font-bold text-slate-900">{{ $tour->best_season ?: 'Not specified' }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-12">
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-900 mb-4 font-serif">Interactive features</h3>
+                                <ul class="space-y-3">
+                                    @forelse($interactiveFeatures as $feature)
+                                        <li class="flex items-start gap-3 text-slate-600 text-sm"><i class="ph-fill ph-sparkle text-emerald-500 text-lg mt-0.5"></i> <span>{{ $feature }}</span></li>
+                                    @empty
+                                        <li class="text-slate-400 text-sm font-medium italic">Not specified</li>
+                                    @endforelse
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-900 mb-4 font-serif">Add-ons</h3>
+                                <ul class="space-y-3">
+                                    @forelse($addons as $addon)
+                                        <li class="flex items-start gap-3 text-slate-600 text-sm"><i class="ph-fill ph-plus-circle text-emerald-500 text-lg mt-0.5"></i> <span>{{ $addon }}</span></li>
+                                    @empty
+                                        <li class="text-slate-400 text-sm font-medium italic">Not specified</li>
+                                    @endforelse
+                                </ul>
+                            </div>
+                        </div>
+
+                        @if(!empty($conversionTriggers))
+                            <div class="mt-12">
+                                <div class="p-8 bg-emerald-50 rounded-[2.5rem] border border-emerald-100">
+                                    <div class="flex items-center gap-3 mb-4">
+                                        <div class="w-10 h-10 rounded-2xl bg-white text-emerald-600 flex items-center justify-center shadow-sm">
+                                            <i class="ph ph-lightning"></i>
+                                        </div>
+                                        <h3 class="text-lg font-black text-slate-900 font-serif">Conversion triggers</h3>
+                                    </div>
+                                    <ul class="space-y-2">
+                                        @foreach($conversionTriggers as $trigger)
+                                            <li class="text-sm font-bold text-emerald-900">{{ $trigger }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
 
