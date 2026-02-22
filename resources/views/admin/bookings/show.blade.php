@@ -23,10 +23,10 @@
                 <i class="ph-bold ph-envelope-simple text-lg"></i>
                 Send Itinerary
             </button>
-            <button class="px-6 py-4 bg-white border border-slate-100 text-slate-600 font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-slate-50 transition-all shadow-sm flex items-center gap-3">
+            <a href="{{ route('bookings.invoice', $booking->id) }}" target="_blank" class="px-6 py-4 bg-white border border-slate-100 text-slate-600 font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-slate-50 transition-all shadow-sm flex items-center gap-3">
                 <i class="ph-bold ph-printer text-lg"></i>
                 Voucher PDF
-            </button>
+            </a>
             <div class="h-10 w-px bg-slate-200 mx-2"></div>
             <button class="px-8 py-4 bg-slate-900 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/10 flex items-center gap-3">
                 <i class="ph-bold ph-pencil-simple text-lg text-emerald-400"></i>

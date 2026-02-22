@@ -13,10 +13,10 @@
                 <i class="ph ph-calendar"></i>
                 Feb 19 - Feb 26
             </button>
-            <button class="px-5 py-2.5 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2">
+            <a href="{{ route('admin.bookings.create') }}" class="px-5 py-2.5 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2">
                 <i class="ph ph-plus"></i>
                 Create Booking
-            </button>
+            </a>
         </div>
     </div>
 
@@ -33,7 +33,7 @@
                 </div>
             </div>
             <p class="text-xs font-black text-slate-400 uppercase tracking-[0.15em] mb-1">Total Bookings</p>
-            <h3 class="text-3xl font-black text-slate-900 tracking-tight">1,284</h3>
+            <h3 class="text-3xl font-black text-slate-900 tracking-tight">{{ number_format($stats['total_bookings'] ?? 0) }}</h3>
             <div class="mt-4 w-full h-1 bg-slate-50 rounded-full overflow-hidden">
                 <div class="h-full bg-emerald-500 w-[70%]"></div>
             </div>
@@ -50,7 +50,7 @@
                 </div>
             </div>
             <p class="text-xs font-black text-slate-400 uppercase tracking-[0.15em] mb-1">Revenue (USD)</p>
-            <h3 class="text-3xl font-black text-slate-900 tracking-tight">$42,500</h3>
+            <h3 class="text-3xl font-black text-slate-900 tracking-tight">${{ number_format($stats['revenue_total'] ?? 0) }}</h3>
             <div class="mt-4 w-full h-1 bg-slate-50 rounded-full overflow-hidden">
                 <div class="h-full bg-blue-500 w-[85%]"></div>
             </div>
@@ -67,7 +67,7 @@
                 </div>
             </div>
             <p class="text-xs font-black text-slate-400 uppercase tracking-[0.15em] mb-1">Active Customers</p>
-            <h3 class="text-3xl font-black text-slate-900 tracking-tight">856</h3>
+            <h3 class="text-3xl font-black text-slate-900 tracking-tight">{{ number_format($stats['active_customers'] ?? 0) }}</h3>
             <div class="mt-4 w-full h-1 bg-slate-50 rounded-full overflow-hidden">
                 <div class="h-full bg-purple-500 w-[60%]"></div>
             </div>
@@ -84,7 +84,7 @@
                 </div>
             </div>
             <p class="text-xs font-black text-slate-400 uppercase tracking-[0.15em] mb-1">Active Packages</p>
-            <h3 class="text-3xl font-black text-slate-900 tracking-tight">24</h3>
+            <h3 class="text-3xl font-black text-slate-900 tracking-tight">{{ number_format($stats['active_packages'] ?? 0) }}</h3>
             <div class="mt-4 w-full h-1 bg-slate-50 rounded-full overflow-hidden">
                 <div class="h-full bg-orange-500 w-[45%]"></div>
             </div>
@@ -100,7 +100,7 @@
                         <h3 class="text-xl font-black text-slate-900 tracking-tight">Recent Bookings</h3>
                         <p class="text-xs text-slate-500 font-medium mt-1">Showing latest activity from your customers</p>
                     </div>
-                    <a href="#" class="text-xs font-black text-emerald-600 uppercase tracking-widest hover:text-emerald-700">View All Bookings</a>
+                    <a href="{{ route('admin.bookings.index') }}" class="text-xs font-black text-emerald-600 uppercase tracking-widest hover:text-emerald-700">View All Bookings</a>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left">
@@ -113,33 +113,47 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-50">
-                            @foreach([
-                                ['name' => 'John Smith', 'avatar' => 'JS', 'tour' => 'Serengeti Classic', 'date' => 'Oct 12, 2026', 'amount' => '$2,400', 'status' => 'Confirmed', 'color' => 'emerald'],
-                                ['name' => 'Sarah Jones', 'avatar' => 'SJ', 'tour' => 'Mount Kilimanjaro Trek', 'date' => 'Oct 15, 2026', 'amount' => '$1,850', 'status' => 'Pending', 'color' => 'orange'],
-                                ['name' => 'Michael Brown', 'avatar' => 'MB', 'tour' => 'Ngorongoro Day Trip', 'date' => 'Oct 18, 2026', 'amount' => '$950', 'status' => 'Confirmed', 'color' => 'emerald'],
-                                ['name' => 'Emma Wilson', 'avatar' => 'EW', 'tour' => 'Zanzibar Escape', 'date' => 'Oct 20, 2026', 'amount' => '$3,200', 'status' => 'Cancelled', 'color' => 'red']
-                            ] as $booking)
-                            <tr class="hover:bg-slate-50/50 transition-colors group cursor-pointer">
+                            @php
+                                $statusColor = fn($s) => match(strtolower((string) $s)) {
+                                    'confirmed' => 'emerald',
+                                    'pending' => 'orange',
+                                    'cancelled' => 'red',
+                                    'completed' => 'blue',
+                                    default => 'slate',
+                                };
+                            @endphp
+
+                            @forelse(($recentBookings ?? []) as $b)
+                            @php
+                                $initials = collect(explode(' ', trim((string) $b->customer_name)))->filter()->map(fn($p) => strtoupper(mb_substr($p, 0, 1)))->take(2)->implode('');
+                                $tourName = $b->tour->name ?? 'Safari';
+                                $color = $statusColor($b->status);
+                            @endphp
+                            <tr class="hover:bg-slate-50/50 transition-colors group cursor-pointer" onclick="window.location='{{ route('admin.bookings.show', $b->id) }}'">
                                 <td class="px-8 py-5">
                                     <div class="flex items-center gap-3">
                                         <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-500 font-black text-xs group-hover:bg-white group-hover:shadow-md transition-all">
-                                            {{ $booking['avatar'] }}
+                                            {{ $initials ?: 'BK' }}
                                         </div>
-                                        <span class="text-sm font-bold text-slate-900">{{ $booking['name'] }}</span>
+                                        <span class="text-sm font-bold text-slate-900">{{ $b->customer_name }}</span>
                                     </div>
                                 </td>
                                 <td class="px-8 py-5">
-                                    <p class="text-sm font-bold text-slate-800">{{ $booking['tour'] }}</p>
-                                    <p class="text-[10px] text-slate-400 font-medium uppercase tracking-wider">{{ $booking['date'] }}</p>
+                                    <p class="text-sm font-bold text-slate-800">{{ $tourName }}</p>
+                                    <p class="text-[10px] text-slate-400 font-medium uppercase tracking-wider">{{ $b->start_date ? date('M d, Y', strtotime($b->start_date)) : 'N/A' }}</p>
                                 </td>
-                                <td class="px-8 py-5 font-black text-slate-900 text-sm">{{ $booking['amount'] }}</td>
+                                <td class="px-8 py-5 font-black text-slate-900 text-sm">${{ number_format($b->total_price ?? 0, 0) }}</td>
                                 <td class="px-8 py-5 text-right">
-                                    <span class="inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-{{ $booking['color'] }}-100 text-{{ $booking['color'] }}-600">
-                                        {{ $booking['status'] }}
+                                    <span class="inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-{{ $color }}-100 text-{{ $color }}-600">
+                                        {{ ucfirst($b->status) }}
                                     </span>
                                 </td>
                             </tr>
-                            @endforeach
+                            @empty
+                            <tr>
+                                <td class="px-8 py-8 text-center text-slate-400 font-bold" colspan="4">No bookings found yet.</td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -155,24 +169,23 @@
                     <span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest bg-emerald-50 px-2 py-1 rounded-lg">Next 7 Days</span>
                 </div>
                 <div class="space-y-6">
-                    @foreach([
-                        ['day' => '12', 'mon' => 'Oct', 'title' => 'Serengeti Classic', 'guide' => 'Peter M.'],
-                        ['day' => '15', 'mon' => 'Oct', 'title' => 'Kili Machame Route', 'guide' => 'David K.']
-                    ] as $trip)
+                    @forelse(($upcomingBookings ?? []) as $trip)
                     <div class="flex items-center gap-4 group cursor-pointer">
                         <div class="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col items-center justify-center transition-colors group-hover:bg-emerald-50 group-hover:border-emerald-100">
-                            <span class="text-[10px] font-black text-slate-400 uppercase leading-none group-hover:text-emerald-400">{{ $trip['mon'] }}</span>
-                            <span class="text-xl font-black text-slate-900 leading-none mt-1 group-hover:text-emerald-600">{{ $trip['day'] }}</span>
+                            <span class="text-[10px] font-black text-slate-400 uppercase leading-none group-hover:text-emerald-400">{{ $trip->start_date ? date('M', strtotime($trip->start_date)) : 'N/A' }}</span>
+                            <span class="text-xl font-black text-slate-900 leading-none mt-1 group-hover:text-emerald-600">{{ $trip->start_date ? date('d', strtotime($trip->start_date)) : '--' }}</span>
                         </div>
                         <div>
-                            <h4 class="text-sm font-black text-slate-900 leading-tight">{{ $trip['title'] }}</h4>
+                            <h4 class="text-sm font-black text-slate-900 leading-tight">{{ $trip->tour->name ?? 'Safari' }}</h4>
                             <p class="text-xs text-slate-500 font-medium mt-1 inline-flex items-center gap-1">
-                                <i class="ph ph-user-circle"></i> Guide: {{ $trip['guide'] }}
+                                <i class="ph ph-user-circle"></i> Customer: {{ $trip->customer_name }}
                             </p>
                         </div>
                         <i class="ph ph-caret-right text-slate-300 ml-auto group-hover:text-emerald-500 transition-colors"></i>
                     </div>
-                    @endforeach
+                    @empty
+                    <div class="text-sm font-bold text-slate-400">No upcoming trips yet.</div>
+                    @endforelse
                 </div>
                 <button class="w-full mt-10 py-4 border border-slate-200 text-xs font-black text-slate-500 uppercase tracking-widest rounded-2xl hover:bg-slate-50 transition-all">
                     View Full Schedule

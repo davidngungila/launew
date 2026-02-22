@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\TourController;
 use App\Http\Controllers\Public\TourController as PublicTourController;
 use App\Http\Controllers\Public\BookingController as PublicBookingController;
+use App\Http\Controllers\Admin\ExpenseController;
 
 Route::get('/', [PublicTourController::class, 'home'])->name('home');
 
@@ -66,7 +67,12 @@ Route::get('/bookings/{id}/invoice', [PublicBookingController::class, 'downloadI
 
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('tours', TourController::class);
+    Route::resource('tours', TourController::class)->whereNumber('tour');
+
+    // Tours & Packages Subpages
+    Route::get('/tours/itinerary-builder', function () { return view('admin.tours.itinerary-builder'); })->name('tours.itinerary-builder');
+    Route::get('/tours/availability-pricing', function () { return view('admin.tours.availability-pricing'); })->name('tours.availability-pricing');
+    Route::get('/tours/destinations', function () { return view('admin.tours.destinations'); })->name('tours.destinations');
     
     // CRM & Sales
     Route::get('/bookings', [App\Http\Controllers\Admin\BookingController::class, 'index'])->name('bookings.index');
@@ -78,6 +84,24 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/bookings/{id}', [App\Http\Controllers\Admin\BookingController::class, 'show'])->name('bookings.show');
     Route::post('/bookings/{id}/verify-payment', [App\Http\Controllers\Admin\BookingController::class, 'verifyPayment'])->name('bookings.verify-payment');
     Route::get('/quotations', function() { return view('admin.quotations.index'); })->name('quotations.index');
+    Route::get('/quotations/create', function() { return view('admin.quotations.create'); })->name('quotations.create');
+    Route::get('/quotations/accepted', function() { return view('admin.quotations.accepted'); })->name('quotations.accepted');
+    Route::get('/quotations/export-pdf', function () {
+        $quotes = [
+            ['id' => 'QT-2026-001', 'client' => 'Marcus Aurelius', 'brief' => '8 Days Northern Circuit Premium', 'val' => '$12,400', 'status' => 'Sent'],
+            ['id' => 'QT-2026-002', 'client' => 'Lucius Vorenus', 'brief' => '3 Days Serengeti Balloon Safari', 'val' => '$4,200', 'status' => 'Converted'],
+            ['id' => 'QT-2026-003', 'client' => 'Julius Caesar', 'brief' => '14 Days Luxury Tanzania & Zanzibar', 'val' => '$32,500', 'status' => 'Draft'],
+            ['id' => 'QT-2026-004', 'client' => 'Cleopatra VII', 'brief' => '5 Days Kili Marangu Route', 'val' => '$2,800', 'status' => 'Expired'],
+        ];
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.quotations', [
+            'quotes' => $quotes,
+            'generatedAt' => now(),
+            'generatedBy' => auth()->user(),
+        ]);
+
+        return $pdf->download('Quotations_' . now()->format('Ymd_His') . '.pdf');
+    })->name('quotations.export-pdf');
     Route::get('/customers', function() { return view('admin.customers.index'); })->name('customers.index');
     
     // Inventory & Logistics
@@ -86,6 +110,16 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     
     // Finance & Analytics
     Route::get('/finance', function() { return view('admin.finance.index'); })->name('finance.index');
+    Route::get('/finance/payments-received', function() { return view('admin.finance.payments-received'); })->name('finance.payments-received');
+    Route::get('/finance/generated-invoices', function() { return view('admin.finance.generated-invoices'); })->name('finance.generated-invoices');
+    Route::get('/finance/expense-tracking', function() { return view('admin.finance.expense-tracking'); })->name('finance.expense-tracking');
+    Route::get('/finance/expenses', [ExpenseController::class, 'index'])->name('finance.expenses.index');
+    Route::get('/finance/expenses/create', [ExpenseController::class, 'create'])->name('finance.expenses.create');
+    Route::post('/finance/expenses', [ExpenseController::class, 'store'])->name('finance.expenses.store');
+    Route::get('/finance/expenses/{expense}/edit', [ExpenseController::class, 'edit'])->whereNumber('expense')->name('finance.expenses.edit');
+    Route::put('/finance/expenses/{expense}', [ExpenseController::class, 'update'])->whereNumber('expense')->name('finance.expenses.update');
+    Route::delete('/finance/expenses/{expense}', [ExpenseController::class, 'destroy'])->whereNumber('expense')->name('finance.expenses.destroy');
+    Route::get('/finance/revenue-reports', function() { return view('admin.finance.revenue-reports'); })->name('finance.revenue-reports');
     Route::get('/statistics', function() { return view('admin.statistics.index'); })->name('statistics.index');
     
     // System & Content

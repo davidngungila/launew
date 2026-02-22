@@ -97,8 +97,8 @@
                 </button>
                 <div x-show="open" x-collapse class="pl-12 pr-4 py-2 space-y-1">
                     <a href="{{ route('admin.quotations.index') }}" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors">All Quotations</a>
-                    <a href="#" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors">Create New</a>
-                    <a href="#" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors">Accepted</a>
+                    <a href="{{ route('admin.quotations.create') }}" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors">Create New</a>
+                    <a href="{{ route('admin.quotations.accepted') }}" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors">Accepted</a>
                 </div>
             </div>
             @endif
@@ -137,9 +137,9 @@
                 <div x-show="open" x-collapse class="pl-12 pr-4 py-2 space-y-1">
                     <a href="{{ route('admin.tours.index') }}" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors {{ request()->routeIs('admin.tours.index') ? 'text-emerald-400 font-bold' : '' }}">All Packages</a>
                     <a href="{{ route('admin.tours.create') }}" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors {{ request()->routeIs('admin.tours.create') ? 'text-emerald-400 font-bold' : '' }}">Add New Tour</a>
-                    <a href="#" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors">Itinerary Builder</a>
-                    <a href="#" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors">Availability & Pricing</a>
-                    <a href="#" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors">Destinations</a>
+                    <a href="{{ route('admin.tours.itinerary-builder') }}" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors {{ request()->routeIs('admin.tours.itinerary-builder') ? 'text-emerald-400 font-bold' : '' }}">Itinerary Builder</a>
+                    <a href="{{ route('admin.tours.availability-pricing') }}" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors {{ request()->routeIs('admin.tours.availability-pricing') ? 'text-emerald-400 font-bold' : '' }}">Availability & Pricing</a>
+                    <a href="{{ route('admin.tours.destinations') }}" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors {{ request()->routeIs('admin.tours.destinations') ? 'text-emerald-400 font-bold' : '' }}">Destinations</a>
                 </div>
             </div>
             @endif
@@ -194,10 +194,10 @@
                     <i class="ph ph-caret-down text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
                 </button>
                 <div x-show="open" x-collapse class="pl-12 pr-4 py-2 space-y-1">
-                    <a href="{{ route('admin.finance.index') }}" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors">Payments Recieved</a>
-                    <a href="#" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors">Generated Invoices</a>
-                    <a href="#" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors">Expense Tracking</a>
-                    <a href="#" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors">Revenue Reports</a>
+                    <a href="{{ route('admin.finance.payments-received') }}" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors {{ request()->routeIs('admin.finance.payments-received') ? 'text-emerald-400 font-bold' : '' }}">Payments Received</a>
+                    <a href="{{ route('admin.finance.generated-invoices') }}" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors {{ request()->routeIs('admin.finance.generated-invoices') ? 'text-emerald-400 font-bold' : '' }}">Generated Invoices</a>
+                    <a href="{{ route('admin.finance.expense-tracking') }}" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors {{ request()->routeIs('admin.finance.expense-tracking') ? 'text-emerald-400 font-bold' : '' }}">Expense Tracking</a>
+                    <a href="{{ route('admin.finance.revenue-reports') }}" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors {{ request()->routeIs('admin.finance.revenue-reports') ? 'text-emerald-400 font-bold' : '' }}">Revenue Reports</a>
                 </div>
             </div>
             @endif

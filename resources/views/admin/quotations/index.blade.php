@@ -9,14 +9,14 @@
             <p class="text-slate-500 font-medium">Draft and manage custom Safari itineraries for your clients</p>
         </div>
         <div class="flex items-center gap-3">
-            <button class="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm flex items-center gap-2">
-                <i class="ph ph-file-arrow-down"></i>
-                Import Inquiry
-            </button>
-            <button class="px-5 py-2.5 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2">
+            <a href="{{ route('admin.quotations.export-pdf') }}" class="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm flex items-center gap-2">
+                <i class="ph ph-file-pdf"></i>
+                Export PDF
+            </a>
+            <a href="{{ route('admin.quotations.create') }}" class="px-5 py-2.5 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2">
                 <i class="ph ph-plus"></i>
                 Create Quotation
-            </button>
+            </a>
         </div>
     </div>
 
