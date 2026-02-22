@@ -34,6 +34,18 @@ Route::get('/kilimanjaro', function () {
     return view('kilimanjaro');
 })->name('kilimanjaro');
 
+Route::prefix('regions')->name('regions.')->group(function () {
+    Route::get('/serengeti', function () { return view('regions.serengeti'); })->name('serengeti');
+    Route::get('/ngorongoro', function () { return view('regions.ngorongoro'); })->name('ngorongoro');
+    Route::get('/zanzibar', function () { return view('regions.zanzibar'); })->name('zanzibar');
+    Route::get('/tarangire', function () { return view('regions.tarangire'); })->name('tarangire');
+    Route::get('/lake-manyara', function () { return view('regions.lake-manyara'); })->name('lake-manyara');
+    Route::get('/nyerere', function () { return view('regions.nyerere'); })->name('nyerere');
+    Route::get('/ruaha', function () { return view('regions.ruaha'); })->name('ruaha');
+    Route::get('/mafia', function () { return view('regions.mafia'); })->name('mafia');
+    Route::get('/arusha-national-park', function () { return view('regions.arusha-national-park'); })->name('arusha-national-park');
+});
+
 Route::get('/group-departures', function () {
     return view('group-departures');
 })->name('group-departures');

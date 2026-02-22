@@ -155,7 +155,7 @@
                             <div>
                                 <h4 class="text-xs font-black uppercase tracking-widest text-emerald-600 mb-6">Popular Regions</h4>
                                 <div class="space-y-4">
-                                    <a href="/tours" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
+                                    <a href="{{ route('regions.serengeti') }}" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
                                         <div class="w-12 h-12 rounded-xl overflow-hidden">
                                             <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover">
                                         </div>
@@ -164,13 +164,22 @@
                                             <p class="text-xs text-slate-500">The Great Migration</p>
                                         </div>
                                     </a>
-                                    <a href="/tours" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
+                                    <a href="{{ route('regions.ngorongoro') }}" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
                                         <div class="w-12 h-12 rounded-xl overflow-hidden">
                                             <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover">
                                         </div>
                                         <div>
                                             <p class="font-bold text-slate-900 group-hover/item:text-emerald-700">Ngorongoro</p>
                                             <p class="text-xs text-slate-500">UNESCO World Heritage</p>
+                                        </div>
+                                    </a>
+                                    <a href="{{ route('regions.zanzibar') }}" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
+                                        <div class="w-12 h-12 rounded-xl overflow-hidden">
+                                            <img src="https://images.unsplash.com/photo-1493612276216-ee3925520721?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover">
+                                        </div>
+                                        <div>
+                                            <p class="font-bold text-slate-900 group-hover/item:text-emerald-700">Zanzibar</p>
+                                            <p class="text-xs text-slate-500">Beaches & Culture</p>
                                         </div>
                                     </a>
                                 </div>
@@ -181,10 +190,10 @@
                                     <a href="{{ route('kilimanjaro') }}" class="flex items-center gap-3 text-slate-700 hover:text-emerald-600 font-bold group/sub transition-colors">
                                         <i class="ph ph-mountain text-xl opacity-50 group-hover/sub:opacity-100"></i> Kilimanjaro Treks
                                     </a>
-                                    <a href="/tours" class="flex items-center gap-3 text-slate-700 hover:text-emerald-600 font-bold group/sub transition-colors">
+                                    <a href="{{ route('regions.lake-manyara') }}" class="flex items-center gap-3 text-slate-700 hover:text-emerald-600 font-bold group/sub transition-colors">
                                         <i class="ph ph-umbrella text-xl opacity-50 group-hover/sub:opacity-100"></i> Zanzibar Beaches
                                     </a>
-                                    <a href="/tours" class="flex items-center gap-3 text-slate-700 hover:text-emerald-600 font-bold group/sub transition-colors">
+                                    <a href="{{ route('regions.ruaha') }}" class="flex items-center gap-3 text-slate-700 hover:text-emerald-600 font-bold group/sub transition-colors">
                                         <i class="ph ph-bird text-xl opacity-50 group-hover/sub:opacity-100"></i> Bird Watching Tours
                                     </a>
                                 </div>
@@ -286,8 +295,10 @@
                             Destinations <i class="ph ph-caret-down text-lg transition-transform" :class="open ? 'rotate-180' : ''"></i>
                         </button>
                         <div x-show="open" x-collapse class="pl-4 mt-4 space-y-4">
-                            <a href="/tours" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Serengeti NP</a>
-                            <a href="/tours" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Ngorongoro Crater</a>
+                            <a href="{{ route('regions.serengeti') }}" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Serengeti NP</a>
+                            <a href="{{ route('regions.ngorongoro') }}" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Ngorongoro Crater</a>
+                            <a href="{{ route('regions.zanzibar') }}" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Zanzibar</a>
+                            <a href="{{ route('regions.tarangire') }}" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Tarangire</a>
                             <a href="{{ route('kilimanjaro') }}" class="block text-sm font-bold text-slate-500 hover:text-emerald-600">Kilimanjaro Treks</a>
                         </div>
                     </div>
@@ -336,12 +347,14 @@
                 </ul>
             </div>
             <div>
-                <h4 class="font-bold mb-6 text-emerald-500">Destinations</h4>
+                <h4 class="font-bold mb-6 text-emerald-500">Popular Regions</h4>
                 <ul class="space-y-4 text-sm text-slate-400">
-                    <li><a href="{{ route('tours.index') }}" class="hover:text-white transition-colors">Serengeti NP</a></li>
-                    <li><a href="{{ route('tours.index') }}" class="hover:text-white transition-colors">Ngorongoro</a></li>
-                    <li><a href="{{ route('kilimanjaro') }}" class="hover:text-white transition-colors">Kilimanjaro</a></li>
-                    <li><a href="{{ route('tours.index') }}" class="hover:text-white transition-colors">Zanzibar</a></li>
+                    <li><a href="{{ route('regions.serengeti') }}" class="hover:text-white transition-colors">Serengeti NP</a></li>
+                    <li><a href="{{ route('regions.ngorongoro') }}" class="hover:text-white transition-colors">Ngorongoro</a></li>
+                    <li><a href="{{ route('kilimanjaro') }}" class="hover:text-white transition-colors">Mount Kilimanjaro</a></li>
+                    <li><a href="{{ route('regions.zanzibar') }}" class="hover:text-white transition-colors">Zanzibar Island</a></li>
+                    <li><a href="{{ route('regions.tarangire') }}" class="hover:text-white transition-colors">Tarangire NP</a></li>
+                    <li><a href="{{ route('regions.lake-manyara') }}" class="hover:text-white transition-colors">Lake Manyara NP</a></li>
                 </ul>
             </div>
             <div>
