@@ -9,6 +9,8 @@
 @endphp
 <div class="min-h-screen bg-slate-950 flex items-center justify-center relative overflow-hidden" x-data="{ 
         step: 0,
+        percent: 0,
+        percentTimer: null,
         status: 'processing', // 'processing', 'error', 'success'
         errorMessage: '',
         steps: [
@@ -20,6 +22,13 @@
         ],
         async init() {
             // Start simulation
+            this.percent = 0;
+            if (this.percentTimer) clearInterval(this.percentTimer);
+            this.percentTimer = setInterval(() => {
+                if (this.status !== 'processing') return;
+                // Keep it moving but never exceed 99% until redirect moment
+                this.percent = Math.min(99, this.percent + 1);
+            }, 80);
             this.runSimulation();
             
             // Start actual fetch
@@ -48,10 +57,14 @@
                 .catch((e) => {
                     this.status = 'error';
                     this.errorMessage = e.message;
+                    if (this.percentTimer) clearInterval(this.percentTimer);
                 });
         },
         checkAndRedirect() {
             if (this.step >= this.steps.length - 1 && this.paymentLink) {
+                // Finish the splash before redirect
+                this.percent = 100;
+                if (this.percentTimer) clearInterval(this.percentTimer);
                 window.location.href = this.paymentLink;
             } else {
                 // If link arrived early, wait for simulation to finish
@@ -85,6 +98,25 @@
                             <div>
                                 <h1 class="text-3xl md:text-4xl font-serif font-black text-white mb-2">Secure Flutterwave Checkout</h1>
                                 <p class="text-slate-500 text-[10px] font-black uppercase tracking-[0.4em]">Transaction Phase: Active</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-center lg:justify-start gap-4">
+                            <div class="relative w-20 h-20 rounded-[2rem] bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-b from-emerald-500/25 to-transparent"></div>
+                                <div class="relative z-10 text-center">
+                                    <div class="text-2xl font-black text-white" x-text="percent + '%'">0%</div>
+                                    <div class="text-[9px] font-black uppercase tracking-[0.3em] text-slate-500">Loading</div>
+                                </div>
+                            </div>
+                            <div class="flex-1 max-w-md">
+                                <div class="h-2.5 bg-white/5 border border-white/10 rounded-full overflow-hidden">
+                                    <div class="h-full bg-emerald-500 rounded-full transition-all duration-200" :style="'width:' + percent + '%'" style="width:0%"></div>
+                                </div>
+                                <div class="mt-2 flex items-center justify-between text-[10px] font-black uppercase tracking-[0.3em] text-slate-600">
+                                    <span>Initializing</span>
+                                    <span x-text="percent >= 100 ? 'Ready' : 'Working'">Working</span>
+                                </div>
                             </div>
                         </div>
                     </div>
