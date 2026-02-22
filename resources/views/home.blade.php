@@ -219,7 +219,7 @@
             <!-- Tour Card -->
             <div class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-slate-100">
                 <div class="relative h-72 overflow-hidden">
-                    @php $images = json_decode($tour->images, true); @endphp
+                    @php $images = $tour->images ?? []; @endphp
                     <img src="{{ $images[0] ?? 'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e' }}?auto=format&fit=crop&w=800&q=80" alt="{{ $tour->name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-xs font-bold text-slate-900 shadow-sm uppercase tracking-wider">
                         {{ $tour->duration_days }} Days
