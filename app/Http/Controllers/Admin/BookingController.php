@@ -80,13 +80,20 @@ class BookingController extends Controller
         $validated = $request->validate([
             'customer_name' => 'required|string|max:255',
             'customer_email' => 'required|email',
+            'customer_phone' => 'required|string|max:255',
             'tour_id' => 'required|exists:tours,id',
             'start_date' => 'required|date',
             'adults' => 'required|integer|min:1',
+            'children' => 'nullable|integer|min:0',
+            'special_requests' => 'nullable|string',
             'total_price' => 'required|numeric',
         ]);
 
-        $booking = \App\Models\Booking::create(array_merge($validated, ['status' => 'pending']));
+        $booking = \App\Models\Booking::create(array_merge($validated, [
+            'status' => 'pending',
+            'children' => $validated['children'] ?? 0,
+            'special_requests' => $validated['special_requests'] ?? null,
+        ]));
 
         return redirect()->route('admin.bookings.index')->with('success', 'Booking created successfully');
     }

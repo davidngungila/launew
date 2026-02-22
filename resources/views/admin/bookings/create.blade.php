@@ -30,6 +30,10 @@
                         <label class="text-xs font-black text-slate-400 uppercase tracking-widest pl-1">Email Address</label>
                         <input type="email" name="customer_email" required class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
                     </div>
+                    <div class="space-y-1.5 md:col-span-2">
+                        <label class="text-xs font-black text-slate-400 uppercase tracking-widest pl-1">Phone Number</label>
+                        <input type="text" name="customer_phone" required class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
+                    </div>
                 </div>
             </div>
 
@@ -55,8 +59,16 @@
                         <input type="number" name="adults" min="1" value="1" required class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
                     </div>
                     <div class="space-y-1.5">
+                        <label class="text-xs font-black text-slate-400 uppercase tracking-widest pl-1">Number of Children</label>
+                        <input type="number" name="children" min="0" value="0" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
+                    </div>
+                    <div class="space-y-1.5">
                         <label class="text-xs font-black text-slate-400 uppercase tracking-widest pl-1">Total Quotation ($)</label>
                         <input type="number" name="total_price" step="0.01" required class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
+                    </div>
+                    <div class="space-y-1.5 md:col-span-2">
+                        <label class="text-xs font-black text-slate-400 uppercase tracking-widest pl-1">Special Requests</label>
+                        <textarea name="special_requests" rows="3" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"></textarea>
                     </div>
                 </div>
             </div>
