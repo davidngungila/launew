@@ -389,7 +389,7 @@
 
     async function finishTest(id) {
         try {
-            const response = await fetch(`{{ route('admin.settings.sms-gateway.testConnection', ':id') }}`.replace(':id', id), {
+            const response = await fetch(`{{ route('admin.settings.sms-gateway.testConnection', '__ID__') }}`.replace('__ID__', id), {
                 method: 'POST',
                 headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Accept': 'application/json' }
             });
