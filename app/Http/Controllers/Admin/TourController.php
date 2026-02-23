@@ -54,6 +54,7 @@ class TourController extends Controller
 
     public function show(Tour $tour)
     {
+        $tour->load('itineraries');
         return view('admin.tours.show', compact('tour'));
     }
 
