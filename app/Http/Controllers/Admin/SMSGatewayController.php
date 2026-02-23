@@ -164,6 +164,10 @@ class SMSGatewayController extends Controller
             return response()->json(['success' => false, 'message' => 'Provider is missing Sender ID (sms_from)'], 422);
         }
 
+        if (!$provider->sms_url) {
+            return response()->json(['success' => false, 'message' => 'Provider is missing SMS URL (sms_url)'], 422);
+        }
+
         try {
             $token = $provider->sms_bearer_token;
             $username = $provider->sms_username;
@@ -190,13 +194,25 @@ class SMSGatewayController extends Controller
                 'reference' => 'test_' . time(),
             ];
 
-            $resp = $requestClient->post('https://messaging-service.co.tz/api/sms/v2/test/text/single', $payload);
+            $method = strtolower((string) ($provider->sms_method ?: 'post'));
+            if (!in_array($method, ['get', 'post'], true)) {
+                $method = 'post';
+            }
+
+            $resp = $method === 'get'
+                ? $requestClient->get($provider->sms_url, $payload)
+                : $requestClient->post($provider->sms_url, $payload);
             $success = $resp->successful();
 
             return response()->json([
                 'success' => $success,
                 'message' => $success ? 'Test request submitted successfully' : 'Test request failed',
-                'data' => $resp->json(),
+                'data' => $resp->json() ?? $resp->body(),
+                'meta' => [
+                    'provider_id' => $provider->id,
+                    'url' => $provider->sms_url,
+                    'method' => strtoupper($method),
+                ],
             ], $success ? 200 : 500);
         } catch (\Throwable $e) {
             return response()->json([

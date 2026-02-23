@@ -394,19 +394,38 @@
                 headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Accept': 'application/json' }
             });
             const data = await response.json();
-            
+
+            const ok = response.ok && data && data.success;
+            const overlay = document.getElementById('checking-' + id);
+            const icon = ok ? 'ph-check-circle' : 'ph-x-circle';
+            const iconColor = ok ? 'text-emerald-500' : 'text-red-500';
+            const title = ok ? 'Connection Verified' : 'Connection Failed';
+            const msg = (data && data.message) ? data.message : (ok ? 'Connection verified successfully.' : 'Unable to verify connection.');
+
             setTimeout(() => {
-                const overlay = document.getElementById('checking-' + id);
                 overlay.innerHTML = `
-                    <div class="text-center p-8 animate-bounce">
-                        <i class="ph ph-check-circle text-6xl text-emerald-500 mb-4"></i>
-                        <p class="font-black text-slate-900 uppercase tracking-widest">Connection Stable</p>
+                    <div class="text-center p-8">
+                        <i class="ph ${icon} text-6xl ${iconColor} mb-4"></i>
+                        <p class="font-black text-slate-900 uppercase tracking-widest mb-2">${title}</p>
+                        <p class="text-xs font-bold text-slate-500">${msg}</p>
                     </div>
                 `;
-                setTimeout(() => location.reload(), 2000);
-            }, 500);
+                setTimeout(() => location.reload(), 1800);
+            }, 250);
         } catch (e) {
-            location.reload();
+            const overlay = document.getElementById('checking-' + id);
+            if (overlay) {
+                overlay.innerHTML = `
+                    <div class="text-center p-8">
+                        <i class="ph ph-x-circle text-6xl text-red-500 mb-4"></i>
+                        <p class="font-black text-slate-900 uppercase tracking-widest mb-2">Connection Failed</p>
+                        <p class="text-xs font-bold text-slate-500">${e?.message || 'Unexpected error while verifying.'}</p>
+                    </div>
+                `;
+                setTimeout(() => location.reload(), 1800);
+            } else {
+                location.reload();
+            }
         }
     }
 
