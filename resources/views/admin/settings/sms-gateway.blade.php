@@ -11,10 +11,10 @@
             </h1>
             <p class="text-slate-500 font-medium">Manage multiple SMS providers, test connections, and configure fallback settings</p>
         </div>
-        <button type="button" class="px-6 py-3 bg-emerald-600 text-white font-black rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2" onclick="openAddModal()">
+        <a href="{{ route('admin.settings.sms-gateway.create') }}" class="px-6 py-3 bg-emerald-600 text-white font-black rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2">
             <i class="ph ph-plus-bold"></i>
             Add New Provider
-        </button>
+        </a>
     </div>
 
     <!-- Main Content Area -->

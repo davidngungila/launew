@@ -152,12 +152,15 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'activity.log'])->gr
     // SMS Gateway Settings
     Route::prefix('settings/sms-gateway')->name('settings.sms-gateway.')->group(function() {
         Route::get('/', [App\Http\Controllers\Admin\SMSGatewayController::class, 'index'])->name('index');
+        Route::get('/create', [App\Http\Controllers\Admin\SMSGatewayController::class, 'create'])->name('create');
         Route::post('/', [App\Http\Controllers\Admin\SMSGatewayController::class, 'store'])->name('store');
         Route::put('/{id}', [App\Http\Controllers\Admin\SMSGatewayController::class, 'update'])->name('update');
         Route::delete('/{id}', [App\Http\Controllers\Admin\SMSGatewayController::class, 'destroy'])->name('destroy');
         Route::post('/{id}/test-connection', [App\Http\Controllers\Admin\SMSGatewayController::class, 'testConnection'])->name('testConnection');
         Route::post('/{id}/toggle-active', [App\Http\Controllers\Admin\SMSGatewayController::class, 'toggleActive'])->name('toggleActive');
         Route::post('/{id}/set-primary', [App\Http\Controllers\Admin\SMSGatewayController::class, 'setPrimary'])->name('setPrimary');
+        Route::post('/draft/test-connection', [App\Http\Controllers\Admin\SMSGatewayController::class, 'testDraftConnection'])->name('draft.testConnection');
+        Route::post('/draft/test-sms', [App\Http\Controllers\Admin\SMSGatewayController::class, 'testDraftSms'])->name('draft.testSms');
         Route::post('/test', [App\Http\Controllers\Admin\SMSGatewayController::class, 'test'])->name('test');
     });
 

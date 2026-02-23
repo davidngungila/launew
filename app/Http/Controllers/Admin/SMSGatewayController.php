@@ -21,6 +21,19 @@ class SMSGatewayController extends Controller
         return view('admin.settings.sms-gateway', compact('providers', 'fallbackSettings'));
     }
 
+    public function create()
+    {
+        $defaults = [
+            'sms_method' => 'post',
+            'sms_url' => 'https://messaging-service.co.tz/api/sms/v2/text/single',
+            'priority' => 0,
+            'is_active' => true,
+            'is_primary' => true,
+        ];
+
+        return view('admin.settings.sms-gateway-create', compact('defaults'));
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -45,7 +58,11 @@ class SMSGatewayController extends Controller
 
         \App\Models\NotificationProvider::create($validated);
 
-        return response()->json(['success' => true, 'message' => 'Provider added successfully']);
+        if ($request->expectsJson()) {
+            return response()->json(['success' => true, 'message' => 'Provider added successfully']);
+        }
+
+        return redirect()->route('admin.settings.sms-gateway.index')->with('success', 'Provider added successfully');
     }
 
     public function update(Request $request, $id)
@@ -211,6 +228,112 @@ class SMSGatewayController extends Controller
                 'meta' => [
                     'provider_id' => $provider->id,
                     'url' => $provider->sms_url,
+                    'method' => strtoupper($method),
+                ],
+            ], $success ? 200 : 500);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Test SMS failed: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function testDraftConnection(Request $request)
+    {
+        $validated = $request->validate([
+            'sms_bearer_token' => 'nullable|string',
+            'sms_username' => 'nullable|string',
+            'sms_password' => 'nullable|string',
+        ]);
+
+        try {
+            $token = $validated['sms_bearer_token'] ?? null;
+            $username = $validated['sms_username'] ?? null;
+            $password = $validated['sms_password'] ?? null;
+
+            $client = Http::timeout(20)->acceptJson();
+            if ($token) {
+                $client = $client->withToken($token);
+            } elseif ($username && $password) {
+                $client = $client->withHeaders([
+                    'Authorization' => 'Basic ' . base64_encode($username . ':' . $password),
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Missing credentials. Set Bearer token or username/password.',
+                ], 422);
+            }
+
+            $resp = $client->get('https://messaging-service.co.tz/api/v2/balance');
+            $success = $resp->successful();
+
+            return response()->json([
+                'success' => $success,
+                'message' => $success ? 'Connection verified successfully!' : 'Connection failed. Please check credentials.',
+                'data' => $resp->json() ?? $resp->body(),
+            ], $success ? 200 : 500);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Connection test failed: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function testDraftSms(Request $request)
+    {
+        $validated = $request->validate([
+            'sms_from' => 'required|string',
+            'sms_url' => 'required|url',
+            'sms_method' => 'required|in:get,post',
+            'sms_bearer_token' => 'nullable|string',
+            'sms_username' => 'nullable|string',
+            'sms_password' => 'nullable|string',
+            'to' => 'required|string',
+            'message' => 'required|string',
+        ]);
+
+        try {
+            $token = $validated['sms_bearer_token'] ?? null;
+            $username = $validated['sms_username'] ?? null;
+            $password = $validated['sms_password'] ?? null;
+
+            $client = Http::timeout(30)->acceptJson()->asJson();
+            if ($token) {
+                $client = $client->withToken($token);
+            } elseif ($username && $password) {
+                $client = $client->withHeaders([
+                    'Authorization' => 'Basic ' . base64_encode($username . ':' . $password),
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Missing credentials. Set Bearer token or username/password.',
+                ], 422);
+            }
+
+            $payload = [
+                'from' => $validated['sms_from'],
+                'to' => preg_replace('/[^0-9]/', '', $validated['to']),
+                'text' => $validated['message'],
+                'reference' => 'draft_test_' . time(),
+            ];
+
+            $method = strtolower((string) ($validated['sms_method'] ?? 'post'));
+            $resp = $method === 'get'
+                ? $client->get($validated['sms_url'], $payload)
+                : $client->post($validated['sms_url'], $payload);
+
+            $success = $resp->successful();
+
+            return response()->json([
+                'success' => $success,
+                'message' => $success ? 'Test request submitted successfully' : 'Test request failed',
+                'data' => $resp->json() ?? $resp->body(),
+                'meta' => [
+                    'url' => $validated['sms_url'],
                     'method' => strtoupper($method),
                 ],
             ], $success ? 200 : 500);
