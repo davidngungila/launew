@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\TourController;
 use App\Http\Controllers\Public\TourController as PublicTourController;
 use App\Http\Controllers\Public\BookingController as PublicBookingController;
+use App\Http\Controllers\Admin\ItineraryBuilderController;
 use App\Http\Controllers\Admin\ExpenseController;
 use App\Http\Controllers\Admin\SystemSettingsController;
 use App\Http\Controllers\Admin\UserManagementController;
@@ -78,7 +79,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'activity.log'])->gr
     Route::resource('tours', TourController::class)->whereNumber('tour');
 
     // Tours & Packages Subpages
-    Route::get('/tours/itinerary-builder', function () { return view('admin.tours.itinerary-builder'); })->name('tours.itinerary-builder');
+    Route::get('/tours/itinerary-builder', [ItineraryBuilderController::class, 'index'])->name('tours.itinerary-builder');
+    Route::get('/tours/itinerary-builder/{tour}', [ItineraryBuilderController::class, 'show'])->whereNumber('tour')->name('tours.itinerary-builder.show');
+    Route::post('/tours/itinerary-builder/{tour}', [ItineraryBuilderController::class, 'save'])->whereNumber('tour')->name('tours.itinerary-builder.save');
     Route::get('/tours/availability-pricing', function () { return view('admin.tours.availability-pricing'); })->name('tours.availability-pricing');
     Route::get('/tours/destinations', function () { return view('admin.tours.destinations'); })->name('tours.destinations');
     
