@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\NotificationProvider;
 use App\Models\SystemSetting;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class NotificationService
@@ -17,7 +18,7 @@ class NotificationService
             $smsPassword = $provider?->sms_password ?: (SystemSetting::getValue('sms_password') ?: env('SMS_PASSWORD'));
             $smsToken = $provider?->sms_bearer_token ?: (SystemSetting::getValue('sms_bearer_token') ?: env('SMS_BEARER_TOKEN'));
             $smsFrom = $provider?->sms_from ?: (SystemSetting::getValue('sms_from') ?: env('SMS_FROM'));
-            $smsUrl = $provider?->sms_url ?: (SystemSetting::getValue('sms_url') ?: env('SMS_URL', 'https://messaging-service.co.tz/link/sms/v1/text/single'));
+            $smsUrl = $provider?->sms_url ?: (SystemSetting::getValue('sms_url') ?: env('SMS_URL', 'https://messaging-service.co.tz/api/sms/v2/text/single'));
             $smsMethod = strtolower((string) ($provider?->sms_method ?: (SystemSetting::getValue('sms_method') ?: env('SMS_METHOD', 'post'))));
 
             if (!$smsUrl) {
@@ -75,46 +76,29 @@ class NotificationService
             }
 
             $payload = [
-                'from' => $smsFrom,
-                'to' => $phoneNumber,
-                'text' => $message,
+                'from' => (string) $smsFrom,
+                'to' => (string) $phoneNumber,
+                'text' => (string) $message,
                 'reference' => 'lau_' . time(),
             ];
 
-            $ch = curl_init();
-            $headers = [
-                'Content-Type: application/json',
-                'Accept: application/json',
-            ];
-
+            $request = Http::timeout(30)->acceptJson()->asJson();
             if ($smsToken) {
-                $headers[] = 'Authorization: Bearer ' . $smsToken;
-            } elseif ($smsUsername && $smsPassword) {
-                $headers[] = 'Authorization: Basic ' . base64_encode($smsUsername . ':' . $smsPassword);
+                $request = $request->withToken($smsToken);
+            } else {
+                $request = $request->withHeaders([
+                    'Authorization' => 'Basic ' . base64_encode((string) $smsUsername . ':' . (string) $smsPassword),
+                ]);
             }
 
-            curl_setopt_array($ch, [
-                CURLOPT_URL => $smsUrl,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_POST => true,
-                CURLOPT_POSTFIELDS => json_encode($payload),
-                CURLOPT_HTTPHEADER => $headers,
-                CURLOPT_SSL_VERIFYPEER => false,
-            ]);
+            $response = $request->post($smsUrl, $payload);
 
-            $response = curl_exec($ch);
-            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            $err = curl_error($ch);
-            curl_close($ch);
-
-            if ($err) {
-                Log::warning('SMS POST failed', ['error' => $err]);
-                return false;
-            }
-
-            if ($code < 200 || $code >= 300) {
-                Log::warning('SMS POST non-2xx', ['code' => $code, 'response' => $response]);
+            if (!$response->successful()) {
+                Log::warning('SMS POST failed', [
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                    'url' => $smsUrl,
+                ]);
                 return false;
             }
 

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\NotificationProvider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class SMSGatewayController extends Controller
 {
@@ -52,20 +54,51 @@ class SMSGatewayController extends Controller
 
     public function testConnection($id)
     {
-        $provider = \App\Models\NotificationProvider::findOrFail($id);
-        
-        // Mocking a connection check
-        $success = true; 
-        
-        $provider->update([
-            'connection_status' => $success ? 'connected' : 'disconnected',
-            'last_tested_at' => now(),
-        ]);
+        $provider = NotificationProvider::findOrFail($id);
 
-        return response()->json([
-            'success' => $success,
-            'message' => $success ? 'Connection verified successfully!' : 'Connection failed. Please check credentials.'
-        ]);
+        try {
+            $token = $provider->sms_bearer_token;
+            $username = $provider->sms_username;
+            $password = $provider->sms_password;
+
+            $request = Http::timeout(20)->acceptJson();
+            if ($token) {
+                $request = $request->withToken($token);
+            } elseif ($username && $password) {
+                $request = $request->withHeaders([
+                    'Authorization' => 'Basic ' . base64_encode($username . ':' . $password),
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Missing credentials. Set Bearer token or username/password.',
+                ], 422);
+            }
+
+            $resp = $request->get('https://messaging-service.co.tz/api/v2/balance');
+            $success = $resp->successful();
+
+            $provider->update([
+                'connection_status' => $success ? 'connected' : 'disconnected',
+                'last_tested_at' => now(),
+            ]);
+
+            return response()->json([
+                'success' => $success,
+                'message' => $success ? 'Connection verified successfully!' : 'Connection failed. Please check credentials.',
+                'data' => $success ? $resp->json() : null,
+            ], $success ? 200 : 500);
+        } catch (\Throwable $e) {
+            $provider->update([
+                'connection_status' => 'disconnected',
+                'last_tested_at' => now(),
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Connection test failed: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function toggleActive($id)
@@ -90,7 +123,59 @@ class SMSGatewayController extends Controller
 
     public function test(Request $request)
     {
-        // Mocking an SMS send
-        return response()->json(['success' => true, 'message' => 'Test message processed successfully']);
+        $validated = $request->validate([
+            'to' => 'required|string',
+            'message' => 'required|string',
+        ]);
+
+        $provider = NotificationProvider::getPrimary('sms') ?? NotificationProvider::query()->where('is_active', true)->orderByDesc('is_primary')->orderBy('priority')->first();
+        if (!$provider) {
+            return response()->json(['success' => false, 'message' => 'No SMS provider configured'], 422);
+        }
+
+        if (!$provider->sms_from) {
+            return response()->json(['success' => false, 'message' => 'Provider is missing Sender ID (sms_from)'], 422);
+        }
+
+        try {
+            $token = $provider->sms_bearer_token;
+            $username = $provider->sms_username;
+            $password = $provider->sms_password;
+
+            $requestClient = Http::timeout(30)->acceptJson()->asJson();
+            if ($token) {
+                $requestClient = $requestClient->withToken($token);
+            } elseif ($username && $password) {
+                $requestClient = $requestClient->withHeaders([
+                    'Authorization' => 'Basic ' . base64_encode($username . ':' . $password),
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Missing credentials. Set Bearer token or username/password.',
+                ], 422);
+            }
+
+            $payload = [
+                'from' => $provider->sms_from,
+                'to' => preg_replace('/[^0-9]/', '', $validated['to']),
+                'text' => $validated['message'],
+                'reference' => 'test_' . time(),
+            ];
+
+            $resp = $requestClient->post('https://messaging-service.co.tz/api/sms/v2/test/text/single', $payload);
+            $success = $resp->successful();
+
+            return response()->json([
+                'success' => $success,
+                'message' => $success ? 'Test request submitted successfully' : 'Test request failed',
+                'data' => $resp->json(),
+            ], $success ? 200 : 500);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Test SMS failed: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 }
