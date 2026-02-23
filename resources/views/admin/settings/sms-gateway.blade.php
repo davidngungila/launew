@@ -46,11 +46,8 @@
                     <div class="group relative bg-slate-50 rounded-2xl border-2 border-transparent hover:border-emerald-500/50 transition-all p-8 {{ $provider->is_primary ? 'ring-2 ring-emerald-500 ring-offset-4' : '' }}" id="provider-card-{{ $provider->id }}">
                         <!-- Checking Overlay (Requested Animation) -->
                         <div id="checking-{{ $provider->id }}" class="checking-overlay hidden">
-                            <div class="slash-scan"></div>
-                            <div class="text-center">
-                                <p class="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-600 mb-2">Verifying Credentials</p>
-                                <div class="count-text" id="count-{{ $provider->id }}">0%</div>
-                                <p class="text-[9px] font-bold text-slate-400 mt-2 uppercase tracking-widest">Scanning SMS Gateway API...</p>
+                            <div class="text-center p-8">
+                                <i class="ph ph-circle-notch text-5xl text-emerald-600 animate-spin"></i>
                             </div>
                         </div>
 
@@ -304,37 +301,22 @@
     .checking-overlay {
         position: absolute;
         top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(255, 255, 255, 0.95);
+        background: rgba(255, 255, 255, 0.92);
+        border-radius: 22px;
         display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
         z-index: 50;
-        border-radius: 1rem;
         overflow: hidden;
     }
 
-    .slash-scan {
-        position: absolute;
-        top: -100%; left: 0; right: 0;
-        height: 4px;
-        background: linear-gradient(90deg, transparent, #10b981, transparent);
-        box-shadow: 0 0 20px #10b981;
-        animation: scanline 2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    .animate-spin {
+        animation: spin 1s linear infinite;
     }
 
-    @keyframes scanline {
-        0% { top: -10%; }
-        50% { top: 110%; }
-        100% { top: -10%; }
-    }
-
-    .count-text {
-        font-family: 'Playfair Display', serif;
-        font-size: 3.5rem;
-        font-weight: 900;
-        color: #064e3b;
-        letter-spacing: -0.05em;
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
     }
 
     .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -371,33 +353,9 @@
     // Requested Connection Test with Animation
     async function startConnectionTest(id) {
         const overlay = document.getElementById('checking-' + id);
-        const countTxt = document.getElementById('count-' + id);
         overlay.classList.remove('hidden');
-        
-        // Start counter
-        let count = 0;
-        let finished = false;
 
-        const forceTimeout = setTimeout(() => {
-            if (!finished) {
-                finished = true;
-                finishTest(id);
-            }
-        }, 6000);
-
-        const interval = setInterval(() => {
-            count += Math.floor(Math.random() * 15) + 1;
-            if (count >= 100) {
-                count = 100;
-                clearInterval(interval);
-                if (!finished) {
-                    finished = true;
-                    clearTimeout(forceTimeout);
-                    finishTest(id);
-                }
-            }
-            countTxt.innerText = count + '%';
-        }, 150);
+        await finishTest(id);
     }
 
     async function finishTest(id) {
