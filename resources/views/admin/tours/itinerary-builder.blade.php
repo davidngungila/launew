@@ -1,6 +1,9 @@
 @extends('layouts.admin')
 
 @section('content')
+@php
+    $toursList = $tours ?? \App\Models\Tour::orderBy('name')->get();
+@endphp
 <div class="max-w-7xl mx-auto space-y-8" x-data="itineraryBuilder()" x-init="init()">
     <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <div>
@@ -22,7 +25,7 @@
                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Select a tour</p>
                 <select class="w-full border border-slate-200 rounded-2xl px-4 py-3 font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-300" x-model="selectedTourId" @change="loadTour()">
                     <option value="">Choose a tour…</option>
-                    @foreach(($tours ?? []) as $t)
+                    @foreach(($toursList ?? []) as $t)
                         <option value="{{ $t->id }}">{{ $t->name }} ({{ $t->duration_days }} days)</option>
                     @endforeach
                 </select>
