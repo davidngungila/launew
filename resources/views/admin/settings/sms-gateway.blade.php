@@ -376,12 +376,25 @@
         
         // Start counter
         let count = 0;
+        let finished = false;
+
+        const forceTimeout = setTimeout(() => {
+            if (!finished) {
+                finished = true;
+                finishTest(id);
+            }
+        }, 6000);
+
         const interval = setInterval(() => {
             count += Math.floor(Math.random() * 15) + 1;
             if (count >= 100) {
                 count = 100;
                 clearInterval(interval);
-                finishTest(id);
+                if (!finished) {
+                    finished = true;
+                    clearTimeout(forceTimeout);
+                    finishTest(id);
+                }
             }
             countTxt.innerText = count + '%';
         }, 150);
@@ -419,7 +432,7 @@
                     <div class="text-center p-8">
                         <i class="ph ph-x-circle text-6xl text-red-500 mb-4"></i>
                         <p class="font-black text-slate-900 uppercase tracking-widest mb-2">Connection Failed</p>
-                        <p class="text-xs font-bold text-slate-500">${e?.message || 'Unexpected error while verifying.'}</p>
+                        <p class="text-xs font-bold text-slate-500">${(e && e.message) ? e.message : 'Unexpected error while verifying.'}</p>
                     </div>
                 `;
                 setTimeout(() => location.reload(), 1800);
