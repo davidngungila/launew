@@ -27,7 +27,13 @@
         <div class="bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-sm flex flex-col md:flex-row items-center gap-10">
             <div class="relative group">
                 <div class="w-40 h-40 rounded-[2.5rem] bg-emerald-50 border-4 border-white shadow-2xl overflow-hidden relative">
-                    <img id="avatar-preview" src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=10b981&color=fff&size=512" class="w-full h-full object-cover">
+                    @php
+                        $u = auth()->user();
+                        $avatarUrl = $u && $u->profile_image
+                            ? asset('storage/' . ltrim($u->profile_image, '/'))
+                            : 'https://ui-avatars.com/api/?name=' . urlencode((string) $u->name) . '&background=10b981&color=fff&size=512';
+                    @endphp
+                    <img id="avatar-preview" src="{{ $avatarUrl }}" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer" onclick="document.getElementById('avatar-input').click()">
                         <i class="ph ph-camera text-white text-3xl"></i>
                     </div>

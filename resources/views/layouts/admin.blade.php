@@ -355,9 +355,19 @@
                 <div class="relative" x-data="{ open: false }">
                     <button @click="open = !open" @click.away="open = false" 
                             class="flex items-center gap-3 p-1.5 pr-4 rounded-xl hover:bg-slate-50 transition-all duration-300 group">
-                        <div class="w-10 h-10 rounded-lg bg-emerald-500 flex items-center justify-center text-white font-black shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
-                            {{ substr(Auth::user()->name, 0, 1) }}
-                        </div>
+                        @php
+                            $u = Auth::user();
+                            $avatarUrl = $u && $u->profile_image
+                                ? asset('storage/' . ltrim($u->profile_image, '/'))
+                                : null;
+                        @endphp
+                        @if($avatarUrl)
+                            <img src="{{ $avatarUrl }}" alt="Avatar" class="w-10 h-10 rounded-lg object-cover shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform" />
+                        @else
+                            <div class="w-10 h-10 rounded-lg bg-emerald-500 flex items-center justify-center text-white font-black shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
+                                {{ substr(Auth::user()->name, 0, 1) }}
+                            </div>
+                        @endif
                         <div class="text-left hidden sm:block">
                             <p class="text-xs font-black text-slate-900 leading-tight">{{ Auth::user()->name }}</p>
                             <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-wider leading-tight mt-0.5">Administrator</p>

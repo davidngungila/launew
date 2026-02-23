@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\SystemHealthController;
 use App\Http\Controllers\Admin\EmailGatewayController;
+use App\Http\Controllers\Admin\AccountSettingsController;
 
 Route::get('/', [PublicTourController::class, 'home'])->name('home');
 
@@ -174,10 +175,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'activity.log'])->gr
 
     // Account Management
     Route::get('/profile', function() { return view('admin.profile'); })->name('profile');
-    Route::get('/settings/account', function() { return view('admin.account-settings'); })->name('account-settings');
-    Route::post('/settings/account', function() { 
-        return back()->with('success', 'Profile updated successfully!'); 
-    })->name('account-settings.update');
+    Route::get('/settings/account', [AccountSettingsController::class, 'edit'])->name('account-settings');
+    Route::post('/settings/account', [AccountSettingsController::class, 'update'])->name('account-settings.update');
 });
 
 // Stripe Payments

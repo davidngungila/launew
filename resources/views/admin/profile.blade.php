@@ -22,9 +22,19 @@
         <div class="px-12 pb-12 relative">
             <div class="flex flex-col md:flex-row items-end gap-6 -mt-16 mb-8">
                 <div class="w-32 h-32 rounded-[2rem] bg-white p-2 shadow-2xl">
-                    <div class="w-full h-full rounded-[1.5rem] bg-emerald-500 flex items-center justify-center text-4xl font-black text-white shadow-inner">
-                        {{ substr(auth()->user()->name, 0, 1) }}
-                    </div>
+                    @php
+                        $u = auth()->user();
+                        $avatarUrl = $u && $u->profile_image
+                            ? asset('storage/' . ltrim($u->profile_image, '/'))
+                            : null;
+                    @endphp
+                    @if($avatarUrl)
+                        <img src="{{ $avatarUrl }}" alt="Avatar" class="w-full h-full rounded-[1.5rem] object-cover shadow-inner" />
+                    @else
+                        <div class="w-full h-full rounded-[1.5rem] bg-emerald-500 flex items-center justify-center text-4xl font-black text-white shadow-inner">
+                            {{ substr(auth()->user()->name, 0, 1) }}
+                        </div>
+                    @endif
                 </div>
                 <div class="flex-grow pb-2">
                     <h2 class="text-3xl font-black text-slate-900 tracking-tight">{{ auth()->user()->name }}</h2>
