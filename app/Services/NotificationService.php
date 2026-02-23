@@ -13,15 +13,25 @@ class NotificationService
         try {
             $provider = $provider ?? NotificationProvider::getPrimary('sms');
 
-            $smsUsername = $provider?->sms_username ?: (SystemSetting::getValue('sms_username') ?: env('SMS_USERNAME', 'emcatechn'));
-            $smsPassword = $provider?->sms_password ?: (SystemSetting::getValue('sms_password') ?: env('SMS_PASSWORD', 'Emca@#12'));
+            $smsUsername = $provider?->sms_username ?: (SystemSetting::getValue('sms_username') ?: env('SMS_USERNAME'));
+            $smsPassword = $provider?->sms_password ?: (SystemSetting::getValue('sms_password') ?: env('SMS_PASSWORD'));
             $smsToken = $provider?->sms_bearer_token ?: (SystemSetting::getValue('sms_bearer_token') ?: env('SMS_BEARER_TOKEN'));
-            $smsFrom = $provider?->sms_from ?: (SystemSetting::getValue('sms_from') ?: env('SMS_FROM', 'OfisiLink'));
+            $smsFrom = $provider?->sms_from ?: (SystemSetting::getValue('sms_from') ?: env('SMS_FROM'));
             $smsUrl = $provider?->sms_url ?: (SystemSetting::getValue('sms_url') ?: env('SMS_URL', 'https://messaging-service.co.tz/link/sms/v1/text/single'));
             $smsMethod = strtolower((string) ($provider?->sms_method ?: (SystemSetting::getValue('sms_method') ?: env('SMS_METHOD', 'post'))));
 
             if (!$smsUrl) {
                 Log::warning('SMS send skipped: sms_url not configured');
+                return false;
+            }
+
+            if (!$smsFrom) {
+                Log::warning('SMS send skipped: sms_from not configured');
+                return false;
+            }
+
+            if (!$smsToken && (!$smsUsername || !$smsPassword)) {
+                Log::warning('SMS send skipped: no authentication configured (set bearer token or username/password)');
                 return false;
             }
 
