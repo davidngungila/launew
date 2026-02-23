@@ -28,13 +28,22 @@ class SMSGatewayController extends Controller
             'sms_from' => 'required|string',
             'sms_url' => 'required|url',
             'sms_method' => 'required|in:get,post',
+            'sms_bearer_token' => 'nullable|string',
+            'sms_username' => 'nullable|string',
+            'sms_password' => 'nullable|string',
+            'priority' => 'nullable|integer',
+            'notes' => 'nullable|string',
+            'is_primary' => 'nullable|boolean',
+            'is_active' => 'nullable|boolean',
         ]);
 
-        if ($request->is_primary) {
+        if (($validated['is_primary'] ?? false) == true) {
             \App\Models\NotificationProvider::where('is_primary', true)->update(['is_primary' => false]);
         }
 
-        \App\Models\NotificationProvider::create($request->all());
+        $validated['is_active'] = ($validated['is_active'] ?? true) == true;
+
+        \App\Models\NotificationProvider::create($validated);
 
         return response()->json(['success' => true, 'message' => 'Provider added successfully']);
     }
@@ -42,12 +51,30 @@ class SMSGatewayController extends Controller
     public function update(Request $request, $id)
     {
         $provider = \App\Models\NotificationProvider::findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'sms_from' => 'required|string',
+            'sms_url' => 'required|url',
+            'sms_method' => 'required|in:get,post',
+            'sms_bearer_token' => 'nullable|string',
+            'sms_username' => 'nullable|string',
+            'sms_password' => 'nullable|string',
+            'priority' => 'nullable|integer',
+            'notes' => 'nullable|string',
+            'is_primary' => 'nullable|boolean',
+            'is_active' => 'nullable|boolean',
+        ]);
         
-        if ($request->is_primary) {
+        if (($validated['is_primary'] ?? false) == true) {
             \App\Models\NotificationProvider::where('is_primary', true)->update(['is_primary' => false]);
         }
 
-        $provider->update($request->all());
+        if (array_key_exists('is_active', $validated)) {
+            $validated['is_active'] = ($validated['is_active'] ?? false) == true;
+        }
+
+        $provider->update($validated);
 
         return response()->json(['success' => true, 'message' => 'Provider updated successfully']);
     }

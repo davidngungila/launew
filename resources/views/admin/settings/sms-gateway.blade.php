@@ -159,7 +159,59 @@
                 </div>
             </div>
 
-            <!-- More tabs... (keeping it concise for this prompt but would include all) -->
+            <!-- Test Tab -->
+            <div id="tab-test" class="tab-content hidden space-y-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="p-8 bg-slate-50 rounded-2xl border border-slate-100">
+                        <h4 class="text-lg font-black text-slate-900 mb-6 flex items-center gap-3">
+                            <i class="ph ph-paper-plane-tilt text-emerald-500"></i> Send Test SMS
+                        </h4>
+
+                        <form id="quick-test-form" class="space-y-5">
+                            @csrf
+                            <div class="space-y-1">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">To (phone)</label>
+                                <input type="text" name="to" id="test_to" placeholder="2557XXXXXXXX" class="w-full px-5 py-3 bg-white border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Message</label>
+                                <textarea name="message" id="test_message" rows="4" class="w-full px-5 py-3 bg-white border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="Hello from LAU Paradise"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full py-4 bg-emerald-600 text-white font-black text-xs uppercase tracking-widest rounded-xl hover:bg-emerald-700 shadow-xl shadow-emerald-500/20 transition-all flex items-center justify-center gap-2">
+                                <i class="ph ph-paper-plane-tilt"></i>
+                                Send Test
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="p-8 bg-slate-950 rounded-2xl border border-slate-900 text-slate-50">
+                        <h4 class="text-lg font-black mb-6 flex items-center gap-3">
+                            <i class="ph ph-terminal-window text-emerald-400"></i> API Response
+                        </h4>
+                        <pre id="quick-test-response" class="w-full p-6 bg-black/40 rounded-2xl text-xs overflow-auto min-h-[220px]">{
+  "status": "waiting"
+}</pre>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-4">Tip: Configure a Primary provider with Sender ID and Bearer token, then run a test.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Tab -->
+            <div id="tab-info" class="tab-content hidden space-y-8">
+                <div class="p-8 bg-slate-50 rounded-2xl border border-slate-100">
+                    <h4 class="text-lg font-black text-slate-900 mb-4 flex items-center gap-3">
+                        <i class="ph ph-info text-emerald-500"></i> Messaging Service API V2
+                    </h4>
+                    <div class="space-y-2 text-sm font-medium text-slate-600">
+                        <div><span class="font-black">Base URL:</span> https://messaging-service.co.tz</div>
+                        <div><span class="font-black">Balance:</span> GET /api/v2/balance</div>
+                        <div><span class="font-black">Test SMS:</span> POST /api/sms/v2/test/text/single</div>
+                        <div><span class="font-black">Send SMS:</span> POST /api/sms/v2/text/single</div>
+                        <div><span class="font-black">Auth:</span> Bearer token (recommended) or Basic</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -191,6 +243,10 @@
                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Password / Secret</label>
                     <input type="password" name="sms_password" id="sms_password" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900">
                 </div>
+                <div class="col-span-2 space-y-1">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Bearer Token (Recommended)</label>
+                    <input type="password" name="sms_bearer_token" id="sms_bearer_token" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900" placeholder="Bearer token">
+                </div>
                  <div class="col-span-2 space-y-1">
                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">API Endpoint URL</label>
                     <input type="url" name="sms_url" id="sms_url" required class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900">
@@ -205,6 +261,24 @@
                         <option value="post">POST</option>
                         <option value="get">GET</option>
                     </select>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Priority</label>
+                    <input type="number" name="priority" id="priority" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900" placeholder="0">
+                </div>
+                <div class="col-span-2 space-y-1">
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Notes</label>
+                    <textarea name="notes" id="notes" rows="3" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900" placeholder="Optional notes"></textarea>
+                </div>
+                <div class="col-span-2 flex flex-wrap gap-3">
+                    <label class="inline-flex items-center gap-2 px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl">
+                        <input type="checkbox" name="is_primary" id="is_primary" value="1">
+                        <span class="text-[10px] font-black uppercase tracking-widest text-slate-600">Set as Primary</span>
+                    </label>
+                    <label class="inline-flex items-center gap-2 px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl">
+                        <input type="checkbox" name="is_active" id="is_active" value="1" checked>
+                        <span class="text-[10px] font-black uppercase tracking-widest text-slate-600">Active</span>
+                    </label>
                 </div>
             </div>
 
@@ -267,6 +341,8 @@
 </style>
 
 <script>
+    const PROVIDERS = @json($providers->values());
+
     function switchTab(tab) {
         document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
         document.getElementById('tab-' + tab).classList.remove('hidden');
@@ -279,6 +355,12 @@
     }
 
     function openAddModal() {
+        document.getElementById('modal-title').innerText = 'New SMS Provider';
+        document.getElementById('main-provider-form').reset();
+        document.getElementById('provider_id').value = '';
+        document.getElementById('sms_method').value = 'post';
+        document.getElementById('is_active').checked = true;
+        document.getElementById('sms_url').value = 'https://messaging-service.co.tz/api/sms/v2/text/single';
         document.getElementById('provider-modal').classList.remove('hidden');
     }
 
@@ -330,8 +412,110 @@
 
     // Basic Edit/Create handlers
     function editProvider(id) {
-        openAddModal();
-        // Would fetch data and fill form normally
+        const provider = PROVIDERS.find(p => p.id === id);
+        if (!provider) {
+            openAddModal();
+            return;
+        }
+
+        document.getElementById('modal-title').innerText = 'Edit SMS Provider';
+        document.getElementById('provider-modal').classList.remove('hidden');
+
+        document.getElementById('provider_id').value = provider.id;
+        document.getElementById('name').value = provider.name ?? '';
+        document.getElementById('sms_username').value = provider.sms_username ?? '';
+        document.getElementById('sms_password').value = '';
+        document.getElementById('sms_bearer_token').value = '';
+        document.getElementById('sms_url').value = provider.sms_url ?? '';
+        document.getElementById('sms_from').value = provider.sms_from ?? '';
+        document.getElementById('sms_method').value = (provider.sms_method ?? 'post').toLowerCase();
+        document.getElementById('priority').value = provider.priority ?? 0;
+        document.getElementById('notes').value = provider.notes ?? '';
+        document.getElementById('is_primary').checked = !!provider.is_primary;
+        document.getElementById('is_active').checked = !!provider.is_active;
     }
+
+    document.getElementById('main-provider-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const form = e.target;
+        const id = document.getElementById('provider_id').value;
+        const formData = new FormData(form);
+
+        const payload = Object.fromEntries(formData.entries());
+        payload.is_primary = document.getElementById('is_primary').checked ? 1 : 0;
+        payload.is_active = document.getElementById('is_active').checked ? 1 : 0;
+
+        if (!payload.sms_password) {
+            delete payload.sms_password;
+        }
+        if (!payload.sms_bearer_token) {
+            delete payload.sms_bearer_token;
+        }
+
+        const url = id
+            ? `{{ route('admin.settings.sms-gateway.update', ':id') }}`.replace(':id', id)
+            : `{{ route('admin.settings.sms-gateway.store') }}`;
+
+        const method = id ? 'PUT' : 'POST';
+
+        try {
+            const response = await fetch(url, {
+                method,
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.message || 'Failed to save provider');
+            }
+
+            closeModal();
+            location.reload();
+        } catch (err) {
+            alert(err.message || 'Failed to save provider');
+        }
+    });
+
+    async function openTestSmsModal(id) {
+        switchTab('test');
+        const provider = PROVIDERS.find(p => p.id === id);
+        if (provider && provider.sms_from) {
+            document.getElementById('test_message').value = `Test SMS from ${provider.sms_from}`;
+        }
+        document.getElementById('test_to').focus();
+    }
+
+    document.getElementById('quick-test-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const to = document.getElementById('test_to').value;
+        const message = document.getElementById('test_message').value;
+        const out = document.getElementById('quick-test-response');
+
+        out.innerText = JSON.stringify({ status: 'sending' }, null, 2);
+
+        try {
+            const response = await fetch(`{{ route('admin.settings.sms-gateway.test') }}`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ to, message }),
+            });
+
+            const data = await response.json();
+            out.innerText = JSON.stringify({ http_status: response.status, ...data }, null, 2);
+        } catch (err) {
+            out.innerText = JSON.stringify({ error: err.message || 'Unknown error' }, null, 2);
+        }
+    });
 </script>
 @endsection
