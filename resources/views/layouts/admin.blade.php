@@ -48,8 +48,8 @@
             @php
                 $user = auth()->user();
                 // Check if role methods exist, fallback if not
-                $hasRoleMethod = method_exists($user, 'hasAnyRole');
-                $isAdmin = $hasRoleMethod ? $user->hasAnyRole(['System Administrator']) : true; // Default true for now to show menu
+                $hasRoleMethod = method_exists($user, 'hasAnyRole') && $user && $user->roles()->exists();
+                $isAdmin = $hasRoleMethod ? $user->hasAnyRole(['System Administrator']) : true; // Default true to show menu when roles not configured
             @endphp
 
             {{-- 🟦 MAIN DASHBOARD --}}
