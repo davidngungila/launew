@@ -19,6 +19,15 @@ class NotificationProvider extends Model
         'last_tested_at' => 'datetime',
     ];
 
+    public static function getPrimary(?string $type = null): ?self
+    {
+        return static::query()
+            ->where('is_active', true)
+            ->where('is_primary', true)
+            ->orderBy('priority')
+            ->first();
+    }
+
     public function getStatusBadgeClass()
     {
         return match($this->connection_status) {
