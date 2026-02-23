@@ -24,7 +24,9 @@
 <div class="box">
     <div class="header">
         <div>
-            <div class="brand">LAU Paradise Adventure</div>
+            <div style="margin-bottom: 6px;">
+                <img src="{{ public_path('header-mfumo-lau.png') }}" style="width: 320px; max-height: 70px; object-fit: contain;">
+            </div>
             <div class="muted">Moshi, Kilimanjaro, Tanzania · +255 683 163 219</div>
         </div>
         <div class="right">

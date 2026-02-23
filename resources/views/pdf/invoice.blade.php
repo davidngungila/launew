@@ -116,7 +116,9 @@
     <div class="invoice-box">
         <table style="width: 100%; margin-bottom: 40px;">
             <tr>
-                <td class="logo">LAU Paradise Adventure</td>
+                <td>
+                    <img src="{{ public_path('header-mfumo-lau.png') }}" style="width: 100%; max-height: 90px; object-fit: contain;">
+                </td>
                 <td class="company-info">
                     <strong>LAU Paradise Adventure</strong><br>
                     Moshi, Kilimanjaro, Tanzania<br>
