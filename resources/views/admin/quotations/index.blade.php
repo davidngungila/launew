@@ -9,6 +9,10 @@
             <p class="text-slate-500 font-medium">Draft and manage custom Safari itineraries for your clients</p>
         </div>
         <div class="flex items-center gap-3">
+            <a href="{{ route('admin.quotations.export-pdf.preview') }}" target="_blank" class="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm flex items-center gap-2">
+                <i class="ph ph-eye"></i>
+                Preview PDF
+            </a>
             <a href="{{ route('admin.quotations.export-pdf') }}" class="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm flex items-center gap-2">
                 <i class="ph ph-file-pdf"></i>
                 Export PDF

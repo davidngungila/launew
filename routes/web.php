@@ -71,6 +71,7 @@ Route::get('/tours/{id}', [PublicTourController::class, 'show'])->name('tours.sh
 Route::post('/bookings', [PublicBookingController::class, 'store'])->name('bookings.store');
 Route::get('/bookings/{id}/checkout', [PublicBookingController::class, 'checkout'])->name('bookings.checkout');
 Route::get('/bookings/{id}/invoice', [PublicBookingController::class, 'downloadInvoice'])->name('bookings.invoice');
+Route::get('/bookings/{id}/invoice/preview', [PublicBookingController::class, 'previewInvoice'])->name('bookings.invoice.preview');
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'activity.log'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -95,6 +96,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'activity.log'])->gr
     Route::put('/bookings/{id}/assignments', [App\Http\Controllers\Admin\BookingController::class, 'updateAssignments'])->name('bookings.assignments.update');
     Route::post('/bookings/{id}/send-itinerary', [App\Http\Controllers\Admin\BookingController::class, 'sendItinerary'])->name('bookings.send-itinerary');
     Route::get('/bookings/{id}/receipt', [App\Http\Controllers\Admin\BookingController::class, 'downloadReceipt'])->name('bookings.receipt');
+    Route::get('/bookings/{id}/receipt/preview', [App\Http\Controllers\Admin\BookingController::class, 'previewReceipt'])->name('bookings.receipt.preview');
     Route::post('/bookings/{id}/verify-payment', [App\Http\Controllers\Admin\BookingController::class, 'verifyPayment'])->name('bookings.verify-payment');
     Route::get('/quotations', function() { return view('admin.quotations.index'); })->name('quotations.index');
     Route::get('/quotations/create', function() { return view('admin.quotations.create'); })->name('quotations.create');
@@ -115,6 +117,23 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'activity.log'])->gr
 
         return $pdf->download('Quotations_' . now()->format('Ymd_His') . '.pdf');
     })->name('quotations.export-pdf');
+
+    Route::get('/quotations/export-pdf/preview', function () {
+        $quotes = [
+            ['id' => 'QT-2026-001', 'client' => 'Marcus Aurelius', 'brief' => '8 Days Northern Circuit Premium', 'val' => '$12,400', 'status' => 'Sent'],
+            ['id' => 'QT-2026-002', 'client' => 'Lucius Vorenus', 'brief' => '3 Days Serengeti Balloon Safari', 'val' => '$4,200', 'status' => 'Converted'],
+            ['id' => 'QT-2026-003', 'client' => 'Julius Caesar', 'brief' => '14 Days Luxury Tanzania & Zanzibar', 'val' => '$32,500', 'status' => 'Draft'],
+            ['id' => 'QT-2026-004', 'client' => 'Cleopatra VII', 'brief' => '5 Days Kili Marangu Route', 'val' => '$2,800', 'status' => 'Expired'],
+        ];
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.quotations', [
+            'quotes' => $quotes,
+            'generatedAt' => now(),
+            'generatedBy' => auth()->user(),
+        ]);
+
+        return $pdf->stream('Quotations_' . now()->format('Ymd_His') . '.pdf');
+    })->name('quotations.export-pdf.preview');
     Route::get('/customers', function() { return view('admin.customers.index'); })->name('customers.index');
     
     // Inventory & Logistics

@@ -42,10 +42,16 @@
                                 <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-slate-100 text-slate-600">{{ $b->payment_status ?? 'N/A' }}</span>
                             </td>
                             <td class="px-8 py-6 text-right">
-                                <a target="_blank" href="{{ route('bookings.invoice', $b->id) }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-slate-800 transition-all">
-                                    <i class="ph ph-file-pdf"></i>
-                                    Voucher PDF
-                                </a>
+                                <div class="inline-flex items-center gap-2">
+                                    <a target="_blank" href="{{ route('bookings.invoice.preview', $b->id) }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-slate-50 transition-all">
+                                        <i class="ph ph-eye"></i>
+                                        Preview
+                                    </a>
+                                    <a target="_blank" href="{{ route('bookings.invoice', $b->id) }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-slate-800 transition-all">
+                                        <i class="ph ph-download-simple"></i>
+                                        Download
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                     @empty

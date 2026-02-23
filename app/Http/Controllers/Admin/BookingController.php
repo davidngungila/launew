@@ -200,6 +200,14 @@ class BookingController extends Controller
         return $pdf->download('Receipt_BK' . str_pad($booking->id, 5, '0', STR_PAD_LEFT) . '.pdf');
     }
 
+    public function previewReceipt($id)
+    {
+        $booking = Booking::with('tour')->findOrFail($id);
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.receipt', compact('booking'));
+
+        return $pdf->stream('Receipt_BK' . str_pad($booking->id, 5, '0', STR_PAD_LEFT) . '.pdf');
+    }
+
     public function verifyPayment($id)
     {
         $booking = Booking::findOrFail($id);

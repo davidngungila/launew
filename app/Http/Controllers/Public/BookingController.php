@@ -56,4 +56,12 @@ class BookingController extends Controller
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.invoice', compact('booking'));
         return $pdf->download('Safari_Invoice_BK' . str_pad($booking->id, 5, '0', STR_PAD_LEFT) . '.pdf');
     }
+
+    public function previewInvoice($id)
+    {
+        $booking = Booking::with('tour')->findOrFail($id);
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.invoice', compact('booking'));
+
+        return $pdf->stream('Safari_Invoice_BK' . str_pad($booking->id, 5, '0', STR_PAD_LEFT) . '.pdf');
+    }
 }

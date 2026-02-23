@@ -26,14 +26,18 @@
                     Send Itinerary
                 </button>
             </form>
+            <a href="{{ route('bookings.invoice.preview', $booking->id) }}" target="_blank" class="px-6 py-4 bg-white border border-slate-100 text-slate-600 font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-slate-50 transition-all shadow-sm flex items-center gap-3">
+                <i class="ph-bold ph-eye text-lg"></i>
+                Preview Voucher PDF
+            </a>
             <a href="{{ route('bookings.invoice', $booking->id) }}" target="_blank" class="px-6 py-4 bg-white border border-slate-100 text-slate-600 font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-slate-50 transition-all shadow-sm flex items-center gap-3">
-                <i class="ph-bold ph-printer text-lg"></i>
-                Voucher PDF
+                <i class="ph-bold ph-download-simple text-lg"></i>
+                Download Voucher PDF
             </a>
             <div class="h-10 w-px bg-slate-200 mx-2"></div>
             <a href="{{ route('admin.bookings.edit', $booking->id) }}" class="px-8 py-4 bg-slate-900 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/10 flex items-center gap-3">
                 <i class="ph-bold ph-pencil-simple text-lg text-emerald-400"></i>
-                Edit Dossier
+                Edit Booking
             </a>
         </div>
     </div>
@@ -314,10 +318,15 @@
                             Verify Transaction Status
                         </button>
                     </form>
-                    
+
+                    <a href="{{ route('admin.bookings.receipt.preview', $booking->id) }}" target="_blank" class="w-full flex items-center justify-center gap-3 px-6 py-4 bg-white border border-slate-200 text-slate-600 font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-slate-50 transition-all">
+                        <i class="ph-bold ph-eye text-lg"></i>
+                        Preview Receipt
+                    </a>
+
                     <a href="{{ route('admin.bookings.receipt', $booking->id) }}" target="_blank" class="w-full flex items-center justify-center gap-3 px-6 py-4 bg-white border border-slate-200 text-slate-600 font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-slate-50 transition-all">
-                        <i class="ph-bold ph-receipt text-lg"></i>
-                        Generate Receipt
+                        <i class="ph-bold ph-download-simple text-lg"></i>
+                        Download Receipt
                     </a>
                 </div>
                 

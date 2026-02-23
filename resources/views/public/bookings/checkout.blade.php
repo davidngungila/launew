@@ -61,6 +61,9 @@
                     @endif
 
                     <div class="mt-12 flex flex-wrap gap-4">
+                        <a href="{{ route('bookings.invoice.preview', $booking->id) }}" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 bg-white text-slate-900 font-black text-xs uppercase tracking-widest rounded-2xl border border-slate-100 hover:bg-slate-50 transition-all">
+                            <i class="ph ph-eye text-xl text-emerald-600"></i> Preview Proforma PDF
+                        </a>
                         <a href="{{ route('bookings.invoice', $booking->id) }}" class="inline-flex items-center gap-3 px-8 py-4 bg-slate-50 text-slate-900 font-black text-xs uppercase tracking-widest rounded-2xl border border-slate-100 hover:bg-slate-100 transition-all">
                             <i class="ph ph-file-pdf text-xl text-rose-500"></i> Export Proforma PDF
                         </a>
