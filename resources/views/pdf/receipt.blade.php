@@ -25,7 +25,7 @@
     <div class="header">
         <div>
             <div style="margin-bottom: 6px;">
-                <img src="{{ public_path('header-mfumo-lau.png') }}" style="width: 360px; max-height: 80px; object-fit: contain;">
+                <img src="{{ public_path('header-mfumo-lau.png') }}" style="width: 360px; height: auto; display: block;">
             </div>
         </div>
         <div class="right">

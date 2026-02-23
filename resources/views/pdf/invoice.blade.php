@@ -117,7 +117,7 @@
         <table style="width: 100%; margin-bottom: 40px;">
             <tr>
                 <td style="text-align: center;">
-                    <img src="{{ public_path('header-mfumo-lau.png') }}" style="width: 100%; max-height: 110px; object-fit: contain;">
+                    <img src="{{ public_path('header-mfumo-lau.png') }}" style="width: 100%; height: auto; display: block; margin: 0 auto;">
                 </td>
             </tr>
         </table>
