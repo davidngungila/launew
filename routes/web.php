@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\SystemHealthController;
+use App\Http\Controllers\Admin\EmailGatewayController;
 
 Route::get('/', [PublicTourController::class, 'home'])->name('home');
 
@@ -162,6 +163,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'activity.log'])->gr
         Route::post('/draft/test-connection', [App\Http\Controllers\Admin\SMSGatewayController::class, 'testDraftConnection'])->name('draft.testConnection');
         Route::post('/draft/test-sms', [App\Http\Controllers\Admin\SMSGatewayController::class, 'testDraftSms'])->name('draft.testSms');
         Route::post('/test', [App\Http\Controllers\Admin\SMSGatewayController::class, 'test'])->name('test');
+    });
+
+    // Email Gateway Settings
+    Route::prefix('settings/email-gateway')->name('settings.email-gateway.')->group(function() {
+        Route::get('/', [EmailGatewayController::class, 'edit'])->name('edit');
+        Route::post('/', [EmailGatewayController::class, 'update'])->name('update');
+        Route::post('/test', [EmailGatewayController::class, 'test'])->name('test');
     });
 
     // Account Management
