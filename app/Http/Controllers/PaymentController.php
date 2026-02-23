@@ -6,6 +6,7 @@ use App\Models\Booking;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
+use Stripe\PaymentIntent;
 
 class PaymentController extends Controller
 {
@@ -43,8 +44,9 @@ class PaymentController extends Controller
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
-            'success_url' => route('payment.success') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('checkout', $booking->id),
+            'client_reference_id' => (string) $booking->id,
+            'success_url' => route('payment.success', ['id' => $booking->id]) . '&session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('bookings.checkout', ['id' => $booking->id]) . '?cancelled=1',
             'metadata' => [
                 'booking_id' => $booking->id,
                 'payment_type' => $type,
@@ -60,5 +62,37 @@ class PaymentController extends Controller
         $id = $request->get('id');
         $booking = $id ? Booking::with('tour')->find($id) : null;
         return view('payment.success', compact('booking'));
+    }
+
+    public function createPaymentIntent(Request $request)
+    {
+        $validated = $request->validate([
+            'booking_id' => 'required|integer|exists:bookings,id',
+            'type' => 'nullable|in:full,deposit',
+        ]);
+
+        $booking = Booking::with('tour')->findOrFail($validated['booking_id']);
+        $type = $validated['type'] ?? 'full';
+
+        $amount = (float) $booking->total_price;
+        if ($type === 'deposit') {
+            $amount = (float) ($booking->total_price * 0.30);
+        }
+
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+        $intent = PaymentIntent::create([
+            'amount' => (int) round($amount * 100),
+            'currency' => 'usd',
+            'metadata' => [
+                'booking_id' => $booking->id,
+                'payment_type' => $type,
+            ],
+            'receipt_email' => $booking->customer_email,
+        ]);
+
+        return response()->json([
+            'client_secret' => $intent->client_secret,
+        ]);
     }
 }
