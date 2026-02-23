@@ -61,6 +61,9 @@
                     <a href="{{ route('admin.tours.show', $tour) }}" class="w-10 h-10 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-xl flex items-center justify-center hover:bg-white/20 transition-all">
                         <i class="ph-bold ph-eye text-lg"></i>
                     </a>
+                    <a href="{{ route('admin.tours.itinerary-builder', ['tour_id' => $tour->id]) }}" class="w-10 h-10 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-xl flex items-center justify-center hover:bg-emerald-500 hover:border-emerald-400 transition-all group/btn" title="Itinerary Builder">
+                        <i class="ph-bold ph-list-checks text-xl group-hover/btn:scale-110 transition-transform"></i>
+                    </a>
                     <a href="{{ route('admin.tours.edit', $tour) }}" class="w-10 h-10 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-xl flex items-center justify-center hover:bg-emerald-500 hover:border-emerald-400 transition-all group/btn">
                         <i class="ph-bold ph-pencil-simple text-xl group-hover/btn:scale-110 transition-transform"></i>
                     </a>
@@ -88,6 +91,7 @@
                 
                 <div class="grid grid-cols-2 gap-3 pt-2">
                     <a href="{{ route('admin.tours.show', $tour) }}" class="py-3 bg-slate-50 text-slate-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-slate-100 transition-all text-center">View</a>
+                    <a href="{{ route('admin.tours.itinerary-builder', ['tour_id' => $tour->id]) }}" class="py-3 bg-white border border-slate-200 text-slate-700 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-200 transition-all text-center">Itinerary</a>
                     <form action="{{ route('admin.tours.destroy', $tour) }}" method="POST" onsubmit="return confirm('Delete this tour?')">
                         @csrf
                         @method('DELETE')

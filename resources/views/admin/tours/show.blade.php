@@ -8,6 +8,10 @@
             <p class="text-slate-500 font-medium">{{ $tour->location }} · {{ $tour->duration_days }} days</p>
         </div>
         <div class="flex items-center gap-3">
+            <a href="{{ route('admin.tours.itinerary-builder', ['tour_id' => $tour->id]) }}" class="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm flex items-center gap-2">
+                <i class="ph ph-list-checks"></i>
+                Itinerary Builder
+            </a>
             <a href="{{ route('admin.tours.edit', $tour) }}" class="px-5 py-2.5 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/10 flex items-center gap-2">
                 <i class="ph ph-pencil-simple"></i>
                 Edit
