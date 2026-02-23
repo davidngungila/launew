@@ -17,13 +17,16 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Lau Administrator',
-            'email' => 'admin@lauparadise.com',
-            'password' => \Hash::make('lau123'),
-        ]);
+        User::query()->updateOrCreate(
+            ['email' => 'admin@lauparadise.com'],
+            [
+                'name' => 'Lau Administrator',
+                'password' => \Hash::make('lau123'),
+            ]
+        );
 
         $this->call([
+            RolesPermissionsSeeder::class,
             TourSeeder::class,
             ItinerarySeeder::class,
         ]);

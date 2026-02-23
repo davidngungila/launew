@@ -7,6 +7,11 @@ use App\Http\Controllers\Admin\TourController;
 use App\Http\Controllers\Public\TourController as PublicTourController;
 use App\Http\Controllers\Public\BookingController as PublicBookingController;
 use App\Http\Controllers\Admin\ExpenseController;
+use App\Http\Controllers\Admin\SystemSettingsController;
+use App\Http\Controllers\Admin\UserManagementController;
+use App\Http\Controllers\Admin\RolePermissionController;
+use App\Http\Controllers\Admin\ActivityLogController;
+use App\Http\Controllers\Admin\SystemHealthController;
 
 Route::get('/', [PublicTourController::class, 'home'])->name('home');
 
@@ -65,7 +70,7 @@ Route::post('/bookings', [PublicBookingController::class, 'store'])->name('booki
 Route::get('/bookings/{id}/checkout', [PublicBookingController::class, 'checkout'])->name('bookings.checkout');
 Route::get('/bookings/{id}/invoice', [PublicBookingController::class, 'downloadInvoice'])->name('bookings.invoice');
 
-Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'activity.log'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('tours', TourController::class)->whereNumber('tour');
 
@@ -82,6 +87,12 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/bookings/create', [App\Http\Controllers\Admin\BookingController::class, 'create'])->name('bookings.create');
     Route::post('/bookings', [App\Http\Controllers\Admin\BookingController::class, 'store'])->name('bookings.store');
     Route::get('/bookings/{id}', [App\Http\Controllers\Admin\BookingController::class, 'show'])->name('bookings.show');
+    Route::get('/bookings/{id}/edit', [App\Http\Controllers\Admin\BookingController::class, 'edit'])->name('bookings.edit');
+    Route::put('/bookings/{id}', [App\Http\Controllers\Admin\BookingController::class, 'update'])->name('bookings.update');
+    Route::get('/bookings/{id}/assignments', [App\Http\Controllers\Admin\BookingController::class, 'editAssignments'])->name('bookings.assignments.edit');
+    Route::put('/bookings/{id}/assignments', [App\Http\Controllers\Admin\BookingController::class, 'updateAssignments'])->name('bookings.assignments.update');
+    Route::post('/bookings/{id}/send-itinerary', [App\Http\Controllers\Admin\BookingController::class, 'sendItinerary'])->name('bookings.send-itinerary');
+    Route::get('/bookings/{id}/receipt', [App\Http\Controllers\Admin\BookingController::class, 'downloadReceipt'])->name('bookings.receipt');
     Route::post('/bookings/{id}/verify-payment', [App\Http\Controllers\Admin\BookingController::class, 'verifyPayment'])->name('bookings.verify-payment');
     Route::get('/quotations', function() { return view('admin.quotations.index'); })->name('quotations.index');
     Route::get('/quotations/create', function() { return view('admin.quotations.create'); })->name('quotations.create');
@@ -126,7 +137,17 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/marketing', function() { return view('admin.marketing.index'); })->name('marketing.index');
     Route::get('/website', function() { return view('admin.website.index'); })->name('website.index');
     Route::get('/support', function() { return view('admin.support.index'); })->name('support.index');
-    Route::get('/settings', function() { return view('admin.settings.index'); })->name('settings.index');
+    Route::get('/settings', [SystemSettingsController::class, 'edit'])->name('settings.index');
+    Route::put('/settings', [SystemSettingsController::class, 'update'])->name('settings.update');
+    Route::get('/settings/user-management', [UserManagementController::class, 'index'])->name('settings.users.index');
+    Route::post('/settings/user-management', [UserManagementController::class, 'store'])->name('settings.users.store');
+    Route::put('/settings/user-management/{user}', [UserManagementController::class, 'update'])->whereNumber('user')->name('settings.users.update');
+    Route::get('/settings/role-permissions', [RolePermissionController::class, 'index'])->name('settings.roles.index');
+    Route::post('/settings/role-permissions/roles', [RolePermissionController::class, 'storeRole'])->name('settings.roles.store');
+    Route::put('/settings/role-permissions/roles/{role}', [RolePermissionController::class, 'updateRole'])->whereNumber('role')->name('settings.roles.update');
+    Route::get('/settings/activity-logs', [ActivityLogController::class, 'index'])->name('settings.activity-logs.index');
+    Route::get('/settings/activity-logs/{log}', [ActivityLogController::class, 'show'])->whereNumber('log')->name('settings.activity-logs.show');
+    Route::get('/settings/system-health', [SystemHealthController::class, 'index'])->name('settings.system-health.index');
     
     // SMS Gateway Settings
     Route::prefix('settings/sms-gateway')->name('settings.sms-gateway.')->group(function() {

@@ -291,10 +291,10 @@
                 <div x-show="open" x-collapse class="pl-12 pr-4 py-2 space-y-1">
                     <a href="{{ route('admin.settings.index') }}" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors">System Settings</a>
                     <a href="{{ route('admin.settings.sms-gateway.index') }}" class="block text-xs py-2 {{ request()->routeIs('admin.settings.sms-gateway.*') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">SMS Gateway</a>
-                    <a href="#" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors">User Management</a>
-                    <a href="#" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors">Role Permissions</a>
-                    <a href="#" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors">Activity Logs</a>
-                    <a href="#" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors">System Health</a>
+                    <a href="{{ route('admin.settings.users.index') }}" class="block text-xs py-2 {{ request()->routeIs('admin.settings.users.*') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">User Management</a>
+                    <a href="{{ route('admin.settings.roles.index') }}" class="block text-xs py-2 {{ request()->routeIs('admin.settings.roles.*') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Role Permissions</a>
+                    <a href="{{ route('admin.settings.activity-logs.index') }}" class="block text-xs py-2 {{ request()->routeIs('admin.settings.activity-logs.*') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Activity Logs</a>
+                    <a href="{{ route('admin.settings.system-health.index') }}" class="block text-xs py-2 {{ request()->routeIs('admin.settings.system-health.*') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">System Health</a>
                 </div>
             </div>
             @endif

@@ -19,19 +19,22 @@
         </div>
         
         <div class="flex flex-wrap items-center gap-3">
-            <button class="px-6 py-4 bg-white border border-slate-100 text-slate-600 font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-slate-50 transition-all shadow-sm flex items-center gap-3">
-                <i class="ph-bold ph-envelope-simple text-lg"></i>
-                Send Itinerary
-            </button>
+            <form action="{{ route('admin.bookings.send-itinerary', $booking->id) }}" method="POST">
+                @csrf
+                <button type="submit" class="px-6 py-4 bg-white border border-slate-100 text-slate-600 font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-slate-50 transition-all shadow-sm flex items-center gap-3">
+                    <i class="ph-bold ph-envelope-simple text-lg"></i>
+                    Send Itinerary
+                </button>
+            </form>
             <a href="{{ route('bookings.invoice', $booking->id) }}" target="_blank" class="px-6 py-4 bg-white border border-slate-100 text-slate-600 font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-slate-50 transition-all shadow-sm flex items-center gap-3">
                 <i class="ph-bold ph-printer text-lg"></i>
                 Voucher PDF
             </a>
             <div class="h-10 w-px bg-slate-200 mx-2"></div>
-            <button class="px-8 py-4 bg-slate-900 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/10 flex items-center gap-3">
+            <a href="{{ route('admin.bookings.edit', $booking->id) }}" class="px-8 py-4 bg-slate-900 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/10 flex items-center gap-3">
                 <i class="ph-bold ph-pencil-simple text-lg text-emerald-400"></i>
                 Edit Dossier
-            </button>
+            </a>
         </div>
     </div>
 
@@ -123,7 +126,7 @@
                         <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-1">Ground Support</h4>
                         <h2 class="text-2xl font-black text-slate-900 tracking-tight">Expedition Crew</h2>
                     </div>
-                    <button class="px-5 py-2.5 bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-900 rounded-xl hover:bg-slate-100 transition-all border border-slate-100">Modify Assignments</button>
+                    <a href="{{ route('admin.bookings.assignments.edit', $booking->id) }}" class="px-5 py-2.5 bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-900 rounded-xl hover:bg-slate-100 transition-all border border-slate-100">Modify Assignments</a>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -312,10 +315,10 @@
                         </button>
                     </form>
                     
-                    <button class="w-full flex items-center justify-center gap-3 px-6 py-4 bg-white border border-slate-200 text-slate-600 font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-slate-50 transition-all">
+                    <a href="{{ route('admin.bookings.receipt', $booking->id) }}" target="_blank" class="w-full flex items-center justify-center gap-3 px-6 py-4 bg-white border border-slate-200 text-slate-600 font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-slate-50 transition-all">
                         <i class="ph-bold ph-receipt text-lg"></i>
                         Generate Receipt
-                    </button>
+                    </a>
                 </div>
                 
                 <p class="text-[9px] text-center text-slate-400 font-bold uppercase tracking-widest">Use this to manually sync payment status from Flutterwave</p>

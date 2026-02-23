@@ -11,14 +11,14 @@
             </h1>
             <p class="text-slate-500 font-medium">Manage multiple SMS providers, test connections, and configure fallback settings</p>
         </div>
-        <button type="button" class="px-6 py-3 bg-emerald-600 text-white font-black rounded-2xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2" onclick="openAddModal()">
+        <button type="button" class="px-6 py-3 bg-emerald-600 text-white font-black rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2" onclick="openAddModal()">
             <i class="ph ph-plus-bold"></i>
             Add New Provider
         </button>
     </div>
 
     <!-- Main Content Area -->
-    <div class="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
         <!-- Tabs Header -->
         <div class="px-8 pt-8 border-b border-slate-50">
             <div class="flex items-center gap-8 overflow-x-auto no-scrollbar">
@@ -43,7 +43,7 @@
             <div id="tab-providers" class="tab-content transition-all duration-300">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @forelse($providers as $provider)
-                    <div class="group relative bg-slate-50 rounded-[2rem] border-2 border-transparent hover:border-emerald-500/50 transition-all p-8 {{ $provider->is_primary ? 'ring-2 ring-emerald-500 ring-offset-4' : '' }}" id="provider-card-{{ $provider->id }}">
+                    <div class="group relative bg-slate-50 rounded-2xl border-2 border-transparent hover:border-emerald-500/50 transition-all p-8 {{ $provider->is_primary ? 'ring-2 ring-emerald-500 ring-offset-4' : '' }}" id="provider-card-{{ $provider->id }}">
                         <!-- Checking Overlay (Requested Animation) -->
                         <div id="checking-{{ $provider->id }}" class="checking-overlay hidden">
                             <div class="slash-scan"></div>
@@ -57,10 +57,10 @@
                         <div class="flex justify-between items-start mb-6">
                             <div class="flex items-center gap-2">
                                 @if($provider->is_primary)
-                                <span class="px-3 py-1 bg-emerald-600 text-white text-[9px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-emerald-500/20">Primary</span>
+                                <span class="px-3 py-1 bg-emerald-600 text-white text-[9px] font-black uppercase tracking-widest rounded-xl shadow-lg shadow-emerald-500/20">Primary</span>
                                 @endif
                                 @if(!$provider->is_active)
-                                <span class="px-3 py-1 bg-slate-200 text-slate-500 text-[9px] font-black uppercase tracking-widest rounded-full">Inactive</span>
+                                <span class="px-3 py-1 bg-slate-200 text-slate-500 text-[9px] font-black uppercase tracking-widest rounded-xl">Inactive</span>
                                 @endif
                             </div>
                             <div class="relative" x-data="{ open: false }">
@@ -99,7 +99,7 @@
                             <div class="flex justify-between items-center px-4 py-2 bg-white rounded-xl border border-slate-100">
                                 <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</span>
                                 <div class="flex items-center gap-2">
-                                    <div class="w-1.5 h-1.5 rounded-full {{ $provider->connection_status === 'connected' ? 'bg-emerald-500 animate-pulse' : 'bg-red-500' }}"></div>
+                                    <div class="w-1.5 h-1.5 rounded {{ $provider->connection_status === 'connected' ? 'bg-emerald-500 animate-pulse' : 'bg-red-500' }}"></div>
                                     <span class="text-xs font-black text-slate-900 capitalize">{{ $provider->connection_status }}</span>
                                 </div>
                             </div>
@@ -116,12 +116,12 @@
                     </div>
                     @empty
                     <div class="col-span-full py-20 text-center">
-                        <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <div class="w-20 h-20 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <i class="ph ph-sidebar text-3xl text-slate-300"></i>
                         </div>
                         <h4 class="text-xl font-black text-slate-900 mb-2">No Providers Defined</h4>
                         <p class="text-slate-400 font-medium mb-8">You haven't added any SMS gateway providers yet.</p>
-                        <button onclick="openAddModal()" class="px-8 py-3 bg-emerald-600 text-white font-black rounded-2xl shadow-xl shadow-emerald-500/20">Add First Provider</button>
+                        <button onclick="openAddModal()" class="px-8 py-3 bg-emerald-600 text-white font-black rounded-xl shadow-xl shadow-emerald-500/20">Add First Provider</button>
                     </div>
                     @endforelse
                 </div>
@@ -130,7 +130,7 @@
             <!-- Settings Tab -->
             <div id="tab-settings" class="tab-content hidden space-y-8">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div class="p-8 bg-slate-50 rounded-[2.5rem] border border-slate-100">
+                    <div class="p-8 bg-slate-50 rounded-2xl border border-slate-100">
                         <h4 class="text-lg font-black text-slate-900 mb-6 flex items-center gap-3">
                             <i class="ph ph-database text-emerald-500"></i> Database Fallbacks
                         </h4>
@@ -143,7 +143,7 @@
                             @endforeach
                         </div>
                     </div>
-                    <div class="p-8 bg-slate-900 rounded-[2.5rem] text-white">
+                    <div class="p-8 bg-slate-900 rounded-2xl text-white">
                         <h4 class="text-lg font-black mb-6 flex items-center gap-3">
                             <i class="ph ph-terminal-window text-emerald-400"></i> Environment Variables
                         </h4>
@@ -167,10 +167,10 @@
 <!-- Add/Edit Provider Modal (Simplified for the scanning demo) -->
 <div x-data="{ isOpen: false }" id="provider-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-6 hidden">
     <div class="absolute inset-0 bg-slate-950/60 backdrop-blur-sm" onclick="closeModal()"></div>
-    <div class="relative w-full max-w-2xl bg-white rounded-[3rem] shadow-2xl overflow-hidden">
+    <div class="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden">
         <div class="p-8 pb-0 flex justify-between items-center">
             <h3 class="text-2xl font-black text-slate-900" id="modal-title">New SMS Provider</h3>
-            <button onclick="closeModal()" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-2xl flex items-center justify-center hover:bg-rose-50 hover:text-rose-500 transition-all">
+            <button onclick="closeModal()" class="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center hover:bg-rose-50 hover:text-rose-500 transition-all">
                 <i class="ph ph-x text-2xl"></i>
             </button>
         </div>
@@ -181,27 +181,27 @@
             <div class="grid grid-cols-2 gap-6">
                 <div class="col-span-2 space-y-1">
                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Provider Name</label>
-                    <input type="text" name="name" id="name" required class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <input type="text" name="name" id="name" required class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500">
                 </div>
                 <div class="space-y-1">
                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Username / Key</label>
-                    <input type="text" name="sms_username" id="sms_username" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-900">
+                    <input type="text" name="sms_username" id="sms_username" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900">
                 </div>
                 <div class="space-y-1">
                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Password / Secret</label>
-                    <input type="password" name="sms_password" id="sms_password" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-900">
+                    <input type="password" name="sms_password" id="sms_password" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900">
                 </div>
                  <div class="col-span-2 space-y-1">
                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">API Endpoint URL</label>
-                    <input type="url" name="sms_url" id="sms_url" required class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-900">
+                    <input type="url" name="sms_url" id="sms_url" required class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900">
                 </div>
                 <div class="space-y-1">
                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Sender ID (From)</label>
-                    <input type="text" name="sms_from" id="sms_from" required class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-900">
+                    <input type="text" name="sms_from" id="sms_from" required class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900">
                 </div>
                 <div class="space-y-1">
                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">HTTP Method</label>
-                    <select name="sms_method" id="sms_method" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none">
+                    <select name="sms_method" id="sms_method" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none">
                         <option value="post">POST</option>
                         <option value="get">GET</option>
                     </select>
@@ -209,8 +209,8 @@
             </div>
 
             <div class="pt-4 flex gap-4">
-                <button type="button" onclick="closeModal()" class="flex-1 py-4 bg-slate-100 text-slate-500 font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-slate-200 transition-all">Cancel</button>
-                <button type="submit" class="flex-1 py-4 bg-emerald-600 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-emerald-700 shadow-xl shadow-emerald-500/20 transition-all">Save Provider</button>
+                <button type="button" onclick="closeModal()" class="flex-1 py-4 bg-slate-100 text-slate-500 font-black text-xs uppercase tracking-widest rounded-xl hover:bg-slate-200 transition-all">Cancel</button>
+                <button type="submit" class="flex-1 py-4 bg-emerald-600 text-white font-black text-xs uppercase tracking-widest rounded-xl hover:bg-emerald-700 shadow-xl shadow-emerald-500/20 transition-all">Save Provider</button>
             </div>
         </form>
     </div>
@@ -236,7 +236,7 @@
         align-items: center;
         justify-content: center;
         z-index: 50;
-        border-radius: 2rem;
+        border-radius: 1rem;
         overflow: hidden;
     }
 
@@ -307,7 +307,7 @@
 
     async function finishTest(id) {
         try {
-            const response = await fetch(`{{ route('admin.settings.sms-gateway.test-connection', ':id') }}`.replace(':id', id), {
+            const response = await fetch(`{{ route('admin.settings.sms-gateway.testConnection', ':id') }}`.replace(':id', id), {
                 method: 'POST',
                 headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Accept': 'application/json' }
             });

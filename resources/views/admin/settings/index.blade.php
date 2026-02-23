@@ -7,105 +7,205 @@
             <h1 class="text-3xl font-black text-slate-900 tracking-tight">System Settings</h1>
             <p class="text-slate-500 font-medium">Configure core business rules and user access</p>
         </div>
-        <div class="flex items-center gap-3">
-            <button class="px-5 py-2.5 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2">
-                <i class="ph ph-check"></i>
-                Apply Changes
-            </button>
-        </div>
+        <div class="flex items-center gap-3"></div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Main Settings -->
+    <form action="{{ route('admin.settings.update') }}" method="POST" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        @csrf
+        @method('PUT')
+
         <div class="lg:col-span-2 space-y-8">
-            <div class="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm">
-                <h3 class="text-xl font-black text-slate-900 mb-8 flex items-center gap-3">
-                    <i class="ph ph-laptop text-emerald-500"></i> General Configuration
-                </h3>
+            <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
+                <div class="flex items-center justify-between gap-4 mb-8">
+                    <h3 class="text-xl font-black text-slate-900 flex items-center gap-3">
+                        <i class="ph ph-laptop text-emerald-500"></i> General Configuration
+                    </h3>
+                    <button type="submit" class="px-5 py-3 bg-emerald-600 text-white font-black rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2">
+                        <i class="ph ph-check"></i>
+                        Apply Changes
+                    </button>
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="space-y-1">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Business Name</label>
-                        <input type="text" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500" value="LAU Paradise Adventure">
+                        <input type="text" name="company[name]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500" value="{{ old('company.name', $settings['company']['name'] ?? '') }}">
                     </div>
                     <div class="space-y-1">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Default Currency</label>
-                        <select class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none">
-                            <option>USD - US Dollar</option>
-                            <option>TZS - Tanzanian Shilling</option>
+                        <select name="company[currency]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none">
+                            @foreach(['USD' => 'USD - US Dollar', 'TZS' => 'TZS - Tanzanian Shilling', 'EUR' => 'EUR - Euro', 'GBP' => 'GBP - British Pound'] as $code => $label)
+                                <option value="{{ $code }}" {{ old('company.currency', $settings['company']['currency'] ?? '') === $code ? 'selected' : '' }}>{{ $label }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="space-y-1">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Primary Email</label>
-                        <input type="email" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-900" value="lauparadiseadventure@gmail.com">
+                        <input type="email" name="company[email]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900" value="{{ old('company.email', $settings['company']['email'] ?? '') }}">
                     </div>
                     <div class="space-y-1">
                          <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Timezone</label>
-                         <input type="text" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-900" value="(GMT+3) East African Time">
+                         <input type="text" name="company[timezone]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900" value="{{ old('company.timezone', $settings['company']['timezone'] ?? '') }}">
                     </div>
                 </div>
             </div>
-            
-            <div class="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm">
+
+            <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
                 <h3 class="text-xl font-black text-slate-900 mb-8 flex items-center gap-3">
-                    <i class="ph ph-shield-check text-emerald-500"></i> User Management
+                    <i class="ph ph-tag text-emerald-500"></i> Pricing & Packages
                 </h3>
-                <div class="space-y-4">
-                    @foreach([
-                        ['name' => 'Lau Administrator', 'role' => 'System Administrator', 'email' => 'admin@lauparadise.com', 'status' => 'Active'],
-                        ['name' => 'Peter Mabula', 'role' => 'Travel Consultant', 'email' => 'mabula@lauparadise.com', 'status' => 'Active'],
-                    ] as $user)
-                    <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 flex items-center justify-between">
-                         <div class="flex items-center gap-4">
-                             <div class="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center font-black text-xs text-slate-400">
-                                {{ substr($user['name'], 0, 1) }}
-                             </div>
-                             <div>
-                                 <h4 class="text-sm font-black text-slate-900 leading-tight">{{ $user['name'] }}</h4>
-                                 <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{{ $user['role'] }}</p>
-                             </div>
-                         </div>
-                         <button class="px-4 py-2 border border-slate-200 text-[10px] font-black text-slate-400 uppercase tracking-widest rounded-xl hover:bg-white transition-all">Edit Rights</button>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Default Commission (%)</label>
+                        <input type="number" step="0.01" name="pricing_rules[default_commission_percent]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900" value="{{ old('pricing_rules.default_commission_percent', $settings['pricing_rules']['default_commission_percent'] ?? '') }}">
                     </div>
-                    @endforeach
-                    <button class="w-full py-4 border-2 border-dashed border-slate-200 rounded-3xl text-slate-300 text-[10px] font-black uppercase tracking-widest hover:border-emerald-500 hover:text-emerald-500 transition-all">
-                        Invite New User
-                    </button>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Allow Seasonal Pricing</label>
+                        <select name="pricing_rules[allow_seasonal_pricing]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none">
+                            <option value="1" {{ (string) old('pricing_rules.allow_seasonal_pricing', (int) ($settings['pricing_rules']['allow_seasonal_pricing'] ?? 0)) === '1' ? 'selected' : '' }}>Enabled</option>
+                            <option value="0" {{ (string) old('pricing_rules.allow_seasonal_pricing', (int) ($settings['pricing_rules']['allow_seasonal_pricing'] ?? 0)) === '0' ? 'selected' : '' }}>Disabled</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Allow Discounts & Promotions</label>
+                        <select name="pricing_rules[allow_discounts]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none">
+                            <option value="1" {{ (string) old('pricing_rules.allow_discounts', (int) ($settings['pricing_rules']['allow_discounts'] ?? 0)) === '1' ? 'selected' : '' }}>Enabled</option>
+                            <option value="0" {{ (string) old('pricing_rules.allow_discounts', (int) ($settings['pricing_rules']['allow_discounts'] ?? 0)) === '0' ? 'selected' : '' }}>Disabled</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
+                <h3 class="text-xl font-black text-slate-900 mb-8 flex items-center gap-3">
+                    <i class="ph ph-calendar-check text-emerald-500"></i> Booking Rules
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Min Participants</label>
+                        <input type="number" name="booking_rules[min_participants]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900" value="{{ old('booking_rules.min_participants', $settings['booking_rules']['min_participants'] ?? '') }}">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Max Participants</label>
+                        <input type="number" name="booking_rules[max_participants]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900" value="{{ old('booking_rules.max_participants', $settings['booking_rules']['max_participants'] ?? '') }}">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Deposit (%)</label>
+                        <input type="number" step="0.01" name="booking_rules[deposit_percent]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900" value="{{ old('booking_rules.deposit_percent', $settings['booking_rules']['deposit_percent'] ?? '') }}">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Balance Due (days before departure)</label>
+                        <input type="number" name="booking_rules[balance_due_days_before_departure]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900" value="{{ old('booking_rules.balance_due_days_before_departure', $settings['booking_rules']['balance_due_days_before_departure'] ?? '') }}">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Auto-cancel unpaid after (days)</label>
+                        <input type="number" name="booking_rules[auto_cancel_unpaid_after_days]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900" value="{{ old('booking_rules.auto_cancel_unpaid_after_days', $settings['booking_rules']['auto_cancel_unpaid_after_days'] ?? '') }}">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Enable Waitlist</label>
+                        <select name="booking_rules[enable_waitlist]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none">
+                            <option value="1" {{ (string) old('booking_rules.enable_waitlist', (int) ($settings['booking_rules']['enable_waitlist'] ?? 0)) === '1' ? 'selected' : '' }}>Enabled</option>
+                            <option value="0" {{ (string) old('booking_rules.enable_waitlist', (int) ($settings['booking_rules']['enable_waitlist'] ?? 0)) === '0' ? 'selected' : '' }}>Disabled</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
+                <h3 class="text-xl font-black text-slate-900 mb-8 flex items-center gap-3">
+                    <i class="ph ph-credit-card text-emerald-500"></i> Payment & Tax Rules
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Enable Stripe</label>
+                        <select name="payment_rules[enable_stripe]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none">
+                            <option value="1" {{ (string) old('payment_rules.enable_stripe', (int) ($settings['payment_rules']['enable_stripe'] ?? 0)) === '1' ? 'selected' : '' }}>Enabled</option>
+                            <option value="0" {{ (string) old('payment_rules.enable_stripe', (int) ($settings['payment_rules']['enable_stripe'] ?? 0)) === '0' ? 'selected' : '' }}>Disabled</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Enable Flutterwave</label>
+                        <select name="payment_rules[enable_flutterwave]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none">
+                            <option value="1" {{ (string) old('payment_rules.enable_flutterwave', (int) ($settings['payment_rules']['enable_flutterwave'] ?? 0)) === '1' ? 'selected' : '' }}>Enabled</option>
+                            <option value="0" {{ (string) old('payment_rules.enable_flutterwave', (int) ($settings['payment_rules']['enable_flutterwave'] ?? 0)) === '0' ? 'selected' : '' }}>Disabled</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Enable M-Pesa</label>
+                        <select name="payment_rules[enable_mpesa]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none">
+                            <option value="1" {{ (string) old('payment_rules.enable_mpesa', (int) ($settings['payment_rules']['enable_mpesa'] ?? 0)) === '1' ? 'selected' : '' }}>Enabled</option>
+                            <option value="0" {{ (string) old('payment_rules.enable_mpesa', (int) ($settings['payment_rules']['enable_mpesa'] ?? 0)) === '0' ? 'selected' : '' }}>Disabled</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">VAT (%)</label>
+                        <input type="number" step="0.01" name="payment_rules[vat_percent]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900" value="{{ old('payment_rules.vat_percent', $settings['payment_rules']['vat_percent'] ?? '') }}">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Tourism Levy (%)</label>
+                        <input type="number" step="0.01" name="payment_rules[tourism_levy_percent]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900" value="{{ old('payment_rules.tourism_levy_percent', $settings['payment_rules']['tourism_levy_percent'] ?? '') }}">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Enable Currency Conversion</label>
+                        <select name="payment_rules[enable_currency_conversion]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none">
+                            <option value="1" {{ (string) old('payment_rules.enable_currency_conversion', (int) ($settings['payment_rules']['enable_currency_conversion'] ?? 0)) === '1' ? 'selected' : '' }}>Enabled</option>
+                            <option value="0" {{ (string) old('payment_rules.enable_currency_conversion', (int) ($settings['payment_rules']['enable_currency_conversion'] ?? 0)) === '0' ? 'selected' : '' }}>Disabled</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
+                <h3 class="text-xl font-black text-slate-900 mb-8 flex items-center gap-3">
+                    <i class="ph ph-bell text-emerald-500"></i> Notification Rules
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Send Booking Confirmation</label>
+                        <select name="notification_rules[send_booking_confirmation]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none">
+                            <option value="1" {{ (string) old('notification_rules.send_booking_confirmation', (int) ($settings['notification_rules']['send_booking_confirmation'] ?? 0)) === '1' ? 'selected' : '' }}>Enabled</option>
+                            <option value="0" {{ (string) old('notification_rules.send_booking_confirmation', (int) ($settings['notification_rules']['send_booking_confirmation'] ?? 0)) === '0' ? 'selected' : '' }}>Disabled</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Send Payment Received</label>
+                        <select name="notification_rules[send_payment_received]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none">
+                            <option value="1" {{ (string) old('notification_rules.send_payment_received', (int) ($settings['notification_rules']['send_payment_received'] ?? 0)) === '1' ? 'selected' : '' }}>Enabled</option>
+                            <option value="0" {{ (string) old('notification_rules.send_payment_received', (int) ($settings['notification_rules']['send_payment_received'] ?? 0)) === '0' ? 'selected' : '' }}>Disabled</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Send Pre-tour Reminder</label>
+                        <select name="notification_rules[send_pre_tour_reminder]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none">
+                            <option value="1" {{ (string) old('notification_rules.send_pre_tour_reminder', (int) ($settings['notification_rules']['send_pre_tour_reminder'] ?? 0)) === '1' ? 'selected' : '' }}>Enabled</option>
+                            <option value="0" {{ (string) old('notification_rules.send_pre_tour_reminder', (int) ($settings['notification_rules']['send_pre_tour_reminder'] ?? 0)) === '0' ? 'selected' : '' }}>Disabled</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Reminder Days Before</label>
+                        <input type="number" name="notification_rules[pre_tour_reminder_days]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900" value="{{ old('notification_rules.pre_tour_reminder_days', $settings['notification_rules']['pre_tour_reminder_days'] ?? '') }}">
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Sidebar Options -->
         <div class="space-y-8">
-            <div class="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm">
-                <h3 class="text-lg font-black text-slate-900 tracking-tight mb-8">System Health</h3>
-                <div class="space-y-8">
-                    @foreach([
-                        ['label' => 'SSL Certificate', 'status' => 'Valid', 'color' => 'emerald'],
-                        ['label' => 'Database Sync', 'status' => 'Optimal', 'color' => 'emerald'],
-                        ['label' => 'Email Server', 'status' => 'Connected', 'color' => 'emerald'],
-                        ['label' => 'Storage Usage', 'status' => '35% Full', 'color' => 'blue'],
-                    ] as $health)
-                    <div class="flex items-center justify-between">
-                        <span class="text-[11px] font-black text-slate-400 uppercase tracking-widest">{{ $health['label'] }}</span>
-                        <div class="flex items-center gap-2">
-                             <div class="w-2 h-2 rounded-full bg-{{ $health['color'] }}-500"></div>
-                             <span class="text-xs font-black text-slate-900">{{ $health['status'] }}</span>
-                        </div>
-                    </div>
-                    @endforeach
+            <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
+                <h3 class="text-lg font-black text-slate-900 tracking-tight mb-6">Quick Links</h3>
+                <div class="space-y-2">
+                    <a href="{{ route('admin.settings.sms-gateway.index') }}" class="block px-5 py-4 bg-slate-50 border border-slate-100 rounded-xl text-sm font-black text-slate-900 hover:bg-white transition-all">SMS Gateway</a>
+                    <a href="{{ route('admin.settings.users.index') }}" class="block px-5 py-4 bg-slate-50 border border-slate-100 rounded-xl text-sm font-black text-slate-900 hover:bg-white transition-all">User Management</a>
+                    <a href="{{ route('admin.settings.roles.index') }}" class="block px-5 py-4 bg-slate-50 border border-slate-100 rounded-xl text-sm font-black text-slate-900 hover:bg-white transition-all">Role Permissions</a>
+                    <a href="{{ route('admin.settings.activity-logs.index') }}" class="block px-5 py-4 bg-slate-50 border border-slate-100 rounded-xl text-sm font-black text-slate-900 hover:bg-white transition-all">Activity Logs</a>
+                    <a href="{{ route('admin.settings.system-health.index') }}" class="block px-5 py-4 bg-slate-50 border border-slate-100 rounded-xl text-sm font-black text-slate-900 hover:bg-white transition-all">System Health</a>
                 </div>
             </div>
-            
-            <div class="bg-red-950 p-8 rounded-[2.5rem] text-white shadow-xl shadow-red-950/20">
-                <i class="ph ph-warning-octagon text-3xl mb-4 text-red-400"></i>
-                <h3 class="text-xl font-black mb-3">Zone of Danger</h3>
-                <p class="text-red-100/60 text-sm font-medium leading-relaxed mb-8">Perform critical actions like database resets or complete system exports.</p>
-                <div class="space-y-3">
-                    <button class="w-full py-4 bg-red-600 hover:bg-red-500 text-white font-black text-xs uppercase tracking-[0.2em] rounded-2xl transition-all">Clear All Caches</button>
-                    <button class="w-full py-4 border border-white/20 text-white/60 font-black text-xs uppercase tracking-[0.2em] rounded-2xl">Download Full Backup</button>
-                </div>
+
+            <div class="bg-slate-900 p-8 rounded-2xl text-white shadow-xl shadow-slate-900/10">
+                <h3 class="text-lg font-black mb-2">Payment Gateway Keys</h3>
+                <p class="text-white/60 text-sm font-medium leading-relaxed">For security, keys should be set via environment variables. This page only controls enable/disable rules.</p>
             </div>
         </div>
-    </div>
+    </form>
 </div>
 @endsection
