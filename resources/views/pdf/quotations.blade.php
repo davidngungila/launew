@@ -20,7 +20,7 @@
 <body>
     <div class="header">
         <div style="margin-bottom: 6px;">
-            <img src="{{ public_path('header-mfumo-lau.png') }}" style="width: 100%; max-height: 70px; object-fit: contain;">
+            <img src="{{ public_path('header-mfumo-lau.png') }}" style="width: 100%; max-height: 90px; object-fit: contain;">
         </div>
         <div class="muted meta">
             Generated at: {{ $generatedAt->format('d M, Y H:i') }}

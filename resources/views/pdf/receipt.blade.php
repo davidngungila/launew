@@ -25,9 +25,8 @@
     <div class="header">
         <div>
             <div style="margin-bottom: 6px;">
-                <img src="{{ public_path('header-mfumo-lau.png') }}" style="width: 320px; max-height: 70px; object-fit: contain;">
+                <img src="{{ public_path('header-mfumo-lau.png') }}" style="width: 360px; max-height: 80px; object-fit: contain;">
             </div>
-            <div class="muted">Moshi, Kilimanjaro, Tanzania · +255 683 163 219</div>
         </div>
         <div class="right">
             <div><strong>Receipt #</strong> BK-{{ str_pad($booking->id, 5, '0', STR_PAD_LEFT) }}</div>

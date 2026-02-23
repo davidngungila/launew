@@ -116,14 +116,8 @@
     <div class="invoice-box">
         <table style="width: 100%; margin-bottom: 40px;">
             <tr>
-                <td>
-                    <img src="{{ public_path('header-mfumo-lau.png') }}" style="width: 100%; max-height: 90px; object-fit: contain;">
-                </td>
-                <td class="company-info">
-                    <strong>LAU Paradise Adventure</strong><br>
-                    Moshi, Kilimanjaro, Tanzania<br>
-                    +255 683 163 219<br>
-                    bookings@lauparadise.com
+                <td style="text-align: center;">
+                    <img src="{{ public_path('header-mfumo-lau.png') }}" style="width: 100%; max-height: 110px; object-fit: contain;">
                 </td>
             </tr>
         </table>
