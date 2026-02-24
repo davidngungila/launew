@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'activity.log' => \App\Http\Middleware\ActivityLogger::class,
+            'ensure.admin' => \App\Http\Middleware\EnsureAdminUser::class,
         ]);
 
         $middleware->validateCsrfTokens(except: [

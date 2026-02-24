@@ -22,7 +22,19 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/admin/dashboard');
+
+            $user = $request->user();
+            $isStaff = $user && method_exists($user, 'hasAnyRole')
+                ? $user->hasAnyRole([
+                    'System Administrator',
+                    'Booking Manager',
+                    'Travel Consultant',
+                    'Tour Operator',
+                    'Finance Officer',
+                ])
+                : false;
+
+            return redirect()->intended($isStaff ? '/admin/dashboard' : '/client/dashboard');
         }
 
         return back()->withErrors([

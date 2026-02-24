@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\SystemHealthController;
 use App\Http\Controllers\Admin\EmailGatewayController;
 use App\Http\Controllers\Admin\AccountSettingsController;
+use App\Http\Controllers\Client\DashboardController as ClientDashboardController;
 
 Route::get('/', [PublicTourController::class, 'home'])->name('home');
 
@@ -74,7 +75,11 @@ Route::get('/bookings/{id}/checkout', [PublicBookingController::class, 'checkout
 Route::get('/bookings/{id}/invoice', [PublicBookingController::class, 'downloadInvoice'])->name('bookings.invoice');
 Route::get('/bookings/{id}/invoice/preview', [PublicBookingController::class, 'previewInvoice'])->name('bookings.invoice.preview');
 
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'activity.log'])->group(function () {
+Route::prefix('client')->name('client.')->middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [ClientDashboardController::class, 'index'])->name('dashboard');
+});
+
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'activity.log'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('tours', TourController::class)->whereNumber('tour');
 
