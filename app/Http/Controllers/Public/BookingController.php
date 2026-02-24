@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\Role;
 use App\Models\Tour;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class BookingController extends Controller
 {
@@ -20,15 +24,47 @@ class BookingController extends Controller
             'adults' => 'required|integer|min:1',
             'children' => 'nullable|integer|min:0',
             'special_requests' => 'nullable|string',
+            'password' => 'required|string|min:8|confirmed',
+            'agree_terms' => 'accepted',
         ]);
+
+        $user = $request->user();
+        if (!$user) {
+            $existing = User::query()->where('email', $validated['customer_email'])->first();
+            if ($existing) {
+                if (!Auth::attempt(['email' => $validated['customer_email'], 'password' => $validated['password']])) {
+                    return back()->withErrors([
+                        'customer_email' => 'This email is already registered. Please login with the correct password to continue.',
+                    ])->onlyInput('customer_email');
+                }
+
+                $request->session()->regenerate();
+                $user = $request->user();
+            } else {
+                $user = User::query()->create([
+                    'name' => $validated['customer_name'],
+                    'email' => $validated['customer_email'],
+                    'password' => Hash::make($validated['password']),
+                ]);
+
+                $customerRole = Role::query()->firstOrCreate(['name' => 'Customer']);
+                $user->roles()->syncWithoutDetaching([$customerRole->id]);
+
+                Auth::login($user);
+                $request->session()->regenerate();
+            }
+        }
 
         $tour = Tour::findOrFail($validated['tour_id']);
         
         // Simple price calculation
         $totalPrice = $tour->base_price * ($validated['adults'] + ($validated['children'] * 0.5));
+        $depositAmount = round($totalPrice * 0.30, 2);
+        $balanceAmount = round($totalPrice - $depositAmount, 2);
 
         $booking = Booking::create([
             'tour_id' => $validated['tour_id'],
+            'user_id' => $user ? $user->id : null,
             'customer_name' => $validated['customer_name'],
             'customer_email' => $validated['customer_email'],
             'customer_phone' => $validated['customer_phone'],
@@ -37,6 +73,9 @@ class BookingController extends Controller
             'children' => $validated['children'] ?? 0,
             'special_requests' => $validated['special_requests'],
             'total_price' => $totalPrice,
+            'deposit_amount' => $depositAmount,
+            'is_deposit_paid' => false,
+            'balance_amount' => $balanceAmount,
             'status' => 'pending',
             'payment_status' => 'unpaid',
         ]);

@@ -299,6 +299,17 @@
                             <label class="block text-xs font-bold text-slate-900 uppercase tracking-widest mb-3">Preferred Date</label>
                             <input type="date" name="start_date" required class="w-full bg-white/50 border border-slate-200 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
                         </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-900 uppercase tracking-widest mb-3">Create Password</label>
+                                <input type="password" name="password" required class="w-full bg-white/50 border border-slate-200 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all" placeholder="Minimum 8 characters">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-900 uppercase tracking-widest mb-3">Confirm Password</label>
+                                <input type="password" name="password_confirmation" required class="w-full bg-white/50 border border-slate-200 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all" placeholder="Repeat password">
+                            </div>
+                        </div>
                         
                         <div class="grid grid-cols-2 gap-4">
                             <div>
@@ -328,6 +339,13 @@
                             <span class="font-bold text-slate-900">Total Projection:</span>
                             <span class="text-xl font-bold text-emerald-600" x-text="'$' + total.toLocaleString()">$0</span>
                         </div>
+
+                        <label class="flex items-start gap-4 bg-white/50 border border-slate-200 rounded-2xl p-5">
+                            <input type="checkbox" name="agree_terms" value="1" required class="mt-1 w-5 h-5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500">
+                            <span class="text-sm font-bold text-slate-700 leading-relaxed">
+                                I agree to the <a href="{{ route('terms') }}" target="_blank" class="text-emerald-700 underline">Terms</a> and <a href="{{ route('refund') }}" target="_blank" class="text-emerald-700 underline">Cancellation Policy</a>.
+                            </span>
+                        </label>
                         
                         <button type="submit" class="w-full py-5 bg-emerald-600 text-white font-bold rounded-2xl shadow-xl shadow-emerald-600/20 hover:bg-emerald-700 transition-all flex items-center justify-center gap-3 group">
                             <i class="ph ph-calendar-check text-xl group-hover:scale-110 transition-transform"></i> Book & Pay Securely

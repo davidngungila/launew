@@ -109,10 +109,16 @@
                     </div>
 
                     <div class="pt-6">
-                        <a href="{{ route('flutterwave.pay', ['id' => $booking->id, 'type' => 'full']) }}" class="w-full py-6 bg-slate-900 text-white font-black text-sm uppercase tracking-[0.2em] rounded-[2rem] shadow-2xl shadow-slate-900/40 hover:bg-emerald-600 transition-all flex items-center justify-center gap-4 group">
-                            Pay Now 
-                            <i class="ph ph-arrow-right text-lg group-hover:translate-x-2 transition-transform"></i>
-                        </a>
+                        <div class="space-y-3">
+                            <a href="{{ route('flutterwave.pay', ['id' => $booking->id, 'type' => 'deposit']) }}" class="w-full py-5 bg-white border-2 border-emerald-200 text-emerald-700 font-black text-xs uppercase tracking-[0.2em] rounded-[2rem] hover:bg-emerald-50 transition-all flex items-center justify-center gap-4 group">
+                                Pay 30% Deposit (${{ number_format(($booking->deposit_amount ?? ($booking->total_price * 0.30)), 2) }})
+                                <i class="ph ph-arrow-right text-lg group-hover:translate-x-2 transition-transform"></i>
+                            </a>
+                            <a href="{{ route('flutterwave.pay', ['id' => $booking->id, 'type' => 'full']) }}" class="w-full py-6 bg-slate-900 text-white font-black text-sm uppercase tracking-[0.2em] rounded-[2rem] shadow-2xl shadow-slate-900/40 hover:bg-emerald-600 transition-all flex items-center justify-center gap-4 group">
+                                Pay Full Amount (${{ number_format($booking->total_price, 2) }})
+                                <i class="ph ph-arrow-right text-lg group-hover:translate-x-2 transition-transform"></i>
+                            </a>
+                        </div>
                     </div>
 
                     <div class="flex flex-col items-center gap-6">
