@@ -24,15 +24,20 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             $user = $request->user();
-            $isStaff = $user && method_exists($user, 'hasAnyRole')
-                ? $user->hasAnyRole([
-                    'System Administrator',
-                    'Booking Manager',
-                    'Travel Consultant',
-                    'Tour Operator',
-                    'Finance Officer',
-                ])
-                : false;
+            $isStaff = false;
+            if ($user) {
+                if ($user->email === 'admin@lauparadise.com') {
+                    $isStaff = true;
+                } elseif (method_exists($user, 'hasAnyRole')) {
+                    $isStaff = $user->hasAnyRole([
+                        'System Administrator',
+                        'Booking Manager',
+                        'Travel Consultant',
+                        'Tour Operator',
+                        'Finance Officer',
+                    ]);
+                }
+            }
 
             return redirect()->intended($isStaff ? '/admin/dashboard' : '/client/dashboard');
         }
