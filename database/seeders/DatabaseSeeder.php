@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             RolesPermissionsSeeder::class,
             TourSeeder::class,
             ItinerarySeeder::class,
+            ClientDemoSeeder::class,
         ]);
     }
 }
