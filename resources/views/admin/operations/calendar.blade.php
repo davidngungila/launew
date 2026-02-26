@@ -32,7 +32,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div class="lg:col-span-3">
             <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-xl relative overflow-hidden">
-                <div id="calendar" class="relative z-10"></div>
+                <div id="calendar" class="relative z-10 min-h-[75vh]"></div>
             </div>
         </div>
 
@@ -120,6 +120,8 @@
     .fc .fc-daygrid-day.fc-day-today { background-color: #f0fdf4 !important; }
     .fc .fc-event { border: none !important; margin: 2px 4px !important; padding: 4px 10px !important; border-radius: 8px !important; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
     .fc-event-title { font-weight: 900; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.025em; }
+    .fc .fc-timegrid-slot-label { font-weight: 900; color: #94a3b8; font-size: 0.65rem; }
+    .fc .fc-timegrid-axis-cushion { font-weight: 900; color: #94a3b8; font-size: 0.65rem; }
 </style>
 @endpush
 
@@ -133,8 +135,13 @@
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         calendar = new FullCalendar.Calendar(calendarEl, {
+            height: 'auto',
+            expandRows: true,
             initialView: 'dayGridMonth',
-            headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,listMonth' },
+            headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth' },
+            navLinks: true,
+            nowIndicator: true,
+            dayMaxEvents: true,
             events: allEvents,
             eventClick: (info) => { info.jsEvent.preventDefault(); openModal(info.event); },
             eventDidMount: (info) => {
@@ -222,12 +229,30 @@
                 </div>
             </div>
 
-            <div class="flex items-center gap-4">
-                <a href="${props.url}" class="flex-1 py-5 bg-slate-900 text-white text-center rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/10">
+            <div class="grid grid-cols-2 gap-4">
+                <a href="${props.url}" class="py-5 bg-slate-900 text-white text-center rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/10">
                     Open Booking
                 </a>
-                <a href="${props.assignments_url}" class="flex-1 py-5 bg-emerald-600 text-white text-center rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-500/20">
+                <a href="${props.assignments_url}" class="py-5 bg-emerald-600 text-white text-center rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-500/20">
                     Assign Team
+                </a>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <form action="${props.send_itinerary_url}" method="POST" class="contents" onsubmit="return confirm('Send itinerary to the client?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="py-5 bg-white border border-slate-200 text-slate-900 text-center rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-slate-50 transition-all">
+                        Send Itinerary
+                    </button>
+                </form>
+                <a href="${props.receipt_url}" class="py-5 bg-white border border-slate-200 text-slate-900 text-center rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-slate-50 transition-all">
+                    Download Receipt
+                </a>
+            </div>
+
+            <div class="flex items-center justify-end">
+                <a href="${props.receipt_preview_url}" target="_blank" class="px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-slate-900 transition-colors">
+                    Preview Receipt
                 </a>
             </div>
         `;

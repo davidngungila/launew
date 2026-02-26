@@ -59,6 +59,9 @@ class OperationsController extends Controller
                 'driver' => $booking->driver->name ?? 'Unassigned',
                 'url' => route('admin.bookings.show', $booking->id),
                 'assignments_url' => route('admin.bookings.assignments.edit', $booking->id),
+                'send_itinerary_url' => route('admin.bookings.send-itinerary', $booking->id),
+                'receipt_url' => route('admin.bookings.receipt', $booking->id),
+                'receipt_preview_url' => route('admin.bookings.receipt.preview', $booking->id),
                 'color' => match ($booking->status) {
                     'confirmed' => '#10b981',
                     'pending' => '#f59e0b',
