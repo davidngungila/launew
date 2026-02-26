@@ -47,16 +47,29 @@
                 </div>
             @endif
 
-            <form action="{{ route('login.otp.verify') }}" method="POST" class="space-y-4">
+            <form action="{{ route('login.otp.verify') }}" method="POST" class="space-y-4" id="otp-form">
                 @csrf
+                <input type="hidden" name="otp" id="otp" value="">
+
                 <div class="relative">
                     <i class="ph ph-shield-check absolute left-5 top-1/2 -translate-y-1/2 text-slate-500"></i>
-                    <input type="text" name="otp" required autocomplete="one-time-code"
-                           class="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-sm text-white focus:ring-1 focus:ring-emerald-500 transition-all outline-none tracking-[0.35em] font-black"
-                           placeholder="Enter OTP">
+                    <div class="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3.5">
+                        <div class="grid grid-cols-6 gap-2">
+                            @for($i = 0; $i < 6; $i++)
+                                <input
+                                    type="text"
+                                    inputmode="numeric"
+                                    pattern="[0-9]*"
+                                    maxlength="1"
+                                    class="otp-digit bg-black/20 border border-white/10 rounded-lg text-center text-white font-black text-lg py-2 focus:ring-1 focus:ring-emerald-500 outline-none"
+                                    aria-label="OTP digit {{ $i + 1 }}"
+                                >
+                            @endfor
+                        </div>
+                    </div>
                 </div>
 
-                <button type="submit" class="w-full py-4 bg-emerald-600 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-xl hover:bg-emerald-500 transition-all shadow-lg shadow-emerald-900/20">
+                <button type="submit" id="btn-verify" class="w-full py-4 bg-emerald-600 text-white font-black text-[11px] uppercase tracking-[0.2em] rounded-xl hover:bg-emerald-500 transition-all shadow-lg shadow-emerald-900/20 hidden">
                     Verify & Continue
                 </button>
             </form>
@@ -79,5 +92,58 @@
             </p>
         </div>
     </div>
+
+    <script>
+        (function () {
+            const form = document.getElementById('otp-form');
+            const btn = document.getElementById('btn-verify');
+            const hidden = document.getElementById('otp');
+            const inputs = Array.from(document.querySelectorAll('.otp-digit'));
+
+            if (!form || !hidden || inputs.length !== 6) return;
+
+            const readCode = () => inputs.map(i => (i.value || '').replace(/\D+/g, '').slice(0, 1)).join('');
+            const writeHidden = () => { hidden.value = readCode(); };
+            const maybeSubmit = () => {
+                writeHidden();
+                if (hidden.value.length === 6) {
+                    if (btn) btn.classList.add('hidden');
+                    form.submit();
+                }
+            };
+
+            inputs.forEach((input, idx) => {
+                input.addEventListener('input', () => {
+                    input.value = (input.value || '').replace(/\D+/g, '').slice(0, 1);
+                    if (input.value && idx < inputs.length - 1) {
+                        inputs[idx + 1].focus();
+                    }
+                    maybeSubmit();
+                });
+
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Backspace' && !input.value && idx > 0) {
+                        inputs[idx - 1].focus();
+                    }
+                });
+
+                input.addEventListener('paste', (e) => {
+                    const text = (e.clipboardData || window.clipboardData).getData('text') || '';
+                    const digits = text.replace(/\D+/g, '').slice(0, 6).split('');
+                    if (!digits.length) return;
+                    e.preventDefault();
+                    digits.forEach((d, i) => {
+                        if (inputs[i]) inputs[i].value = d;
+                    });
+                    const next = inputs[Math.min(digits.length, 5)];
+                    if (next) next.focus();
+                    maybeSubmit();
+                });
+            });
+
+            if (btn) btn.classList.add('hidden');
+            inputs[0].focus();
+        })();
+    </script>
 </body>
 </html>
