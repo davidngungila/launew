@@ -153,6 +153,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
 
         // Tour Planning
         Route::get('/calendar', [App\Http\Controllers\Admin\OperationsController::class, 'calendar'])->name('calendar');
+        Route::get('/calendar/export-pdf', [App\Http\Controllers\Admin\OperationsController::class, 'calendarExportPdf'])->name('calendar.export-pdf');
         Route::get('/upcoming', [App\Http\Controllers\Admin\OperationsController::class, 'upcoming'])->name('upcoming');
         Route::get('/active-trips', [App\Http\Controllers\Admin\OperationsController::class, 'activeTrips'])->name('active-trips');
 

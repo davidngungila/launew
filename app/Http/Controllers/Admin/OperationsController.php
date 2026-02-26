@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class OperationsController extends Controller
@@ -79,6 +81,46 @@ class OperationsController extends Controller
         ];
 
         return view('admin.operations.calendar', compact('events', 'monthStats'));
+    }
+
+    public function calendarExportPdf(Request $request)
+    {
+        $start = $request->query('start');
+        $end = $request->query('end');
+        $status = $request->query('status');
+
+        $query = Booking::query()->with(['tour', 'guide', 'driver', 'vehicle']);
+
+        if (!empty($start)) {
+            $query->whereDate('start_date', '>=', Carbon::parse($start)->toDateString());
+        }
+
+        if (!empty($end)) {
+            $query->whereDate('start_date', '<', Carbon::parse($end)->toDateString());
+        }
+
+        if (!empty($status)) {
+            $query->where('status', $status);
+        }
+
+        $bookings = $query->orderBy('start_date')->get();
+
+        $rangeLabel = null;
+        if (!empty($start) && !empty($end)) {
+            $rangeLabel = Carbon::parse($start)->format('d M Y') . ' - ' . Carbon::parse($end)->subDay()->format('d M Y');
+        } elseif (!empty($start)) {
+            $rangeLabel = Carbon::parse($start)->format('d M Y');
+        }
+
+        $pdf = Pdf::loadView('pdf.operations-calendar', [
+            'bookings' => $bookings,
+            'rangeLabel' => $rangeLabel,
+            'statusFilter' => $status,
+            'generatedAt' => now(),
+            'generatedBy' => $request->user(),
+        ])->setPaper('a4', 'landscape');
+
+        return $pdf->stream('Operations_Calendar_' . now()->format('Ymd_His') . '.pdf');
     }
 
     public function upcoming()

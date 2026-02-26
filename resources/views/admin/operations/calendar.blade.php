@@ -20,6 +20,9 @@
                 <option value="pending">Pending Only</option>
                 <option value="completed">Completed Only</option>
             </select>
+            <button type="button" onclick="exportCalendarPdf()" class="px-4 py-2 bg-slate-900 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-xl hover:bg-slate-800 transition-all shadow-sm">
+                Export PDF
+            </button>
             <div class="h-6 w-px bg-slate-100"></div>
             <div class="flex items-center gap-3">
                 <div class="flex items-center gap-1.5"><div class="w-2 h-2 rounded-full bg-emerald-500"></div><span class="text-[9px] font-black uppercase text-slate-400">Confirmed</span></div>
@@ -215,6 +218,20 @@
         paintDayCells();
     }
 
+    function exportCalendarPdf() {
+        if (!calendar) return;
+        const view = calendar.view;
+        const start = view.activeStart ? view.activeStart.toISOString().slice(0, 10) : '';
+        const end = view.activeEnd ? view.activeEnd.toISOString().slice(0, 10) : '';
+        const status = document.querySelector('[x-model="filterStatus"]').value;
+
+        const url = new URL("{{ route('admin.operations.calendar.export-pdf') }}", window.location.origin);
+        if (start) url.searchParams.set('start', start);
+        if (end) url.searchParams.set('end', end);
+        if (status && status !== 'all') url.searchParams.set('status', status);
+        window.open(url.toString(), '_blank');
+    }
+
     const modal = document.getElementById('eventModal');
     const modalContent = document.getElementById('modalContent');
     const modalBody = document.getElementById('modalBody');
@@ -281,12 +298,25 @@
             </div>
 
             <div class="grid grid-cols-2 gap-4">
-                <a href="${props.url}" class="py-5 bg-slate-900 text-white text-center rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/10">
-                    Open Booking
-                </a>
-                <a href="${props.assignments_url}" class="py-5 bg-emerald-600 text-white text-center rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-500/20">
-                    Assign Team
-                </a>
+                ${props.url ? `
+                    <a href="${props.url}" class="py-5 bg-slate-900 text-white text-center rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/10">
+                        Open Booking
+                    </a>
+                ` : `
+                    <button type="button" disabled class="py-5 bg-slate-900/40 text-white/70 text-center rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] cursor-not-allowed">
+                        Open Booking
+                    </button>
+                `}
+
+                ${props.assignments_url ? `
+                    <a href="${props.assignments_url}" class="py-5 bg-emerald-600 text-white text-center rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-500/20">
+                        Assign Team
+                    </a>
+                ` : `
+                    <button type="button" disabled class="py-5 bg-emerald-600/40 text-white/70 text-center rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] cursor-not-allowed">
+                        Assign Team
+                    </button>
+                `}
             </div>
 
             <div class="grid grid-cols-2 gap-4">
