@@ -185,18 +185,21 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
         ])->name('suppliers.contracts');
 
         // Monitoring
-        Route::view('/monitoring/status', 'admin.operations.page', [
-            'title' => 'Trip Status',
-            'subtitle' => 'Track trip progress and checkpoints',
-        ])->name('monitoring.status');
-        Route::view('/monitoring/incidents', 'admin.operations.page', [
-            'title' => 'Incident Reports',
-            'subtitle' => 'Log and manage operational incidents',
-        ])->name('monitoring.incidents');
-        Route::view('/monitoring/feedback', 'admin.operations.page', [
-            'title' => 'Customer Feedback',
-            'subtitle' => 'Post-tour feedback and satisfaction follow-ups',
-        ])->name('monitoring.feedback');
+        Route::get('/monitoring/status', [App\Http\Controllers\Admin\MonitoringController::class, 'status'])->name('monitoring.status');
+
+        Route::get('/monitoring/incidents', [App\Http\Controllers\Admin\IncidentReportController::class, 'index'])->name('monitoring.incidents');
+        Route::get('/monitoring/incidents/create', [App\Http\Controllers\Admin\IncidentReportController::class, 'create'])->name('monitoring.incidents.create');
+        Route::post('/monitoring/incidents', [App\Http\Controllers\Admin\IncidentReportController::class, 'store'])->name('monitoring.incidents.store');
+        Route::get('/monitoring/incidents/{incident}/edit', [App\Http\Controllers\Admin\IncidentReportController::class, 'edit'])->name('monitoring.incidents.edit');
+        Route::put('/monitoring/incidents/{incident}', [App\Http\Controllers\Admin\IncidentReportController::class, 'update'])->name('monitoring.incidents.update');
+        Route::delete('/monitoring/incidents/{incident}', [App\Http\Controllers\Admin\IncidentReportController::class, 'destroy'])->name('monitoring.incidents.destroy');
+
+        Route::get('/monitoring/feedback', [App\Http\Controllers\Admin\CustomerFeedbackController::class, 'index'])->name('monitoring.feedback');
+        Route::get('/monitoring/feedback/create', [App\Http\Controllers\Admin\CustomerFeedbackController::class, 'create'])->name('monitoring.feedback.create');
+        Route::post('/monitoring/feedback', [App\Http\Controllers\Admin\CustomerFeedbackController::class, 'store'])->name('monitoring.feedback.store');
+        Route::get('/monitoring/feedback/{feedback}/edit', [App\Http\Controllers\Admin\CustomerFeedbackController::class, 'edit'])->name('monitoring.feedback.edit');
+        Route::put('/monitoring/feedback/{feedback}', [App\Http\Controllers\Admin\CustomerFeedbackController::class, 'update'])->name('monitoring.feedback.update');
+        Route::delete('/monitoring/feedback/{feedback}', [App\Http\Controllers\Admin\CustomerFeedbackController::class, 'destroy'])->name('monitoring.feedback.destroy');
 
         // Reports
         Route::view('/reports/completion', 'admin.operations.page', [
