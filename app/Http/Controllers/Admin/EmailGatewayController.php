@@ -174,6 +174,8 @@ class EmailGatewayController extends Controller
             nl2br(e($validated['message']))
         );
 
+        $sendError = $sent ? null : $service->getLastError();
+
         ActivityLog::create([
             'user_id' => auth()->id(),
             'action' => 'email_gateway.test_sent',
@@ -194,6 +196,7 @@ class EmailGatewayController extends Controller
             'data' => [
                 'connection' => $connection,
                 'sent' => $sent,
+                'error' => $sendError,
             ],
         ], $sent ? 200 : 500);
     }

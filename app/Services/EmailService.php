@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 class EmailService
 {
     protected array $config = [];
+    protected ?string $lastError = null;
 
     public function __construct()
     {
@@ -52,9 +53,16 @@ class EmailService
         $this->config = array_merge($this->config, $config);
     }
 
+    public function getLastError(): ?string
+    {
+        return $this->lastError;
+    }
+
     public function send(string|array $to, string $subject, string $body, ?string $attachmentPath = null, ?string $attachmentName = null): bool
     {
         $maxRetries = 2;
+
+        $this->lastError = null;
 
         for ($attempt = 0; $attempt <= $maxRetries; $attempt++) {
             try {
@@ -69,7 +77,11 @@ class EmailService
                     $enc = null;
                 }
 
-                Config::set('mail.mailers.smtp.scheme', $enc);
+                // Laravel uses Symfony Mailer: scheme must be "smtp" or "smtps".
+                // TLS (STARTTLS) uses the "smtp" scheme.
+                $scheme = ($enc === 'ssl' || $enc === 'smtps') ? 'smtps' : 'smtp';
+
+                Config::set('mail.mailers.smtp.scheme', $scheme);
                 Config::set('mail.from.address', $this->config['from_address']);
                 Config::set('mail.from.name', $this->config['from_name']);
 
@@ -95,6 +107,7 @@ class EmailService
                 return true;
             } catch (\Throwable $e) {
                 $error = $e->getMessage();
+                $this->lastError = $error;
                 $isConnectionError = stripos($error, 'connect') !== false
                     || stripos($error, 'timeout') !== false
                     || stripos($error, '10060') !== false;
