@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\OtpLoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\TourController;
 use App\Http\Controllers\Public\TourController as PublicTourController;
@@ -31,6 +32,10 @@ Route::get('/contact', function () {
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/login/otp', [OtpLoginController::class, 'show'])->name('login.otp');
+Route::post('/login/otp', [OtpLoginController::class, 'verify'])->name('login.otp.verify');
+Route::post('/login/otp/resend', [OtpLoginController::class, 'resend'])->name('login.otp.resend');
 
 // Password Recovery
 Route::get('/password/reset', function () {
