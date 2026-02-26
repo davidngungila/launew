@@ -95,15 +95,15 @@
     </div>
 </div>
 
-<div id="eventModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
-    <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl relative overflow-hidden scale-95 opacity-0 duration-300 transition-all border border-slate-100" id="modalContent">
+<div id="eventModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 md:p-8 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
+    <div class="bg-white w-full h-[92vh] max-w-5xl rounded-2xl shadow-2xl relative overflow-hidden scale-95 opacity-0 duration-300 transition-all border border-slate-100" id="modalContent">
         <div class="absolute top-0 left-0 w-full h-32 bg-slate-50 -z-10"></div>
 
-        <button onclick="closeModal()" class="absolute top-8 right-8 w-12 h-12 rounded-full bg-white text-slate-400 flex items-center justify-center hover:bg-slate-50 transition-all shadow-sm border border-slate-100">
+        <button onclick="closeModal()" class="absolute top-6 right-6 w-12 h-12 rounded-full bg-white text-slate-400 flex items-center justify-center hover:bg-slate-50 transition-all shadow-sm border border-slate-100 z-10">
             <i class="ph ph-x text-xl"></i>
         </button>
 
-        <div id="modalBody" class="p-12 space-y-8"></div>
+        <div id="modalBody" class="p-8 md:p-12 space-y-8 overflow-y-auto" style="max-height:calc(92vh - 0px);"></div>
     </div>
 </div>
 @endsection
