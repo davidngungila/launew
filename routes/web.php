@@ -149,42 +149,16 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
 
     // Operations
     Route::prefix('operations')->name('operations.')->group(function () {
-        Route::view('/dashboard', 'admin.operations.page', [
-            'title' => 'Operations Dashboard',
-            'subtitle' => 'Daily control center for tours, logistics, assignments, and monitoring',
-            'links' => [
-                ['section' => 'Tour Planning', 'label' => 'Tour Calendar', 'href' => url('/admin/operations/calendar'), 'description' => 'Plan tours by date and track schedule'],
-                ['section' => 'Tour Planning', 'label' => 'Upcoming Tours', 'href' => url('/admin/operations/upcoming'), 'description' => 'View next departures and readiness'],
-                ['section' => 'Tour Planning', 'label' => 'Active Trips', 'href' => url('/admin/operations/active-trips'), 'description' => 'Tours currently on the road'],
-                ['section' => 'Assignments', 'label' => 'Assign Guides', 'href' => url('/admin/operations/assign/guides'), 'description' => 'Assign guides to bookings'],
-                ['section' => 'Assignments', 'label' => 'Assign Drivers', 'href' => url('/admin/operations/assign/drivers'), 'description' => 'Assign drivers to bookings'],
-                ['section' => 'Assignments', 'label' => 'Assign Vehicles', 'href' => url('/admin/fleet'), 'description' => 'Manage fleet allocation'],
-            ],
-        ])->name('dashboard');
+        Route::get('/dashboard', [App\Http\Controllers\Admin\OperationsController::class, 'dashboard'])->name('dashboard');
 
         // Tour Planning
-        Route::view('/calendar', 'admin.operations.page', [
-            'title' => 'Tour Calendar',
-            'subtitle' => 'A calendar view of upcoming departures and assigned teams',
-        ])->name('calendar');
-        Route::view('/upcoming', 'admin.operations.page', [
-            'title' => 'Upcoming Tours',
-            'subtitle' => 'Readiness checklist for tours departing soon',
-        ])->name('upcoming');
-        Route::view('/active-trips', 'admin.operations.page', [
-            'title' => 'Active Trips',
-            'subtitle' => 'Live trips currently active in the field',
-        ])->name('active-trips');
+        Route::get('/calendar', [App\Http\Controllers\Admin\OperationsController::class, 'calendar'])->name('calendar');
+        Route::get('/upcoming', [App\Http\Controllers\Admin\OperationsController::class, 'upcoming'])->name('upcoming');
+        Route::get('/active-trips', [App\Http\Controllers\Admin\OperationsController::class, 'activeTrips'])->name('active-trips');
 
         // Assignments
-        Route::view('/assign/guides', 'admin.operations.page', [
-            'title' => 'Assign Guides',
-            'subtitle' => 'Assign a guide to each booking / departure',
-        ])->name('assign.guides');
-        Route::view('/assign/drivers', 'admin.operations.page', [
-            'title' => 'Assign Drivers',
-            'subtitle' => 'Assign a driver to each booking / departure',
-        ])->name('assign.drivers');
+        Route::get('/assign/guides', [App\Http\Controllers\Admin\OperationsController::class, 'assignGuides'])->name('assign.guides');
+        Route::get('/assign/drivers', [App\Http\Controllers\Admin\OperationsController::class, 'assignDrivers'])->name('assign.drivers');
 
         // Logistics
         Route::view('/logistics/accommodation', 'admin.operations.page', [
