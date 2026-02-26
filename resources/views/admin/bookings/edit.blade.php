@@ -49,7 +49,7 @@
                     </div>
                     <div class="space-y-1.5">
                         <label class="text-xs font-black text-slate-400 uppercase tracking-widest pl-1">Start Date</label>
-                        <input type="date" name="start_date" value="{{ old('start_date', $booking->start_date) }}" required class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
+                        <input type="date" name="start_date" value="{{ old('start_date', $booking->start_date ? \Carbon\Carbon::parse($booking->start_date)->format('Y-m-d') : '') }}" required class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
                     </div>
                     <div class="space-y-1.5">
                         <label class="text-xs font-black text-slate-400 uppercase tracking-widest pl-1">Adults</label>
