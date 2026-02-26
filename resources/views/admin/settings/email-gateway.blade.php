@@ -99,12 +99,9 @@
                     <button type="submit" class="flex-1 py-4 bg-emerald-600 text-white font-black text-xs uppercase tracking-widest rounded-xl hover:bg-emerald-700 shadow-xl shadow-emerald-500/20 transition-all">Save SMTP Settings</button>
                 </div>
 
-                @php
-                    $selected = null;
-                    if (isset($gateways) && ($settings['gateway_id'] ?? null)) {
-                        $selected = $gateways->firstWhere('id', (int) ($settings['gateway_id'] ?? 0));
-                    }
-                @endphp
+                @php($selected = (isset($gateways) && ($settings['gateway_id'] ?? null))
+                    ? $gateways->firstWhere('id', (int) ($settings['gateway_id'] ?? 0))
+                    : null)
                 @if($selected && !$selected->is_active)
                     <div class="pt-2">
                         <form action="{{ route('admin.settings.email-gateway.activate', $selected->id) }}" method="POST">
