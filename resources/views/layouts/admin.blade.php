@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>body { font-family: 'Manrope', sans-serif; }</style>
     @vite(['resources/css/admin.css', 'resources/js/app.js'])
+    @stack('styles')
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
@@ -590,5 +591,6 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.05); border-radius: 10px; }
         .custom-scrollbar:hover::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
     </style>
+    @stack('scripts')
 </body>
 </html>
