@@ -9,11 +9,11 @@
             <p class="text-slate-500 font-medium">Monitor revenue, expenses, and transaction health</p>
         </div>
         <div class="flex items-center gap-3">
-            <a href="{{ route('admin.finance.payments-received') }}" class="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm flex items-center gap-2">
+            <a href="{{ route('admin.finance.revenue.payments-received') }}" class="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm flex items-center gap-2">
                 <i class="ph ph-credit-card"></i>
                 Payments
             </a>
-            <a href="{{ route('admin.finance.generated-invoices') }}" class="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm flex items-center gap-2">
+            <a href="{{ route('admin.finance.invoices.all') }}" class="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm flex items-center gap-2">
                 <i class="ph ph-receipt"></i>
                 Invoices
             </a>
@@ -29,28 +29,28 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <a href="{{ route('admin.finance.payments-received') }}" class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
+        <a href="{{ route('admin.finance.revenue.payments-received') }}" class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
             <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Payments Received</p>
             <div class="flex items-center justify-between">
                 <p class="text-sm font-black text-slate-900">View successful payments</p>
                 <i class="ph ph-arrow-right text-slate-300 group-hover:text-emerald-600 transition-colors"></i>
             </div>
         </a>
-        <a href="{{ route('admin.finance.generated-invoices') }}" class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
+        <a href="{{ route('admin.finance.invoices.all') }}" class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
             <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Generated Invoices</p>
             <div class="flex items-center justify-between">
                 <p class="text-sm font-black text-slate-900">Download voucher PDFs</p>
                 <i class="ph ph-arrow-right text-slate-300 group-hover:text-emerald-600 transition-colors"></i>
             </div>
         </a>
-        <a href="{{ route('admin.finance.expense-tracking') }}" class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
+        <a href="{{ route('admin.finance.expenses.tracking') }}" class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
             <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Expense Tracking</p>
             <div class="flex items-center justify-between">
                 <p class="text-sm font-black text-slate-900">Fuel, hotels & fees</p>
                 <i class="ph ph-arrow-right text-slate-300 group-hover:text-emerald-600 transition-colors"></i>
             </div>
         </a>
-        <a href="{{ route('admin.finance.revenue-reports') }}" class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
+        <a href="{{ route('admin.finance.reports.revenue-report') }}" class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
             <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Revenue Reports</p>
             <div class="flex items-center justify-between">
                 <p class="text-sm font-black text-slate-900">Paid vs pending totals</p>

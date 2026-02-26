@@ -8,7 +8,7 @@
             <p class="text-slate-500 font-medium">Manage operational expenses (fuel, hotels, park fees, maintenance)</p>
         </div>
         <div class="flex items-center gap-3">
-            <a href="{{ route('admin.finance.expense-tracking') }}" class="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm">Expense Tracking</a>
+            <a href="{{ route('admin.finance.expenses.tracking') }}" class="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm">Expense Tracking</a>
             <a href="{{ route('admin.finance.expenses.create') }}" class="px-5 py-2.5 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2">
                 <i class="ph ph-plus"></i>
                 Add Expense

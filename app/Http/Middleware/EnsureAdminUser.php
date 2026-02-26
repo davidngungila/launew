@@ -26,6 +26,7 @@ class EnsureAdminUser
                 'Travel Consultant',
                 'Tour Operator',
                 'Finance Officer',
+                'Accountant',
             ]);
 
             if (!$allowed) {

@@ -150,16 +150,103 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
     
     // Finance & Analytics
     Route::get('/finance', function() { return view('admin.finance.index'); })->name('finance.index');
-    Route::get('/finance/payments-received', function() { return view('admin.finance.payments-received'); })->name('finance.payments-received');
-    Route::get('/finance/generated-invoices', function() { return view('admin.finance.generated-invoices'); })->name('finance.generated-invoices');
-    Route::get('/finance/expense-tracking', function() { return view('admin.finance.expense-tracking'); })->name('finance.expense-tracking');
-    Route::get('/finance/expenses', [ExpenseController::class, 'index'])->name('finance.expenses.index');
-    Route::get('/finance/expenses/create', [ExpenseController::class, 'create'])->name('finance.expenses.create');
-    Route::post('/finance/expenses', [ExpenseController::class, 'store'])->name('finance.expenses.store');
-    Route::get('/finance/expenses/{expense}/edit', [ExpenseController::class, 'edit'])->whereNumber('expense')->name('finance.expenses.edit');
-    Route::put('/finance/expenses/{expense}', [ExpenseController::class, 'update'])->whereNumber('expense')->name('finance.expenses.update');
-    Route::delete('/finance/expenses/{expense}', [ExpenseController::class, 'destroy'])->whereNumber('expense')->name('finance.expenses.destroy');
-    Route::get('/finance/revenue-reports', function() { return view('admin.finance.revenue-reports'); })->name('finance.revenue-reports');
+    Route::view('/finance/overview', 'admin.finance.page', ['title' => 'Finance Overview'])->name('finance.overview');
+    Route::view('/finance/cash-position', 'admin.finance.page', ['title' => 'Cash Position'])->name('finance.cash-position');
+    Route::view('/finance/monthly-summary', 'admin.finance.page', ['title' => 'Monthly Summary'])->name('finance.monthly-summary');
+
+    Route::prefix('finance/revenue')->name('finance.revenue.')->group(function () {
+        Route::view('/all-bookings', 'admin.finance.page', ['title' => 'All Bookings Revenue'])->name('all-bookings');
+        Route::get('/payments-received', function() { return view('admin.finance.payments-received'); })->name('payments-received');
+        Route::view('/deposits', 'admin.finance.page', ['title' => 'Deposits'])->name('deposits');
+        Route::view('/outstanding-balances', 'admin.finance.page', ['title' => 'Outstanding Balances'])->name('outstanding-balances');
+        Route::view('/multi-currency-tracker', 'admin.finance.page', ['title' => 'Multi-Currency Tracker'])->name('multi-currency-tracker');
+    });
+
+    Route::prefix('finance/invoices')->name('finance.invoices.')->group(function () {
+        Route::get('/all', function() { return view('admin.finance.generated-invoices'); })->name('all');
+        Route::view('/create', 'admin.finance.page', ['title' => 'Create Invoice'])->name('create');
+        Route::view('/draft', 'admin.finance.page', ['title' => 'Draft Invoices'])->name('draft');
+        Route::view('/overdue', 'admin.finance.page', ['title' => 'Overdue Invoices'])->name('overdue');
+        Route::view('/credit-notes', 'admin.finance.page', ['title' => 'Credit Notes'])->name('credit-notes');
+    });
+
+    Route::prefix('finance/ar')->name('finance.ar.')->group(function () {
+        Route::view('/customer-balances', 'admin.finance.page', ['title' => 'Customer Balances'])->name('customer-balances');
+        Route::view('/aging-report', 'admin.finance.page', ['title' => 'Aging Report'])->name('aging-report');
+        Route::view('/payment-reminders', 'admin.finance.page', ['title' => 'Payment Reminders'])->name('payment-reminders');
+        Route::view('/installment-plans', 'admin.finance.page', ['title' => 'Installment Plans'])->name('installment-plans');
+    });
+
+    Route::prefix('finance/ap')->name('finance.ap.')->group(function () {
+        Route::view('/supplier-bills', 'admin.finance.page', ['title' => 'Supplier Bills'])->name('supplier-bills');
+        Route::view('/pending-payments', 'admin.finance.page', ['title' => 'Pending Payments'])->name('pending-payments');
+        Route::view('/operator-payments', 'admin.finance.page', ['title' => 'Operator Payments'])->name('operator-payments');
+        Route::view('/guide-payments', 'admin.finance.page', ['title' => 'Guide Payments'])->name('guide-payments');
+        Route::view('/due-schedule', 'admin.finance.page', ['title' => 'Due Schedule'])->name('due-schedule');
+    });
+
+    Route::prefix('finance/transactions')->name('finance.transactions.')->group(function () {
+        Route::view('/all', 'admin.finance.page', ['title' => 'All Transactions'])->name('all');
+        Route::view('/bank-transfers', 'admin.finance.page', ['title' => 'Bank Transfers'])->name('bank-transfers');
+        Route::view('/cash', 'admin.finance.page', ['title' => 'Cash Transactions'])->name('cash');
+        Route::view('/mobile-money', 'admin.finance.page', ['title' => 'Mobile Money (M-Pesa, Airtel)'])->name('mobile-money');
+        Route::view('/stripe-card', 'admin.finance.page', ['title' => 'Stripe / Card Payments'])->name('stripe-card');
+    });
+
+    Route::prefix('finance/expenses')->name('finance.expenses.')->group(function () {
+        Route::get('/', [ExpenseController::class, 'index'])->name('index');
+        Route::get('/create', [ExpenseController::class, 'create'])->name('create');
+        Route::post('/', [ExpenseController::class, 'store'])->name('store');
+        Route::get('/{expense}/edit', [ExpenseController::class, 'edit'])->whereNumber('expense')->name('edit');
+        Route::put('/{expense}', [ExpenseController::class, 'update'])->whereNumber('expense')->name('update');
+        Route::delete('/{expense}', [ExpenseController::class, 'destroy'])->whereNumber('expense')->name('destroy');
+        Route::get('/tracking', function() { return view('admin.finance.expense-tracking'); })->name('tracking');
+        Route::view('/categories', 'admin.finance.page', ['title' => 'Expense Categories'])->name('categories');
+        Route::view('/vendors', 'admin.finance.page', ['title' => 'Vendor Management'])->name('vendors');
+        Route::view('/recurring', 'admin.finance.page', ['title' => 'Recurring Expenses'])->name('recurring');
+    });
+
+    Route::prefix('finance/commissions')->name('finance.commissions.')->group(function () {
+        Route::view('/overview', 'admin.finance.page', ['title' => 'Commission Overview'])->name('overview');
+        Route::view('/per-booking', 'admin.finance.page', ['title' => 'Per Booking Commission'])->name('per-booking');
+        Route::view('/operator', 'admin.finance.page', ['title' => 'Operator Commission'])->name('operator');
+        Route::view('/agent', 'admin.finance.page', ['title' => 'Agent Commission'])->name('agent');
+        Route::view('/reports', 'admin.finance.page', ['title' => 'Commission Reports'])->name('reports');
+    });
+
+    Route::prefix('finance/banking')->name('finance.banking.')->group(function () {
+        Route::view('/bank-accounts', 'admin.finance.page', ['title' => 'Bank Accounts'])->name('bank-accounts');
+        Route::view('/cash-accounts', 'admin.finance.page', ['title' => 'Cash Accounts'])->name('cash-accounts');
+        Route::view('/transfers', 'admin.finance.page', ['title' => 'Transfers Between Accounts'])->name('transfers');
+        Route::view('/reconciliation', 'admin.finance.page', ['title' => 'Reconciliation'])->name('reconciliation');
+    });
+
+    Route::prefix('finance/reports')->name('finance.reports.')->group(function () {
+        Route::view('/profit-loss', 'admin.finance.page', ['title' => 'Profit & Loss'])->name('profit-loss');
+        Route::view('/balance-sheet', 'admin.finance.page', ['title' => 'Balance Sheet'])->name('balance-sheet');
+        Route::view('/cash-flow', 'admin.finance.page', ['title' => 'Cash Flow'])->name('cash-flow');
+        Route::get('/revenue-report', function() { return view('admin.finance.revenue-reports'); })->name('revenue-report');
+        Route::view('/expense-report', 'admin.finance.page', ['title' => 'Expense Report'])->name('expense-report');
+        Route::view('/commission-report', 'admin.finance.page', ['title' => 'Commission Report'])->name('commission-report');
+        Route::view('/tax-report', 'admin.finance.page', ['title' => 'Tax Report'])->name('tax-report');
+        Route::view('/custom-builder', 'admin.finance.page', ['title' => 'Custom Report Builder'])->name('custom-builder');
+    });
+
+    Route::prefix('finance/tax')->name('finance.tax.')->group(function () {
+        Route::view('/vat-settings', 'admin.finance.page', ['title' => 'VAT Settings'])->name('vat-settings');
+        Route::view('/tax-summary', 'admin.finance.page', ['title' => 'Tax Summary'])->name('tax-summary');
+        Route::view('/tax-payments', 'admin.finance.page', ['title' => 'Tax Payments'])->name('tax-payments');
+        Route::view('/withholding-tax', 'admin.finance.page', ['title' => 'Withholding Tax'])->name('withholding-tax');
+    });
+
+    Route::prefix('finance/settings')->name('finance.settings.')->group(function () {
+        Route::view('/chart-of-accounts', 'admin.finance.page', ['title' => 'Chart of Accounts'])->name('chart-of-accounts');
+        Route::view('/currencies', 'admin.finance.page', ['title' => 'Currencies'])->name('currencies');
+        Route::view('/exchange-rates', 'admin.finance.page', ['title' => 'Exchange Rates'])->name('exchange-rates');
+        Route::view('/payment-methods', 'admin.finance.page', ['title' => 'Payment Methods'])->name('payment-methods');
+        Route::view('/financial-year', 'admin.finance.page', ['title' => 'Financial Year Settings'])->name('financial-year');
+        Route::view('/approval-rules', 'admin.finance.page', ['title' => 'Approval Rules'])->name('approval-rules');
+    });
     Route::get('/statistics', function() { return view('admin.statistics.index'); })->name('statistics.index');
     
     // System & Content

@@ -184,21 +184,143 @@
             {{-- 🟦 FINANCE & ANALYTICS --}}
             <div class="px-4 mt-6 mb-2 text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] opacity-50">Finance & Analytics</div>
 
-            {{-- Accounting --}}
-            @if(!$hasRoleMethod || $user->hasAnyRole(['System Administrator', 'Finance Officer']))
+            @if(!$hasRoleMethod || $user->hasAnyRole(['System Administrator', 'Finance Officer', 'Accountant']))
             <div x-data="{ open: window.innerWidth < 1024 || {{ request()->routeIs('admin.finance.*') ? 'true' : 'false' }} }">
                 <button @click="open = !open" class="w-full flex items-center justify-between px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl {{ request()->routeIs('admin.finance.*') ? 'text-white bg-emerald-800' : '' }}">
                     <div class="flex items-center">
                         <i class="ph-bold ph-currency-dollar mr-3 text-xl"></i>
-                        <span class="text-sm">Finance & Invoices</span>
+                        <span class="text-sm">Finance</span>
                     </div>
                     <i class="ph ph-caret-down text-xs transition-transform" :class="open ? 'rotate-180' : ''"></i>
                 </button>
-                <div x-show="open" x-collapse class="pl-12 pr-4 py-2 space-y-1">
-                    <a href="{{ route('admin.finance.payments-received') }}" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors {{ request()->routeIs('admin.finance.payments-received') ? 'text-emerald-400 font-bold' : '' }}">Payments Received</a>
-                    <a href="{{ route('admin.finance.generated-invoices') }}" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors {{ request()->routeIs('admin.finance.generated-invoices') ? 'text-emerald-400 font-bold' : '' }}">Generated Invoices</a>
-                    <a href="{{ route('admin.finance.expense-tracking') }}" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors {{ request()->routeIs('admin.finance.expense-tracking') ? 'text-emerald-400 font-bold' : '' }}">Expense Tracking</a>
-                    <a href="{{ route('admin.finance.revenue-reports') }}" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors {{ request()->routeIs('admin.finance.revenue-reports') ? 'text-emerald-400 font-bold' : '' }}">Revenue Reports</a>
+
+                <div x-show="open" x-collapse class="pl-12 pr-4 py-2 space-y-2">
+                    <a href="{{ route('admin.dashboard') }}" class="block text-xs py-2 text-emerald-100/50 hover:text-white transition-colors">Dashboard</a>
+                    <a href="{{ route('admin.finance.index') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.index') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Finance Overview</a>
+                    <a href="{{ route('admin.finance.cash-position') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.cash-position') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Cash Position</a>
+                    <a href="{{ route('admin.finance.monthly-summary') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.monthly-summary') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Monthly Summary</a>
+
+                    <div class="pt-2">
+                        <div class="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500/60 px-0.5">Revenue</div>
+                        <div class="space-y-1 mt-1">
+                            <a href="{{ route('admin.finance.revenue.all-bookings') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.revenue.all-bookings') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">All Bookings Revenue</a>
+                            <a href="{{ route('admin.finance.revenue.payments-received') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.revenue.payments-received') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Payments Received</a>
+                            <a href="{{ route('admin.finance.revenue.deposits') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.revenue.deposits') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Deposits</a>
+                            <a href="{{ route('admin.finance.revenue.outstanding-balances') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.revenue.outstanding-balances') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Outstanding Balances</a>
+                            <a href="{{ route('admin.finance.revenue.multi-currency-tracker') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.revenue.multi-currency-tracker') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Multi-Currency Tracker</a>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <div class="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500/60 px-0.5">Invoices</div>
+                        <div class="space-y-1 mt-1">
+                            <a href="{{ route('admin.finance.invoices.all') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.invoices.all') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">All Invoices</a>
+                            <a href="{{ route('admin.finance.invoices.create') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.invoices.create') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Create Invoice</a>
+                            <a href="{{ route('admin.finance.invoices.draft') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.invoices.draft') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Draft Invoices</a>
+                            <a href="{{ route('admin.finance.invoices.overdue') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.invoices.overdue') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Overdue Invoices</a>
+                            <a href="{{ route('admin.finance.invoices.credit-notes') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.invoices.credit-notes') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Credit Notes</a>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <div class="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500/60 px-0.5">Accounts Receivable (AR)</div>
+                        <div class="space-y-1 mt-1">
+                            <a href="{{ route('admin.finance.ar.customer-balances') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.ar.customer-balances') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Customer Balances</a>
+                            <a href="{{ route('admin.finance.ar.aging-report') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.ar.aging-report') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Aging Report</a>
+                            <a href="{{ route('admin.finance.ar.payment-reminders') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.ar.payment-reminders') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Payment Reminders</a>
+                            <a href="{{ route('admin.finance.ar.installment-plans') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.ar.installment-plans') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Installment Plans</a>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <div class="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500/60 px-0.5">Accounts Payable (AP)</div>
+                        <div class="space-y-1 mt-1">
+                            <a href="{{ route('admin.finance.ap.supplier-bills') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.ap.supplier-bills') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Supplier Bills</a>
+                            <a href="{{ route('admin.finance.ap.pending-payments') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.ap.pending-payments') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Pending Payments</a>
+                            <a href="{{ route('admin.finance.ap.operator-payments') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.ap.operator-payments') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Operator Payments</a>
+                            <a href="{{ route('admin.finance.ap.guide-payments') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.ap.guide-payments') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Guide Payments</a>
+                            <a href="{{ route('admin.finance.ap.due-schedule') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.ap.due-schedule') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Due Schedule</a>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <div class="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500/60 px-0.5">Transactions</div>
+                        <div class="space-y-1 mt-1">
+                            <a href="{{ route('admin.finance.transactions.all') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.transactions.all') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">All Transactions</a>
+                            <a href="{{ route('admin.finance.transactions.bank-transfers') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.transactions.bank-transfers') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Bank Transfers</a>
+                            <a href="{{ route('admin.finance.transactions.cash') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.transactions.cash') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Cash Transactions</a>
+                            <a href="{{ route('admin.finance.transactions.mobile-money') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.transactions.mobile-money') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Mobile Money (M-Pesa, Airtel)</a>
+                            <a href="{{ route('admin.finance.transactions.stripe-card') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.transactions.stripe-card') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Stripe / Card Payments</a>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <div class="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500/60 px-0.5">Expenses</div>
+                        <div class="space-y-1 mt-1">
+                            <a href="{{ route('admin.finance.expenses.index') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.expenses.index') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">All Expenses</a>
+                            <a href="{{ route('admin.finance.expenses.create') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.expenses.create') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Add Expense</a>
+                            <a href="{{ route('admin.finance.expenses.categories') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.expenses.categories') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Expense Categories</a>
+                            <a href="{{ route('admin.finance.expenses.vendors') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.expenses.vendors') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Vendor Management</a>
+                            <a href="{{ route('admin.finance.expenses.recurring') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.expenses.recurring') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Recurring Expenses</a>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <div class="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500/60 px-0.5">Commissions</div>
+                        <div class="space-y-1 mt-1">
+                            <a href="{{ route('admin.finance.commissions.overview') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.commissions.overview') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Commission Overview</a>
+                            <a href="{{ route('admin.finance.commissions.per-booking') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.commissions.per-booking') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Per Booking Commission</a>
+                            <a href="{{ route('admin.finance.commissions.operator') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.commissions.operator') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Operator Commission</a>
+                            <a href="{{ route('admin.finance.commissions.agent') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.commissions.agent') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Agent Commission</a>
+                            <a href="{{ route('admin.finance.commissions.reports') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.commissions.reports') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Commission Reports</a>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <div class="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500/60 px-0.5">Banking & Cash</div>
+                        <div class="space-y-1 mt-1">
+                            <a href="{{ route('admin.finance.banking.bank-accounts') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.banking.bank-accounts') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Bank Accounts</a>
+                            <a href="{{ route('admin.finance.banking.cash-accounts') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.banking.cash-accounts') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Cash Accounts</a>
+                            <a href="{{ route('admin.finance.banking.transfers') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.banking.transfers') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Transfers Between Accounts</a>
+                            <a href="{{ route('admin.finance.banking.reconciliation') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.banking.reconciliation') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Reconciliation</a>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <div class="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500/60 px-0.5">Reports</div>
+                        <div class="space-y-1 mt-1">
+                            <a href="{{ route('admin.finance.reports.profit-loss') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.reports.profit-loss') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Profit & Loss</a>
+                            <a href="{{ route('admin.finance.reports.balance-sheet') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.reports.balance-sheet') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Balance Sheet</a>
+                            <a href="{{ route('admin.finance.reports.cash-flow') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.reports.cash-flow') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Cash Flow</a>
+                            <a href="{{ route('admin.finance.reports.revenue-report') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.reports.revenue-report') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Revenue Report</a>
+                            <a href="{{ route('admin.finance.reports.expense-report') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.reports.expense-report') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Expense Report</a>
+                            <a href="{{ route('admin.finance.reports.commission-report') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.reports.commission-report') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Commission Report</a>
+                            <a href="{{ route('admin.finance.reports.tax-report') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.reports.tax-report') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Tax Report</a>
+                            <a href="{{ route('admin.finance.reports.custom-builder') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.reports.custom-builder') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Custom Report Builder</a>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <div class="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500/60 px-0.5">Tax & Compliance</div>
+                        <div class="space-y-1 mt-1">
+                            <a href="{{ route('admin.finance.tax.vat-settings') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.tax.vat-settings') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">VAT Settings</a>
+                            <a href="{{ route('admin.finance.tax.tax-summary') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.tax.tax-summary') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Tax Summary</a>
+                            <a href="{{ route('admin.finance.tax.tax-payments') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.tax.tax-payments') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Tax Payments</a>
+                            <a href="{{ route('admin.finance.tax.withholding-tax') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.tax.withholding-tax') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Withholding Tax</a>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <div class="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500/60 px-0.5">Finance Settings</div>
+                        <div class="space-y-1 mt-1">
+                            <a href="{{ route('admin.finance.settings.chart-of-accounts') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.settings.chart-of-accounts') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Chart of Accounts</a>
+                            <a href="{{ route('admin.finance.settings.currencies') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.settings.currencies') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Currencies</a>
+                            <a href="{{ route('admin.finance.settings.exchange-rates') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.settings.exchange-rates') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Exchange Rates</a>
+                            <a href="{{ route('admin.finance.settings.payment-methods') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.settings.payment-methods') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Payment Methods</a>
+                            <a href="{{ route('admin.finance.settings.financial-year') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.settings.financial-year') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Financial Year Settings</a>
+                            <a href="{{ route('admin.finance.settings.approval-rules') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.settings.approval-rules') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Approval Rules</a>
+                        </div>
+                    </div>
                 </div>
             </div>
             @endif
