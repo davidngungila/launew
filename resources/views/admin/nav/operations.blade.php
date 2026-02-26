@@ -16,7 +16,7 @@
 <div class="space-y-1">
     <a href="{{ route('admin.operations.assign.guides') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-user-circle-gear mr-3 text-xl"></i><span class="text-sm">Assign Guides</span></a>
     <a href="{{ route('admin.operations.assign.drivers') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-steering-wheel mr-3 text-xl"></i><span class="text-sm">Assign Drivers</span></a>
-    <a href="{{ route('admin.fleet.index') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-jeep mr-3 text-xl"></i><span class="text-sm">Assign Vehicles</span></a>
+    <a href="{{ route('admin.operations.assign.vehicles') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-jeep mr-3 text-xl"></i><span class="text-sm">Assign Vehicles</span></a>
 </div>
 
 <div class="px-4 mt-6 mb-2 text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] opacity-50">Logistics</div>

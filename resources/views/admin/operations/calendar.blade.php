@@ -290,21 +290,36 @@
             </div>
 
             <div class="grid grid-cols-2 gap-4">
-                <form action="${props.send_itinerary_url}" method="POST" class="contents" onsubmit="return confirm('Send itinerary to the client?');">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <button type="submit" class="py-5 bg-white border border-slate-200 text-slate-900 text-center rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-slate-50 transition-all">
+                ${props.send_itinerary_url ? `
+                    <form action="${props.send_itinerary_url}" method="POST" class="contents" onsubmit="return confirm('Send itinerary to the client?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="py-5 bg-white border border-slate-200 text-slate-900 text-center rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-slate-50 transition-all">
+                            Send Itinerary
+                        </button>
+                    </form>
+                ` : `
+                    <button type="button" disabled class="py-5 bg-white border border-slate-100 text-slate-300 text-center rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] cursor-not-allowed">
                         Send Itinerary
                     </button>
-                </form>
-                <a href="${props.receipt_url}" class="py-5 bg-white border border-slate-200 text-slate-900 text-center rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-slate-50 transition-all">
-                    Download Receipt
-                </a>
+                `}
+
+                ${props.receipt_url ? `
+                    <a href="${props.receipt_url}" class="py-5 bg-white border border-slate-200 text-slate-900 text-center rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-slate-50 transition-all">
+                        Download Receipt
+                    </a>
+                ` : `
+                    <button type="button" disabled class="py-5 bg-white border border-slate-100 text-slate-300 text-center rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] cursor-not-allowed">
+                        Download Receipt
+                    </button>
+                `}
             </div>
 
             <div class="flex items-center justify-end">
-                <a href="${props.receipt_preview_url}" target="_blank" class="px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-slate-900 transition-colors">
-                    Preview Receipt
-                </a>
+                ${props.receipt_preview_url ? `
+                    <a href="${props.receipt_preview_url}" target="_blank" class="px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-slate-900 transition-colors">
+                        Preview Receipt
+                    </a>
+                ` : ''}
             </div>
         `;
     }

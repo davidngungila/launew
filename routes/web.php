@@ -159,6 +159,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
         // Assignments
         Route::get('/assign/guides', [App\Http\Controllers\Admin\OperationsController::class, 'assignGuides'])->name('assign.guides');
         Route::get('/assign/drivers', [App\Http\Controllers\Admin\OperationsController::class, 'assignDrivers'])->name('assign.drivers');
+        Route::get('/assign/vehicles', [App\Http\Controllers\Admin\OperationsController::class, 'assignVehicles'])->name('assign.vehicles');
 
         // Logistics
         Route::view('/logistics/accommodation', 'admin.operations.page', [

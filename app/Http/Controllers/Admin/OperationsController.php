@@ -131,4 +131,17 @@ class OperationsController extends Controller
 
         return view('admin.operations.assign-drivers', compact('bookings'));
     }
+
+    public function assignVehicles()
+    {
+        $today = now()->toDateString();
+
+        $bookings = Booking::with(['tour', 'guide', 'driver', 'vehicle'])
+            ->whereDate('start_date', '>=', $today)
+            ->whereNull('vehicle_id')
+            ->orderBy('start_date')
+            ->paginate(15);
+
+        return view('admin.operations.assign-vehicles', compact('bookings'));
+    }
 }
