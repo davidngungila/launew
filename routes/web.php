@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\TourController;
@@ -81,6 +82,54 @@ Route::prefix('client')->name('client.')->middleware(['auth'])->group(function (
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'activity.log'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/placeholder', function (Request $request) {
+        return view('admin.page', ['title' => (string) $request->query('title', 'Page')]);
+    })->name('placeholder');
+
+    Route::post('/nav-role-view', function (Request $request) {
+        $user = $request->user();
+
+        if (!$user || !method_exists($user, 'hasAnyRole') || !$user->hasAnyRole(['System Administrator'])) {
+            abort(403);
+        }
+
+        $role = (string) $request->input('role');
+
+        $allowed = [
+            'super-admin',
+            'admin-manager',
+            'accountant',
+            'marketing',
+            'sales',
+            'operations',
+            'driver-guide',
+            'external-agent',
+            'client-portal',
+            'it-support',
+        ];
+
+        if (!in_array($role, $allowed, true)) {
+            abort(422);
+        }
+
+        $request->session()->put('nav_role_view', $role);
+
+        return back();
+    })->name('nav-role-view.set');
+
+    Route::post('/nav-role-view/clear', function (Request $request) {
+        $user = $request->user();
+
+        if (!$user || !method_exists($user, 'hasAnyRole') || !$user->hasAnyRole(['System Administrator'])) {
+            abort(403);
+        }
+
+        $request->session()->forget('nav_role_view');
+
+        return back();
+    })->name('nav-role-view.clear');
+
     Route::resource('tours', TourController::class)->whereNumber('tour');
 
     // Tours & Packages Subpages

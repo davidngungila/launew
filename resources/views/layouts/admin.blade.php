@@ -51,7 +51,13 @@
                 // Check if role methods exist, fallback if not
                 $hasRoleMethod = method_exists($user, 'hasAnyRole') && $user && $user->roles()->exists();
                 $isAdmin = $hasRoleMethod ? $user->hasAnyRole(['System Administrator']) : true; // Default true to show menu when roles not configured
+                $navRoleView = session('nav_role_view');
+                $canNavRoleView = $hasRoleMethod && $user && $user->hasAnyRole(['System Administrator']);
             @endphp
+
+            @if($canNavRoleView && $navRoleView)
+                @includeIf('admin.nav.' . $navRoleView)
+            @else
 
             {{-- 🟦 MAIN DASHBOARD --}}
             <a href="{{ route('admin.dashboard') }}" 
@@ -422,6 +428,8 @@
                 </div>
             </div>
             @endif
+
+            @endif
         </div>
         
     </aside>
@@ -449,6 +457,39 @@
                     <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
                     <span class="text-[10px] font-black uppercase tracking-widest leading-none">Live System</span>
                 </div>
+
+                @php
+                    $user = auth()->user();
+                    $hasRoleMethod = $user && method_exists($user, 'hasAnyRole') && $user->roles()->exists();
+                    $canNavRoleView = $hasRoleMethod && $user->hasAnyRole(['System Administrator']);
+                    $navRoleView = session('nav_role_view');
+                @endphp
+
+                @if($canNavRoleView)
+                    <form action="{{ route('admin.nav-role-view.set') }}" method="POST" class="hidden lg:flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-xl shadow-sm">
+                        @csrf
+                        <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Role View</span>
+                        <select name="role" class="text-xs font-bold text-slate-700 bg-transparent focus:outline-none" onchange="this.form.submit()">
+                            <option value="super-admin" {{ $navRoleView === 'super-admin' ? 'selected' : '' }}>Super Admin</option>
+                            <option value="admin-manager" {{ $navRoleView === 'admin-manager' ? 'selected' : '' }}>Admin / GM</option>
+                            <option value="accountant" {{ $navRoleView === 'accountant' ? 'selected' : '' }}>Accountant</option>
+                            <option value="marketing" {{ $navRoleView === 'marketing' ? 'selected' : '' }}>Marketing</option>
+                            <option value="sales" {{ $navRoleView === 'sales' ? 'selected' : '' }}>Sales</option>
+                            <option value="operations" {{ $navRoleView === 'operations' ? 'selected' : '' }}>Operations</option>
+                            <option value="driver-guide" {{ $navRoleView === 'driver-guide' ? 'selected' : '' }}>Driver / Guide</option>
+                            <option value="external-agent" {{ $navRoleView === 'external-agent' ? 'selected' : '' }}>External Agent</option>
+                            <option value="client-portal" {{ $navRoleView === 'client-portal' ? 'selected' : '' }}>Client Portal</option>
+                            <option value="it-support" {{ $navRoleView === 'it-support' ? 'selected' : '' }}>IT Support</option>
+                        </select>
+                    </form>
+
+                    @if($navRoleView)
+                        <form action="{{ route('admin.nav-role-view.clear') }}" method="POST" class="hidden lg:block">
+                            @csrf
+                            <button type="submit" class="px-4 py-2 bg-white border border-slate-200 text-slate-600 font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm text-xs">Clear</button>
+                        </form>
+                    @endif
+                @endif
 
                 <div class="h-8 w-px bg-slate-100 mx-2 hidden sm:block"></div>
 
