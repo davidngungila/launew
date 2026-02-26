@@ -122,6 +122,14 @@
     .fc-event-title { font-weight: 900; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.025em; }
     .fc .fc-timegrid-slot-label { font-weight: 900; color: #94a3b8; font-size: 0.65rem; }
     .fc .fc-timegrid-axis-cushion { font-weight: 900; color: #94a3b8; font-size: 0.65rem; }
+
+    .fc td.fc-daygrid-day.fc-day-with-event { background: #f8fafc; }
+    .fc td.fc-daygrid-day.fc-day-with-event.fc-day-status-confirmed { background: #ecfdf5; }
+    .fc td.fc-daygrid-day.fc-day-with-event.fc-day-status-pending { background: #fffbeb; }
+    .fc td.fc-daygrid-day.fc-day-with-event.fc-day-status-completed { background: #eff6ff; }
+    .fc td.fc-daygrid-day.fc-day-with-event.fc-day-status-cancelled { background: #fef2f2; }
+
+    .fc td.fc-daygrid-day.fc-day-with-event .fc-daygrid-day-number { color: #0f172a; }
 </style>
 @endpush
 
@@ -137,22 +145,64 @@
         calendar = new FullCalendar.Calendar(calendarEl, {
             height: 'auto',
             expandRows: true,
+            timeZone: 'Africa/Dar_es_Salaam',
+            firstDay: 1,
             initialView: 'dayGridMonth',
             headerToolbar: { left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth' },
             navLinks: true,
             nowIndicator: true,
             dayMaxEvents: true,
             events: allEvents,
+            eventsSet: () => paintDayCells(),
+            datesSet: () => paintDayCells(),
             eventClick: (info) => { info.jsEvent.preventDefault(); openModal(info.event); },
             eventDidMount: (info) => {
-                tippy(info.el, {
-                    content: `<div class="p-2 text-left"><p class="text-[9px] font-black uppercase text-white/40 mb-1">${info.event.extendedProps.customer}</p><p class="text-xs font-black text-white">${info.event.title}</p></div>`,
-                    allowHTML: true, theme: 'material',
-                });
+                if (typeof window.tippy === 'function') {
+                    tippy(info.el, {
+                        content: `<div class="p-2 text-left"><p class="text-[9px] font-black uppercase text-white/40 mb-1">${info.event.extendedProps.customer}</p><p class="text-xs font-black text-white">${info.event.title}</p></div>`,
+                        allowHTML: true, theme: 'material',
+                    });
+                }
             }
         });
         calendar.render();
     });
+
+    function paintDayCells() {
+        const root = document.getElementById('calendar');
+        if (!root || !calendar) return;
+
+        root.querySelectorAll('td.fc-daygrid-day').forEach((el) => {
+            el.classList.remove(
+                'fc-day-with-event',
+                'fc-day-status-confirmed',
+                'fc-day-status-pending',
+                'fc-day-status-completed',
+                'fc-day-status-cancelled'
+            );
+        });
+
+        const priority = { cancelled: 4, pending: 3, confirmed: 2, completed: 1 };
+        const byDate = {};
+
+        calendar.getEvents().forEach((ev) => {
+            const status = ev.extendedProps?.status || 'confirmed';
+            const d = ev.start;
+            if (!d) return;
+            const dateKey = d.toISOString().slice(0, 10);
+            const prev = byDate[dateKey];
+            if (!prev || (priority[status] || 0) > (priority[prev] || 0)) {
+                byDate[dateKey] = status;
+            }
+        });
+
+        Object.keys(byDate).forEach((dateKey) => {
+            const cell = root.querySelector(`td.fc-daygrid-day[data-date="${dateKey}"]`);
+            if (!cell) return;
+            cell.classList.add('fc-day-with-event');
+            cell.classList.add(`fc-day-status-${byDate[dateKey]}`);
+        });
+    }
 
     function updateCalendar() {
         const status = document.querySelector('[x-model="filterStatus"]').value;
@@ -162,6 +212,7 @@
         } else {
             calendar.addEventSource(allEvents.filter(e => e.status === status));
         }
+        paintDayCells();
     }
 
     const modal = document.getElementById('eventModal');
