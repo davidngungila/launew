@@ -146,6 +146,94 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
     Route::post('/tours/itinerary-builder/{tour}', [ItineraryBuilderController::class, 'save'])->whereNumber('tour')->name('tours.itinerary-builder.save');
     Route::get('/tours/availability-pricing', function () { return view('admin.tours.availability-pricing'); })->name('tours.availability-pricing');
     Route::get('/tours/destinations', function () { return view('admin.tours.destinations'); })->name('tours.destinations');
+
+    // Operations
+    Route::prefix('operations')->name('operations.')->group(function () {
+        Route::view('/dashboard', 'admin.operations.page', [
+            'title' => 'Operations Dashboard',
+            'subtitle' => 'Daily control center for tours, logistics, assignments, and monitoring',
+            'links' => [
+                ['section' => 'Tour Planning', 'label' => 'Tour Calendar', 'href' => url('/admin/operations/calendar'), 'description' => 'Plan tours by date and track schedule'],
+                ['section' => 'Tour Planning', 'label' => 'Upcoming Tours', 'href' => url('/admin/operations/upcoming'), 'description' => 'View next departures and readiness'],
+                ['section' => 'Tour Planning', 'label' => 'Active Trips', 'href' => url('/admin/operations/active-trips'), 'description' => 'Tours currently on the road'],
+                ['section' => 'Assignments', 'label' => 'Assign Guides', 'href' => url('/admin/operations/assign/guides'), 'description' => 'Assign guides to bookings'],
+                ['section' => 'Assignments', 'label' => 'Assign Drivers', 'href' => url('/admin/operations/assign/drivers'), 'description' => 'Assign drivers to bookings'],
+                ['section' => 'Assignments', 'label' => 'Assign Vehicles', 'href' => url('/admin/fleet'), 'description' => 'Manage fleet allocation'],
+            ],
+        ])->name('dashboard');
+
+        // Tour Planning
+        Route::view('/calendar', 'admin.operations.page', [
+            'title' => 'Tour Calendar',
+            'subtitle' => 'A calendar view of upcoming departures and assigned teams',
+        ])->name('calendar');
+        Route::view('/upcoming', 'admin.operations.page', [
+            'title' => 'Upcoming Tours',
+            'subtitle' => 'Readiness checklist for tours departing soon',
+        ])->name('upcoming');
+        Route::view('/active-trips', 'admin.operations.page', [
+            'title' => 'Active Trips',
+            'subtitle' => 'Live trips currently active in the field',
+        ])->name('active-trips');
+
+        // Assignments
+        Route::view('/assign/guides', 'admin.operations.page', [
+            'title' => 'Assign Guides',
+            'subtitle' => 'Assign a guide to each booking / departure',
+        ])->name('assign.guides');
+        Route::view('/assign/drivers', 'admin.operations.page', [
+            'title' => 'Assign Drivers',
+            'subtitle' => 'Assign a driver to each booking / departure',
+        ])->name('assign.drivers');
+
+        // Logistics
+        Route::view('/logistics/accommodation', 'admin.operations.page', [
+            'title' => 'Accommodation Bookings',
+            'subtitle' => 'Manage hotel/lodge bookings per itinerary',
+        ])->name('logistics.accommodation');
+        Route::view('/logistics/park-fees', 'admin.operations.page', [
+            'title' => 'Park Fees',
+            'subtitle' => 'Track park fees and permits by trip',
+        ])->name('logistics.park-fees');
+        Route::view('/logistics/flights', 'admin.operations.page', [
+            'title' => 'Flight Details',
+            'subtitle' => 'Capture flight details for arrivals/departures',
+        ])->name('logistics.flights');
+
+        // Suppliers
+        Route::view('/suppliers/operators', 'admin.operations.page', [
+            'title' => 'Operator List',
+            'subtitle' => 'Registered tour operators and service providers',
+        ])->name('suppliers.operators');
+        Route::view('/suppliers/contracts', 'admin.operations.page', [
+            'title' => 'Contracts',
+            'subtitle' => 'Supplier agreements and contract renewals',
+        ])->name('suppliers.contracts');
+
+        // Monitoring
+        Route::view('/monitoring/status', 'admin.operations.page', [
+            'title' => 'Trip Status',
+            'subtitle' => 'Track trip progress and checkpoints',
+        ])->name('monitoring.status');
+        Route::view('/monitoring/incidents', 'admin.operations.page', [
+            'title' => 'Incident Reports',
+            'subtitle' => 'Log and manage operational incidents',
+        ])->name('monitoring.incidents');
+        Route::view('/monitoring/feedback', 'admin.operations.page', [
+            'title' => 'Customer Feedback',
+            'subtitle' => 'Post-tour feedback and satisfaction follow-ups',
+        ])->name('monitoring.feedback');
+
+        // Reports
+        Route::view('/reports/completion', 'admin.operations.page', [
+            'title' => 'Tour Completion Report',
+            'subtitle' => 'Completion summary per tour and booking',
+        ])->name('reports.completion');
+        Route::view('/reports/performance', 'admin.operations.page', [
+            'title' => 'Operations Performance',
+            'subtitle' => 'KPIs for operations execution, incidents, and readiness',
+        ])->name('reports.performance');
+    });
     
     // CRM & Sales
     Route::get('/bookings', [App\Http\Controllers\Admin\BookingController::class, 'index'])->name('bookings.index');
