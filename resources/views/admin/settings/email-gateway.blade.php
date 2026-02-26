@@ -99,18 +99,19 @@
                     <button type="submit" class="flex-1 py-4 bg-emerald-600 text-white font-black text-xs uppercase tracking-widest rounded-xl hover:bg-emerald-700 shadow-xl shadow-emerald-500/20 transition-all">Save SMTP Settings</button>
                 </div>
 
-                @if(isset($gateways) && ($settings['gateway_id'] ?? null))
-                    @php
+                @php
+                    $selected = null;
+                    if (isset($gateways) && ($settings['gateway_id'] ?? null)) {
                         $selected = $gateways->firstWhere('id', (int) ($settings['gateway_id'] ?? 0));
-                    @endphp
-                    @if($selected && !$selected->is_active)
-                        <div class="pt-2">
-                            <form action="{{ route('admin.settings.email-gateway.activate', $selected->id) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="w-full py-3 bg-slate-900 text-white font-black text-xs uppercase tracking-widest rounded-xl hover:bg-slate-800 transition-all">Make Active</button>
-                            </form>
-                        </div>
-                    @endif
+                    }
+                @endphp
+                @if($selected && !$selected->is_active)
+                    <div class="pt-2">
+                        <form action="{{ route('admin.settings.email-gateway.activate', $selected->id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="w-full py-3 bg-slate-900 text-white font-black text-xs uppercase tracking-widest rounded-xl hover:bg-slate-800 transition-all">Make Active</button>
+                        </form>
+                    </div>
                 @endif
             </form>
         </div>
