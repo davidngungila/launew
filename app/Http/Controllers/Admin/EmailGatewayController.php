@@ -171,7 +171,24 @@ class EmailGatewayController extends Controller
         $sent = $service->send(
             $validated['to'],
             $validated['subject'],
-            nl2br(e($validated['message']))
+            view('emails.system.test', [
+                'subject' => $validated['subject'],
+                'heading' => $validated['subject'],
+                'subheading' => 'SMTP test message from admin settings',
+                'logo_url' => url('lau-adventuress-logo.png'),
+                'website_url' => config('app.url'),
+                'support_email' => config('mail.from.address'),
+                'body_html' => '<p style="margin:0 0 12px 0;">' . nl2br(e($validated['message'])) . '</p>',
+                'details' => [
+                    'To' => $validated['to'],
+                    'From' => (string) (config('mail.from.name') . ' <' . config('mail.from.address') . '>'),
+                    'SMTP Host' => (string) ($validated['mail_host'] ?? ''),
+                    'SMTP Port' => (string) ($validated['mail_port'] ?? ''),
+                    'Encryption' => (string) ($validated['mail_encryption'] ?? 'tls'),
+                    'App URL' => (string) config('app.url'),
+                    'Sent At' => now()->toDateTimeString(),
+                ],
+            ])->render()
         );
 
         $sendError = $sent ? null : $service->getLastError();
