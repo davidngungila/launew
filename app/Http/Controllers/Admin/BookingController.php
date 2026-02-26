@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\Staff;
 use App\Models\Vehicle;
+use App\Services\BookingNotificationService;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class BookingController extends Controller
 {
@@ -99,6 +101,15 @@ class BookingController extends Controller
             'special_requests' => $validated['special_requests'] ?? null,
         ]));
 
+        try {
+            (new BookingNotificationService())->sendBookingCreated($booking);
+        } catch (\Throwable $e) {
+            Log::warning('Admin booking created notification failed', [
+                'booking_id' => $booking->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
+
         return redirect()->route('admin.bookings.index')->with('success', 'Booking created successfully');
     }
 
@@ -184,7 +195,7 @@ class BookingController extends Controller
         $booking = Booking::with('tour')->findOrFail($id);
 
         try {
-            Mail::to($booking->customer_email)->send(new \App\Mail\AdminItineraryMail($booking));
+            (new BookingNotificationService())->sendItinerary($booking);
         } catch (\Throwable $e) {
             return back()->with('error', 'Failed to send itinerary: ' . $e->getMessage());
         }
@@ -234,6 +245,16 @@ class BookingController extends Controller
                     'payment_status' => 'paid',
                     'payment_method' => 'flutterwave',
                 ]);
+
+                try {
+                    (new BookingNotificationService())->sendPaymentReceived($booking);
+                } catch (\Throwable $e) {
+                    Log::warning('Payment verified notification failed', [
+                        'booking_id' => $booking->id,
+                        'error' => $e->getMessage(),
+                    ]);
+                }
+
                 return back()->with('success', 'Payment verified successfully!');
             }
 

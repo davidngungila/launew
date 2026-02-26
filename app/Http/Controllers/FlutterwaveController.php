@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Services\BookingNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -116,10 +117,7 @@ class FlutterwaveController extends Controller
 
                     // Send Confirmations
                     try {
-                        \Illuminate\Support\Facades\Mail::to($booking->customer_email)
-                            ->send(new \App\Mail\BookingConfirmation($booking));
-                        
-                        Log::info("SMS SIMULATION: Sent confirmation to {$booking->customer_phone} for Booking #{$booking->id}");
+                        (new BookingNotificationService())->sendPaymentReceived($booking);
                     } catch (\Exception $e) {
                         Log::error('Confirmation Emails Failed: ' . $e->getMessage());
                     }

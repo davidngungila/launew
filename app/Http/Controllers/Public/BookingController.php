@@ -7,9 +7,11 @@ use App\Models\Booking;
 use App\Models\Role;
 use App\Models\Tour;
 use App\Models\User;
+use App\Services\BookingNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class BookingController extends Controller
 {
@@ -79,6 +81,15 @@ class BookingController extends Controller
             'status' => 'pending',
             'payment_status' => 'unpaid',
         ]);
+
+        try {
+            (new BookingNotificationService())->sendBookingCreated($booking);
+        } catch (\Throwable $e) {
+            Log::warning('Booking created notification failed', [
+                'booking_id' => $booking->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
 
         return redirect()->route('bookings.checkout', ['id' => $booking->id]);
     }
