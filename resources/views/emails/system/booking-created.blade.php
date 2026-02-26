@@ -27,6 +27,39 @@
             </table>
         </div>
 
+        @if(!empty($account_created))
+            <div style="margin-top:16px;padding:14px 16px;background-color:#ecfdf5;border:1px solid #a7f3d0;border-radius:14px;">
+                <div style="font-size:12px;line-height:16px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#047857;">Account Access</div>
+
+                <div style="margin-top:10px;font-size:13px;line-height:18px;color:#064e3b;">
+                    We created an account for you so you can view your booking and payment status any time.
+                </div>
+
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:10px;">
+                    <tr>
+                        <td style="padding:6px 0;color:#065f46;font-weight:800;font-size:13px;">Email</td>
+                        <td align="right" style="padding:6px 0;color:#064e3b;font-weight:900;font-size:13px;">{{ $account_email ?? ($booking->customer_email ?? '') }}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:6px 0;color:#065f46;font-weight:800;font-size:13px;">Password</td>
+                        <td align="right" style="padding:6px 0;color:#064e3b;font-weight:900;font-size:13px;">{{ $account_password ?? 'WelcomeTZ' }}</td>
+                    </tr>
+                </table>
+
+                @if(!empty($login_url))
+                    <div style="margin-top:12px;">
+                        <a href="{{ $login_url }}" style="display:inline-block;background:#064e3b;color:#ffffff;text-decoration:none;font-weight:900;letter-spacing:0.10em;text-transform:uppercase;font-size:11px;padding:10px 14px;border-radius:12px;">
+                            Login
+                        </a>
+                    </div>
+                @endif
+
+                <div style="margin-top:12px;font-size:12px;line-height:18px;color:#047857;">
+                    For security, please change this password after your first login.
+                </div>
+            </div>
+        @endif
+
         @if(!empty($payment_url))
             <div style="margin-top:16px;">
                 <a href="{{ $payment_url }}" style="display:inline-block;background:#10b981;color:#ffffff;text-decoration:none;font-weight:900;letter-spacing:0.12em;text-transform:uppercase;font-size:12px;padding:12px 16px;border-radius:14px;">

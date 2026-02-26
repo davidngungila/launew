@@ -9,9 +9,13 @@ use Illuminate\Support\Facades\Storage;
 
 class BookingNotificationService
 {
-    public function sendBookingCreated(Booking $booking): void
+    public function sendBookingCreated(Booking $booking, array $context = []): void
     {
         $booking = $booking->loadMissing('tour');
+
+        $accountCreated = (bool) ($context['account_created'] ?? false);
+        $accountEmail = $context['account_email'] ?? null;
+        $accountPassword = $context['account_password'] ?? null;
 
         $toEmail = (string) ($booking->customer_email ?? '');
         $toPhone = (string) ($booking->customer_phone ?? '');
@@ -30,6 +34,10 @@ class BookingNotificationService
             'payment_url' => route('bookings.checkout', ['id' => $booking->id]),
             'stripe_payment_url' => route('checkout', ['id' => $booking->id]),
             'flutterwave_payment_url' => route('flutterwave.pay', ['id' => $booking->id]),
+            'account_created' => $accountCreated,
+            'account_email' => $accountEmail,
+            'account_password' => $accountPassword,
+            'login_url' => route('login'),
         ])->render();
 
         $invoicePath = $this->writePdfToLocalTemp(
@@ -44,9 +52,8 @@ class BookingNotificationService
         }
 
         if ($toPhone) {
-            $sms = "LAU Paradise Adventure: Booking received (BK-" . str_pad((int) $booking->id, 5, '0', STR_PAD_LEFT) . "). We have emailed your invoice. Travel date: "
-                . ($booking->start_date ?: 'TBD')
-                . ".";
+            $sms = "LAU Paradise Adventure: We received your booking BK-" . str_pad((int) $booking->id, 5, '0', STR_PAD_LEFT)
+                . ". Invoice sent to your email. Pay securely here: " . route('bookings.checkout', ['id' => $booking->id]);
             $notification->sendSMS($toPhone, $sms);
         }
     }

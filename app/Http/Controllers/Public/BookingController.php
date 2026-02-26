@@ -26,27 +26,26 @@ class BookingController extends Controller
             'adults' => 'required|integer|min:1',
             'children' => 'nullable|integer|min:0',
             'special_requests' => 'nullable|string',
-            'password' => 'required|string|min:8|confirmed',
             'agree_terms' => 'accepted',
         ]);
+
+        $accountCreated = false;
+        $defaultPassword = null;
 
         $user = $request->user();
         if (!$user) {
             $existing = User::query()->where('email', $validated['customer_email'])->first();
             if ($existing) {
-                if (!Auth::attempt(['email' => $validated['customer_email'], 'password' => $validated['password']])) {
-                    return back()->withErrors([
-                        'customer_email' => 'This email is already registered. Please login with the correct password to continue.',
-                    ])->onlyInput('customer_email');
-                }
-
+                Auth::login($existing);
                 $request->session()->regenerate();
-                $user = $request->user();
+                $user = $existing;
             } else {
+                $defaultPassword = 'WelcomeTZ';
+                $accountCreated = true;
                 $user = User::query()->create([
                     'name' => $validated['customer_name'],
                     'email' => $validated['customer_email'],
-                    'password' => Hash::make($validated['password']),
+                    'password' => Hash::make($defaultPassword),
                 ]);
 
                 $customerRole = Role::query()->firstOrCreate(['name' => 'Customer']);
@@ -83,7 +82,14 @@ class BookingController extends Controller
         ]);
 
         try {
-            (new BookingNotificationService())->sendBookingCreated($booking);
+            (new BookingNotificationService())->sendBookingCreated(
+                $booking,
+                [
+                    'account_created' => $accountCreated,
+                    'account_email' => $validated['customer_email'],
+                    'account_password' => $defaultPassword,
+                ]
+            );
         } catch (\Throwable $e) {
             Log::warning('Booking created notification failed', [
                 'booking_id' => $booking->id,

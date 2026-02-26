@@ -299,17 +299,6 @@
                             <label class="block text-xs font-bold text-slate-900 uppercase tracking-widest mb-3">Preferred Date</label>
                             <input type="date" name="start_date" required class="w-full bg-white/50 border border-slate-200 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
                         </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-bold text-slate-900 uppercase tracking-widest mb-3">Create Password</label>
-                                <input type="password" name="password" required class="w-full bg-white/50 border border-slate-200 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all" placeholder="Minimum 8 characters">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-900 uppercase tracking-widest mb-3">Confirm Password</label>
-                                <input type="password" name="password_confirmation" required class="w-full bg-white/50 border border-slate-200 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all" placeholder="Repeat password">
-                            </div>
-                        </div>
                         
                         <div class="grid grid-cols-2 gap-4">
                             <div>
