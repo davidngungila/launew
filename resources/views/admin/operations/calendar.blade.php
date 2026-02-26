@@ -32,7 +32,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <div class="lg:col-span-3">
             <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-xl relative overflow-hidden">
-                <div id="calendar" class="relative z-10 min-h-[75vh]"></div>
+                <div id="calendar" class="relative z-10" style="min-height:75vh;"></div>
             </div>
         </div>
 
