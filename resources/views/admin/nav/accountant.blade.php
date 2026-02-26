@@ -29,12 +29,41 @@
     <a href="{{ route('admin.finance.ar.payment-reminders') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-bell mr-3 text-xl"></i><span class="text-sm">Payment Reminders</span></a>
 </div>
 
+<div class="px-4 mt-6 mb-2 text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] opacity-50">Accounts Payable</div>
+<div class="space-y-1">
+    <a href="{{ route('admin.finance.ap.supplier-bills') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-file-text mr-3 text-xl"></i><span class="text-sm">Supplier Bills</span></a>
+    <a href="{{ route('admin.finance.ap.pending-payments') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-hourglass-medium mr-3 text-xl"></i><span class="text-sm">Pending Payments</span></a>
+    <a href="{{ route('admin.finance.ap.due-schedule') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-calendar mr-3 text-xl"></i><span class="text-sm">Due Schedule</span></a>
+</div>
+
 <div class="px-4 mt-6 mb-2 text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] opacity-50">Expenses</div>
 <div class="space-y-1">
     <a href="{{ route('admin.finance.expenses.index') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-receipt mr-3 text-xl"></i><span class="text-sm">All Expenses</span></a>
     <a href="{{ route('admin.finance.expenses.create') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-plus mr-3 text-xl"></i><span class="text-sm">Add Expense</span></a>
     <a href="{{ route('admin.finance.expenses.recurring') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-repeat mr-3 text-xl"></i><span class="text-sm">Recurring Expenses</span></a>
     <a href="{{ route('admin.finance.expenses.categories') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-tag mr-3 text-xl"></i><span class="text-sm">Expense Categories</span></a>
+</div>
+
+<div class="px-4 mt-6 mb-2 text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] opacity-50">Banking</div>
+<div class="space-y-1">
+    <a href="{{ route('admin.finance.banking.bank-accounts') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-bank mr-3 text-xl"></i><span class="text-sm">Bank Accounts</span></a>
+    <a href="{{ route('admin.finance.banking.cash-accounts') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-money mr-3 text-xl"></i><span class="text-sm">Cash Accounts</span></a>
+    <a href="{{ route('admin.finance.banking.transfers') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-arrows-left-right mr-3 text-xl"></i><span class="text-sm">Transfers</span></a>
+    <a href="{{ route('admin.finance.banking.reconciliation') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-checks mr-3 text-xl"></i><span class="text-sm">Reconciliation</span></a>
+</div>
+
+<div class="px-4 mt-6 mb-2 text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] opacity-50">Commissions</div>
+<div class="space-y-1">
+    <a href="{{ route('admin.finance.commissions.agent') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-hand-coins mr-3 text-xl"></i><span class="text-sm">Agent Commission</span></a>
+    <a href="{{ route('admin.finance.commissions.operator') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-handshake mr-3 text-xl"></i><span class="text-sm">Operator Commission</span></a>
+    <a href="{{ route('admin.finance.commissions.reports') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-chart-bar mr-3 text-xl"></i><span class="text-sm">Commission Reports</span></a>
+</div>
+
+<div class="px-4 mt-6 mb-2 text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] opacity-50">Tax</div>
+<div class="space-y-1">
+    <a href="{{ route('admin.finance.tax.tax-summary') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-file-text mr-3 text-xl"></i><span class="text-sm">VAT Summary</span></a>
+    <a href="{{ route('admin.finance.tax.withholding-tax') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-percent mr-3 text-xl"></i><span class="text-sm">Withholding Tax</span></a>
+    <a href="{{ route('admin.finance.tax.tax-payments') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-credit-card mr-3 text-xl"></i><span class="text-sm">Tax Payments</span></a>
 </div>
 
 <div class="px-4 mt-6 mb-2 text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] opacity-50">Financial Reports</div>

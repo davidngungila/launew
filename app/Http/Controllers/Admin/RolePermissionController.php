@@ -12,6 +12,64 @@ class RolePermissionController extends Controller
 {
     public function index()
     {
+        $enterpriseRoles = [
+            'System Administrator',
+            'Admin / General Manager',
+            'Booking Manager',
+            'Travel Consultant',
+            'Tour Operator',
+            'Finance Officer',
+            'Accountant',
+            'Marketing Officer',
+            'Sales Officer',
+            'Operations Manager',
+            'Driver / Guide',
+            'External Agent',
+            'Branch Manager',
+            'IT Support',
+            'Customer',
+        ];
+
+        foreach ($enterpriseRoles as $r) {
+            Role::query()->firstOrCreate(['name' => $r]);
+        }
+
+        $enterprisePermissions = [
+            'settings.manage',
+            'users.manage',
+            'roles.manage',
+            'activity_logs.view',
+            'system_health.view',
+            'bookings.manage',
+            'payments.view',
+            'finance.reports.view',
+            'tours.manage',
+            'organization.manage',
+            'branches.manage',
+            'departments.manage',
+            'integrations.manage',
+            'audit_logs.view',
+            'error_logs.view',
+            'reports.view',
+            'crm.manage',
+            'leads.manage',
+            'campaigns.manage',
+            'promotions.manage',
+            'quotations.manage',
+            'operations.manage',
+            'fleet.manage',
+            'suppliers.manage',
+            'expenses.manage',
+            'invoices.manage',
+            'banking.manage',
+            'commissions.manage',
+            'tax.manage',
+        ];
+
+        foreach ($enterprisePermissions as $p) {
+            Permission::query()->firstOrCreate(['name' => $p]);
+        }
+
         $roles = Role::query()->with('permissions')->orderBy('name')->get();
         $permissions = Permission::query()->orderBy('name')->get();
 

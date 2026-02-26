@@ -479,6 +479,7 @@
                             <option value="driver-guide" {{ $navRoleView === 'driver-guide' ? 'selected' : '' }}>Driver / Guide</option>
                             <option value="external-agent" {{ $navRoleView === 'external-agent' ? 'selected' : '' }}>External Agent</option>
                             <option value="client-portal" {{ $navRoleView === 'client-portal' ? 'selected' : '' }}>Client Portal</option>
+                            <option value="branch-manager" {{ $navRoleView === 'branch-manager' ? 'selected' : '' }}>Branch Manager</option>
                             <option value="it-support" {{ $navRoleView === 'it-support' ? 'selected' : '' }}>IT Support</option>
                         </select>
                     </form>

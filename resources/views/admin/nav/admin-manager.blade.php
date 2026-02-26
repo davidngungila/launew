@@ -61,6 +61,22 @@
     </a>
 </div>
 
+<div class="px-4 mt-6 mb-2 text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] opacity-50">Staff</div>
+<div class="space-y-1">
+    <a href="{{ route('admin.placeholder', ['title' => 'Staff List']) }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl">
+        <i class="ph-bold ph-users-three mr-3 text-xl"></i>
+        <span class="text-sm">Staff List</span>
+    </a>
+    <a href="{{ route('admin.placeholder', ['title' => 'Staff Performance']) }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl">
+        <i class="ph-bold ph-chart-line-up mr-3 text-xl"></i>
+        <span class="text-sm">Performance</span>
+    </a>
+    <a href="{{ route('admin.placeholder', ['title' => 'Attendance']) }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl">
+        <i class="ph-bold ph-calendar mr-3 text-xl"></i>
+        <span class="text-sm">Attendance</span>
+    </a>
+</div>
+
 <div class="px-4 mt-6 mb-2 text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] opacity-50">Approvals</div>
 <div class="space-y-1">
     <a href="{{ route('admin.placeholder', ['title' => 'Discount Requests']) }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl">

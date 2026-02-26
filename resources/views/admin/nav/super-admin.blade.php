@@ -7,6 +7,10 @@
 
 <div class="px-4 mt-6 mb-2 text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] opacity-50">Organization</div>
 <div class="space-y-1">
+    <a href="{{ route('admin.placeholder', ['title' => 'Branches']) }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl">
+        <i class="ph-bold ph-git-branch mr-3 text-xl"></i>
+        <span class="text-sm">Branches</span>
+    </a>
     <a href="{{ route('admin.placeholder', ['title' => 'Departments']) }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl">
         <i class="ph-bold ph-buildings mr-3 text-xl"></i>
         <span class="text-sm">Departments</span>

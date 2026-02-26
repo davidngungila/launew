@@ -106,6 +106,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
             'driver-guide',
             'external-agent',
             'client-portal',
+            'branch-manager',
             'it-support',
         ];
 
@@ -333,6 +334,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
     Route::prefix('settings/email-gateway')->name('settings.email-gateway.')->group(function() {
         Route::get('/', [EmailGatewayController::class, 'edit'])->name('edit');
         Route::post('/', [EmailGatewayController::class, 'update'])->name('update');
+        Route::post('/activate/{gateway}', [EmailGatewayController::class, 'activate'])->whereNumber('gateway')->name('activate');
         Route::post('/test', [EmailGatewayController::class, 'test'])->name('test');
     });
 

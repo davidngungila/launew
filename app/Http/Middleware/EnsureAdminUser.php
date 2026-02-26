@@ -22,11 +22,19 @@ class EnsureAdminUser
         if (method_exists($user, 'hasAnyRole')) {
             $allowed = $user->hasAnyRole([
                 'System Administrator',
+                'Admin / General Manager',
                 'Booking Manager',
                 'Travel Consultant',
                 'Tour Operator',
                 'Finance Officer',
                 'Accountant',
+                'Marketing Officer',
+                'Sales Officer',
+                'Operations Manager',
+                'Driver / Guide',
+                'External Agent',
+                'Branch Manager',
+                'IT Support',
             ]);
 
             if (!$allowed) {

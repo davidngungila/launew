@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\EmailGateway;
 use App\Models\SystemSetting;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Config;
@@ -19,15 +20,30 @@ class EmailService
 
     protected function loadConfig(): void
     {
+        $active = EmailGateway::query()->where('is_active', true)->orderByDesc('id')->first();
+        if ($active) {
+            $this->config = [
+                'host' => $active->host,
+                'port' => (int) $active->port,
+                'username' => $active->username,
+                'password' => $active->password,
+                'encryption' => $active->encryption,
+                'from_address' => $active->from_address,
+                'from_name' => $active->from_name,
+                'debug' => 0,
+            ];
+            return;
+        }
+
         $this->config = [
-            'host' => SystemSetting::getValue('mail_host') ?: env('MAIL_HOST', '127.0.0.1'),
-            'port' => (int) (SystemSetting::getValue('mail_port') ?: env('MAIL_PORT', 587)),
-            'username' => SystemSetting::getValue('mail_username') ?: env('MAIL_USERNAME'),
-            'password' => SystemSetting::getValue('mail_password') ?: env('MAIL_PASSWORD'),
-            'encryption' => SystemSetting::getValue('mail_encryption') ?: env('MAIL_ENCRYPTION', 'tls'),
-            'from_address' => SystemSetting::getValue('mail_from_address') ?: env('MAIL_FROM_ADDRESS'),
-            'from_name' => SystemSetting::getValue('mail_from_name') ?: env('MAIL_FROM_NAME', config('app.name', 'System')),
-            'debug' => (int) env('MAIL_DEBUG', 0),
+            'host' => SystemSetting::getValue('mail_host') ?: '127.0.0.1',
+            'port' => (int) (SystemSetting::getValue('mail_port') ?: 587),
+            'username' => SystemSetting::getValue('mail_username'),
+            'password' => SystemSetting::getValue('mail_password'),
+            'encryption' => SystemSetting::getValue('mail_encryption') ?: 'tls',
+            'from_address' => SystemSetting::getValue('mail_from_address') ?: 'hello@example.com',
+            'from_name' => SystemSetting::getValue('mail_from_name') ?: config('app.name', 'System'),
+            'debug' => 0,
         ];
     }
 
@@ -47,7 +63,13 @@ class EmailService
                 Config::set('mail.mailers.smtp.port', (int) $this->config['port']);
                 Config::set('mail.mailers.smtp.username', $this->config['username']);
                 Config::set('mail.mailers.smtp.password', $this->config['password']);
-                Config::set('mail.mailers.smtp.encryption', $this->config['encryption']);
+
+                $enc = $this->config['encryption'] ?? null;
+                if ($enc === 'none' || $enc === 'null' || $enc === '') {
+                    $enc = null;
+                }
+
+                Config::set('mail.mailers.smtp.scheme', $enc);
                 Config::set('mail.from.address', $this->config['from_address']);
                 Config::set('mail.from.name', $this->config['from_name']);
 

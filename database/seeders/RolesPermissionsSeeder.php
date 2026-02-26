@@ -13,10 +13,19 @@ class RolesPermissionsSeeder extends Seeder
     {
         $roles = [
             'System Administrator',
+            'Admin / General Manager',
             'Booking Manager',
             'Travel Consultant',
             'Tour Operator',
             'Finance Officer',
+            'Accountant',
+            'Marketing Officer',
+            'Sales Officer',
+            'Operations Manager',
+            'Driver / Guide',
+            'External Agent',
+            'Branch Manager',
+            'IT Support',
             'Customer',
         ];
 
@@ -34,6 +43,26 @@ class RolesPermissionsSeeder extends Seeder
             'payments.view',
             'finance.reports.view',
             'tours.manage',
+            'organization.manage',
+            'branches.manage',
+            'departments.manage',
+            'integrations.manage',
+            'audit_logs.view',
+            'error_logs.view',
+            'reports.view',
+            'crm.manage',
+            'leads.manage',
+            'campaigns.manage',
+            'promotions.manage',
+            'quotations.manage',
+            'operations.manage',
+            'fleet.manage',
+            'suppliers.manage',
+            'expenses.manage',
+            'invoices.manage',
+            'banking.manage',
+            'commissions.manage',
+            'tax.manage',
         ];
 
         foreach ($permissions as $p) {
@@ -52,6 +81,11 @@ class RolesPermissionsSeeder extends Seeder
                 'finance.reports.view',
                 'activity_logs.view',
                 'system_health.view',
+                'expenses.manage',
+                'invoices.manage',
+                'banking.manage',
+                'commissions.manage',
+                'tax.manage',
             ])->pluck('id')->all();
             $financeRole->permissions()->sync($financePerms);
         }

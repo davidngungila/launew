@@ -27,6 +27,12 @@
     <a href="{{ route('admin.bookings.confirmed') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-checks mr-3 text-xl"></i><span class="text-sm">Confirmed</span></a>
 </div>
 
+<div class="px-4 mt-6 mb-2 text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] opacity-50">Customers</div>
+<div class="space-y-1">
+    <a href="{{ route('admin.placeholder', ['title' => 'My Clients']) }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-users mr-3 text-xl"></i><span class="text-sm">My Clients</span></a>
+    <a href="{{ route('admin.placeholder', ['title' => 'Communication Log']) }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-chat-centered-text mr-3 text-xl"></i><span class="text-sm">Communication Log</span></a>
+</div>
+
 <div class="px-4 mt-6 mb-2 text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] opacity-50">Performance</div>
 <div class="space-y-1">
     <a href="{{ route('admin.placeholder', ['title' => 'Sales Target']) }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-target mr-3 text-xl"></i><span class="text-sm">Sales Target</span></a>

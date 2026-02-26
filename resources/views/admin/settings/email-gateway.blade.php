@@ -24,7 +24,36 @@
             <form method="POST" action="{{ route('admin.settings.email-gateway.update') }}" class="p-8 space-y-6" id="email-gateway-form">
                 @csrf
 
+                @if(isset($gateways) && $gateways->count())
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">SMTP Profile</label>
+                            <select class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none" onchange="window.location = '{{ route('admin.settings.email-gateway.edit') }}' + '?gateway_id=' + this.value">
+                                @foreach($gateways as $g)
+                                    <option value="{{ $g->id }}" {{ (int)($settings['gateway_id'] ?? 0) === (int)$g->id ? 'selected' : '' }}>
+                                        {{ $g->name }}{{ $g->is_active ? ' (Active)' : '' }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Active Profile</label>
+                            <div class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900">
+                                {{ optional($gateways->firstWhere('is_active', true))->name ?? 'None' }}
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+                <input type="hidden" name="gateway_id" value="{{ old('gateway_id', $settings['gateway_id'] ?? '') }}">
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="md:col-span-2 space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Profile Name</label>
+                        <input type="text" name="gateway_name" id="gateway_name" value="{{ old('gateway_name', $settings['gateway_name'] ?? '') }}" placeholder="e.g. Gmail SMTP" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+
                     <div class="space-y-1">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">SMTP Host</label>
                         <input type="text" name="mail_host" id="mail_host" value="{{ old('mail_host', $settings['mail_host'] ?? '') }}" required class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500">
@@ -69,6 +98,20 @@
                 <div class="pt-4 flex gap-4">
                     <button type="submit" class="flex-1 py-4 bg-emerald-600 text-white font-black text-xs uppercase tracking-widest rounded-xl hover:bg-emerald-700 shadow-xl shadow-emerald-500/20 transition-all">Save SMTP Settings</button>
                 </div>
+
+                @if(isset($gateways) && ($settings['gateway_id'] ?? null))
+                    @php
+                        $selected = $gateways->firstWhere('id', (int) ($settings['gateway_id'] ?? 0));
+                    @endphp
+                    @if($selected && !$selected->is_active)
+                        <div class="pt-2">
+                            <form action="{{ route('admin.settings.email-gateway.activate', $selected->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="w-full py-3 bg-slate-900 text-white font-black text-xs uppercase tracking-widest rounded-xl hover:bg-slate-800 transition-all">Make Active</button>
+                            </form>
+                        </div>
+                    @endif
+                @endif
             </form>
         </div>
 
