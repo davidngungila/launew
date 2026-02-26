@@ -19,6 +19,17 @@ class BookingNotificationService
         $subject = 'Booking Received: BK-' . str_pad((int) $booking->id, 5, '0', STR_PAD_LEFT);
         $html = view('emails.system.booking-created', [
             'booking' => $booking,
+            'title' => $subject,
+            'heading' => 'Booking received',
+            'subheading' => 'Your invoice is attached. Choose a payment method below to secure your safari.',
+            'logo_url' => url('lau-adventuress-logo.png'),
+            'website_url' => config('app.url'),
+            'support_email' => config('mail.from.address'),
+            'support_phone' => null,
+            'support_whatsapp' => null,
+            'payment_url' => route('bookings.checkout', ['id' => $booking->id]),
+            'stripe_payment_url' => route('checkout', ['id' => $booking->id]),
+            'flutterwave_payment_url' => route('flutterwave.pay', ['id' => $booking->id]),
         ])->render();
 
         $invoicePath = $this->writePdfToLocalTemp(
@@ -50,6 +61,14 @@ class BookingNotificationService
         $subject = 'Safari Itinerary: BK-' . str_pad((int) $booking->id, 5, '0', STR_PAD_LEFT);
         $html = view('emails.system.itinerary', [
             'booking' => $booking,
+            'title' => $subject,
+            'heading' => 'Your safari itinerary is ready',
+            'subheading' => 'Please find your itinerary attached as a PDF.',
+            'logo_url' => url('lau-adventuress-logo.png'),
+            'website_url' => config('app.url'),
+            'support_email' => config('mail.from.address'),
+            'support_phone' => null,
+            'support_whatsapp' => null,
         ])->render();
 
         $itineraryPath = $this->writePdfToLocalTemp(
@@ -79,6 +98,14 @@ class BookingNotificationService
         $subject = 'Payment Confirmed: BK-' . str_pad((int) $booking->id, 5, '0', STR_PAD_LEFT);
         $html = view('emails.system.booking-paid', [
             'booking' => $booking,
+            'title' => $subject,
+            'heading' => 'Payment confirmed',
+            'subheading' => 'Your receipt is attached for your records.',
+            'logo_url' => url('lau-adventuress-logo.png'),
+            'website_url' => config('app.url'),
+            'support_email' => config('mail.from.address'),
+            'support_phone' => null,
+            'support_whatsapp' => null,
         ])->render();
 
         $receiptPath = $this->writePdfToLocalTemp(
