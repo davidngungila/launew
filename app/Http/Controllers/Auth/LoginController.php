@@ -59,11 +59,13 @@ class LoginController extends Controller
             }
 
             $otp = (string) random_int(100000, 999999);
+            $token = bin2hex(random_bytes(24));
 
             OtpLogin::query()->where('user_id', $user->id)->delete();
             OtpLogin::query()->create([
                 'user_id' => $user->id,
                 'otp_hash' => Hash::make($otp),
+                'verify_token' => $token,
                 'expires_at' => now()->addMinutes(10),
                 'attempts' => 0,
                 'sent_at' => now(),
@@ -82,6 +84,7 @@ class LoginController extends Controller
                 'otp' => $otp,
                 'email' => $user->email,
                 'expires_minutes' => 10,
+                'verify_url' => route('login.otp.verify_link', ['token' => $token]),
             ])->render();
 
             $sent = $service->send($user->email, 'LAU OTP Login Code', $html);

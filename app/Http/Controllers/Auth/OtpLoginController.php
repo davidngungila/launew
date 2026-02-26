@@ -30,16 +30,62 @@ class OtpLoginController extends Controller
         ]);
     }
 
+    public function verifyLink(Request $request)
+    {
+        $token = (string) $request->query('token', '');
+        if ($token === '') {
+            return redirect()->route('login');
+        }
+
+        $otpLogin = OtpLogin::query()->where('verify_token', $token)->orderByDesc('id')->first();
+        if (!$otpLogin) {
+            return redirect()->route('login')->withErrors(['email' => 'Invalid OTP link. Please login again.']);
+        }
+
+        if (now()->greaterThan($otpLogin->expires_at)) {
+            return redirect()->route('login')->withErrors(['email' => 'OTP link expired. Please login again.']);
+        }
+
+        $user = User::query()->find((int) $otpLogin->user_id);
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        $otpLogin->delete();
+
+        $remember = (bool) $request->session()->get('otp_login_remember', false);
+        $redirect = (string) $request->session()->get('otp_login_redirect', '/admin/dashboard');
+
+        $request->session()->forget(['otp_login_user_id', 'otp_login_remember', 'otp_login_redirect', 'otp_login_auto']);
+
+        Auth::login($user, $remember);
+        $request->session()->regenerate();
+
+        $request->session()->put('otp_login_redirect_after', $redirect);
+
+        return redirect()->route('login.otp.splash');
+    }
+
+    public function splash(Request $request)
+    {
+        $redirect = (string) $request->session()->get('otp_login_redirect_after', '/admin/dashboard');
+        $request->session()->forget('otp_login_redirect_after');
+
+        return view('auth.otp-splash', [
+            'redirect' => $redirect,
+        ]);
+    }
+
     public function verify(Request $request)
     {
-        $validated = $request->validate([
-            'otp' => ['required', 'string', 'min:4', 'max:10'],
-        ]);
-
         $userId = (int) $request->session()->get('otp_login_user_id', 0);
         if (!$userId) {
             return redirect()->route('login');
         }
+
+        $validated = $request->validate([
+            'otp' => ['required', 'string', 'min:4', 'max:10'],
+        ]);
 
         $otpLogin = OtpLogin::query()
             ->where('user_id', $userId)
@@ -74,12 +120,13 @@ class OtpLoginController extends Controller
         $remember = (bool) $request->session()->get('otp_login_remember', false);
         $redirect = (string) $request->session()->get('otp_login_redirect', '/admin/dashboard');
 
-        $request->session()->forget(['otp_login_user_id', 'otp_login_remember', 'otp_login_redirect']);
+        $request->session()->forget(['otp_login_user_id', 'otp_login_remember', 'otp_login_redirect', 'otp_login_auto']);
 
         Auth::login($user, $remember);
         $request->session()->regenerate();
 
-        return redirect()->intended($redirect);
+        $request->session()->put('otp_login_redirect_after', $redirect);
+        return redirect()->route('login.otp.splash');
     }
 
     public function resend(Request $request)
@@ -101,12 +148,14 @@ class OtpLoginController extends Controller
         }
 
         $otp = (string) random_int(100000, 999999);
+        $token = bin2hex(random_bytes(24));
 
         OtpLogin::query()->where('user_id', $userId)->delete();
 
         OtpLogin::query()->create([
             'user_id' => $userId,
             'otp_hash' => Hash::make($otp),
+            'verify_token' => $token,
             'expires_at' => now()->addMinutes(10),
             'attempts' => 0,
             'sent_at' => now(),
@@ -125,6 +174,7 @@ class OtpLoginController extends Controller
             'otp' => $otp,
             'email' => $user->email,
             'expires_minutes' => 10,
+            'verify_url' => route('login.otp.verify_link', ['token' => $token]),
         ])->render();
 
         $sent = $service->send($user->email, 'LAU OTP Login Code', $html);

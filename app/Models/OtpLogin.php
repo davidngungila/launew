@@ -9,6 +9,7 @@ class OtpLogin extends Model
     protected $fillable = [
         'user_id',
         'otp_hash',
+        'verify_token',
         'expires_at',
         'attempts',
         'sent_at',

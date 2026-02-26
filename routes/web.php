@@ -34,8 +34,10 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/login/otp', [OtpLoginController::class, 'show'])->name('login.otp');
+Route::get('/login/otp/verify-link', [OtpLoginController::class, 'verifyLink'])->name('login.otp.verify_link');
 Route::post('/login/otp', [OtpLoginController::class, 'verify'])->name('login.otp.verify');
 Route::post('/login/otp/resend', [OtpLoginController::class, 'resend'])->name('login.otp.resend');
+Route::get('/login/otp/splash', [OtpLoginController::class, 'splash'])->name('login.otp.splash');
 
 // Password Recovery
 Route::get('/password/reset', function () {

@@ -26,6 +26,14 @@
             This code expires in {{ (int)($expires_minutes ?? 10) }} minutes.
         </div>
 
+        @if(!empty($verify_url))
+            <div style="margin-top:18px;">
+                <a href="{{ $verify_url }}" style="display:inline-block;background-color:#10b981;color:#ffffff;text-decoration:none;padding:12px 16px;border-radius:12px;font-weight:800;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;">
+                    Verify & Continue
+                </a>
+            </div>
+        @endif
+
         @if(!empty($email))
             <div style="margin-top:10px;color:#64748b;">
                 Requested for: <span style="font-weight:800;color:#0f172a;">{{ $email }}</span>
