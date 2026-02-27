@@ -30,7 +30,7 @@
 <div class="space-y-1">
     <a href="{{ route('admin.operations.suppliers.operators') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-handshake mr-3 text-xl"></i><span class="text-sm">Operator List</span></a>
     <a href="{{ route('admin.operations.suppliers.contracts') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-file-contract mr-3 text-xl"></i><span class="text-sm">Contracts</span></a>
-    <a href="{{ route('admin.finance.ap.supplier-bills') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-money mr-3 text-xl"></i><span class="text-sm">Supplier Payments</span></a>
+    <a href="{{ route('admin.operations.suppliers.payments') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-money mr-3 text-xl"></i><span class="text-sm">Supplier Payments</span></a>
 </div>
 
 <div class="px-4 mt-6 mb-2 text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] opacity-50">Monitoring</div>

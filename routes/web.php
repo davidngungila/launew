@@ -163,28 +163,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
         Route::get('/assign/vehicles', [App\Http\Controllers\Admin\OperationsController::class, 'assignVehicles'])->name('assign.vehicles');
 
         // Logistics
-        Route::view('/logistics/accommodation', 'admin.operations.page', [
-            'title' => 'Accommodation Bookings',
-            'subtitle' => 'Manage hotel/lodge bookings per itinerary',
-        ])->name('logistics.accommodation');
-        Route::view('/logistics/park-fees', 'admin.operations.page', [
-            'title' => 'Park Fees',
-            'subtitle' => 'Track park fees and permits by trip',
-        ])->name('logistics.park-fees');
-        Route::view('/logistics/flights', 'admin.operations.page', [
-            'title' => 'Flight Details',
-            'subtitle' => 'Capture flight details for arrivals/departures',
-        ])->name('logistics.flights');
+        Route::get('/logistics/accommodation', [App\Http\Controllers\Admin\OperationsController::class, 'logisticsAccommodation'])->name('logistics.accommodation');
+        Route::get('/logistics/park-fees', [App\Http\Controllers\Admin\OperationsController::class, 'logisticsParkFees'])->name('logistics.park-fees');
+        Route::get('/logistics/flights', [App\Http\Controllers\Admin\OperationsController::class, 'logisticsFlights'])->name('logistics.flights');
 
         // Suppliers
-        Route::view('/suppliers/operators', 'admin.operations.page', [
-            'title' => 'Operator List',
-            'subtitle' => 'Registered tour operators and service providers',
-        ])->name('suppliers.operators');
-        Route::view('/suppliers/contracts', 'admin.operations.page', [
-            'title' => 'Contracts',
-            'subtitle' => 'Supplier agreements and contract renewals',
-        ])->name('suppliers.contracts');
+        Route::get('/suppliers/operators', [App\Http\Controllers\Admin\OperationsController::class, 'suppliersOperators'])->name('suppliers.operators');
+        Route::get('/suppliers/contracts', [App\Http\Controllers\Admin\OperationsController::class, 'suppliersContracts'])->name('suppliers.contracts');
+        Route::get('/suppliers/payments', [App\Http\Controllers\Admin\OperationsController::class, 'suppliersPayments'])->name('suppliers.payments');
 
         // Monitoring
         Route::get('/monitoring/status', [App\Http\Controllers\Admin\MonitoringController::class, 'status'])->name('monitoring.status');
