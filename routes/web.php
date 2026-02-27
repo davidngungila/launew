@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\Admin\RolePermissionController;
 use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\SystemHealthController;
+use App\Http\Controllers\Admin\SystemToolsController;
 use App\Http\Controllers\Admin\EmailGatewayController;
 use App\Http\Controllers\Admin\AccountSettingsController;
 use App\Http\Controllers\Client\DashboardController as ClientDashboardController;
@@ -408,6 +409,24 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
     Route::get('/settings/activity-logs', [ActivityLogController::class, 'index'])->name('settings.activity-logs.index');
     Route::get('/settings/activity-logs/{log}', [ActivityLogController::class, 'show'])->whereNumber('log')->name('settings.activity-logs.show');
     Route::get('/settings/system-health', [SystemHealthController::class, 'index'])->name('settings.system-health.index');
+
+    Route::prefix('settings/system-tools')->name('settings.system-tools.')->group(function () {
+        Route::get('/logs', [SystemToolsController::class, 'systemLogs'])->name('logs');
+        Route::get('/logs/download', [SystemToolsController::class, 'systemLogsDownload'])->name('logs.download');
+
+        Route::get('/user-activity', [SystemToolsController::class, 'userActivity'])->name('user-activity');
+        Route::get('/user-activity/export-csv', [SystemToolsController::class, 'userActivityExportCsv'])->name('user-activity.export-csv');
+
+        Route::get('/integrations', [SystemToolsController::class, 'integrations'])->name('integrations');
+
+        Route::get('/backup', [SystemToolsController::class, 'backup'])->name('backup');
+        Route::post('/backup/run', [SystemToolsController::class, 'backupRun'])->name('backup.run');
+        Route::get('/backup/download', [SystemToolsController::class, 'backupDownload'])->name('backup.download');
+
+        Route::get('/maintenance', [SystemToolsController::class, 'maintenance'])->name('maintenance');
+        Route::post('/maintenance/enable', [SystemToolsController::class, 'maintenanceEnable'])->name('maintenance.enable');
+        Route::post('/maintenance/disable', [SystemToolsController::class, 'maintenanceDisable'])->name('maintenance.disable');
+    });
     
     // SMS Gateway Settings
     Route::prefix('settings/sms-gateway')->name('settings.sms-gateway.')->group(function() {

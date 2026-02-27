@@ -51,9 +51,9 @@
 
 <div class="px-4 mt-6 mb-2 text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] opacity-50">Integrations</div>
 <div class="space-y-1">
-    <a href="{{ route('admin.placeholder', ['title' => 'Payment Gateways']) }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl">
+    <a href="{{ route('admin.settings.system-tools.integrations') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl {{ request()->routeIs('admin.settings.system-tools.integrations') ? 'bg-emerald-800 text-white font-bold' : '' }}">
         <i class="ph-bold ph-credit-card mr-3 text-xl"></i>
-        <span class="text-sm">Payment Gateways</span>
+        <span class="text-sm">Integrations</span>
     </a>
     <a href="{{ route('admin.settings.sms-gateway.index') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl {{ request()->routeIs('admin.settings.sms-gateway.*') ? 'bg-emerald-800 text-white font-bold' : '' }}">
         <i class="ph-bold ph-chat-text mr-3 text-xl"></i>
@@ -71,17 +71,17 @@
 
 <div class="px-4 mt-6 mb-2 text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] opacity-50">Monitoring</div>
 <div class="space-y-1">
-    <a href="{{ route('admin.settings.activity-logs.index') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl {{ request()->routeIs('admin.settings.activity-logs.*') ? 'bg-emerald-800 text-white font-bold' : '' }}">
+    <a href="{{ route('admin.settings.system-tools.user-activity') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl {{ request()->routeIs('admin.settings.system-tools.user-activity') ? 'bg-emerald-800 text-white font-bold' : '' }}">
         <i class="ph-bold ph-activity mr-3 text-xl"></i>
+        <span class="text-sm">User Activity</span>
+    </a>
+    <a href="{{ route('admin.settings.activity-logs.index') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl {{ request()->routeIs('admin.settings.activity-logs.*') ? 'bg-emerald-800 text-white font-bold' : '' }}">
+        <i class="ph-bold ph-clipboard-text mr-3 text-xl"></i>
         <span class="text-sm">Activity Logs</span>
     </a>
-    <a href="{{ route('admin.placeholder', ['title' => 'Audit Logs']) }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl">
-        <i class="ph-bold ph-clipboard-text mr-3 text-xl"></i>
-        <span class="text-sm">Audit Logs</span>
-    </a>
-    <a href="{{ route('admin.placeholder', ['title' => 'Error Logs']) }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl">
+    <a href="{{ route('admin.settings.system-tools.logs') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl {{ request()->routeIs('admin.settings.system-tools.logs') ? 'bg-emerald-800 text-white font-bold' : '' }}">
         <i class="ph-bold ph-warning-circle mr-3 text-xl"></i>
-        <span class="text-sm">Error Logs</span>
+        <span class="text-sm">System Logs</span>
     </a>
     <a href="{{ route('admin.settings.system-health.index') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl {{ request()->routeIs('admin.settings.system-health.*') ? 'bg-emerald-800 text-white font-bold' : '' }}">
         <i class="ph-bold ph-heartbeat mr-3 text-xl"></i>
