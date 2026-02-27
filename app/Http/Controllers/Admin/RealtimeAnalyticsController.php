@@ -64,6 +64,29 @@ class RealtimeAnalyticsController extends Controller
         ));
     }
 
+    public function map(Request $request)
+    {
+        $activeWindowMinutes = 5;
+        $activeSince = now()->subMinutes($activeWindowMinutes);
+
+        $activeSessions = AnalyticsSession::query()
+            ->whereNotNull('last_seen_at')
+            ->where('last_seen_at', '>=', $activeSince)
+            ->orderByDesc('last_seen_at')
+            ->limit(500)
+            ->get();
+
+        $countryActive = $activeSessions
+            ->groupBy(fn ($s) => $s->country ?: '??')
+            ->map(fn ($group) => $group->count())
+            ->sortDesc();
+
+        return view('admin.analytics.map', compact(
+            'activeWindowMinutes',
+            'countryActive'
+        ));
+    }
+
     public function api(Request $request)
     {
         $activeWindowMinutes = 5;

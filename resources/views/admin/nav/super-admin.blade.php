@@ -75,6 +75,10 @@
         <i class="ph-bold ph-radar mr-3 text-xl"></i>
         <span class="text-sm">Real-Time Analytics</span>
     </a>
+    <a href="{{ route('admin.analytics.map') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl {{ request()->routeIs('admin.analytics.map') ? 'bg-emerald-800 text-white font-bold' : '' }}">
+        <i class="ph-bold ph-globe-hemisphere-west mr-3 text-xl"></i>
+        <span class="text-sm">Analytics Map</span>
+    </a>
     <a href="{{ route('admin.settings.system-tools.user-activity') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl {{ request()->routeIs('admin.settings.system-tools.user-activity') ? 'bg-emerald-800 text-white font-bold' : '' }}">
         <i class="ph-bold ph-activity mr-3 text-xl"></i>
         <span class="text-sm">User Activity</span>

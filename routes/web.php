@@ -396,6 +396,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
     });
     Route::get('/statistics', function() { return view('admin.statistics.index'); })->name('statistics.index');
     Route::get('/analytics/realtime', [\App\Http\Controllers\Admin\RealtimeAnalyticsController::class, 'index'])->name('analytics.realtime');
+    Route::get('/analytics/map', [\App\Http\Controllers\Admin\RealtimeAnalyticsController::class, 'map'])->name('analytics.map');
     Route::get('/analytics/realtime/api', [\App\Http\Controllers\Admin\RealtimeAnalyticsController::class, 'api'])->name('analytics.realtime.api');
     
     // System & Content
