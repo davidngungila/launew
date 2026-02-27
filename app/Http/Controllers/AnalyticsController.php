@@ -58,10 +58,31 @@ class AnalyticsController extends Controller
             ]
         );
 
+        $geo = null;
+        $ip = (string) $request->ip();
+        $geoDbPath = (string) config('services.geoip2.city_db_path');
+        if ($ip !== '' && $geoDbPath !== '' && is_file($geoDbPath) && class_exists(\GeoIp2\Database\Reader::class)) {
+            try {
+                $reader = new \GeoIp2\Database\Reader($geoDbPath);
+                $record = $reader->city($ip);
+
+                $geo = [
+                    'country' => $record->country?->isoCode,
+                    'city' => $record->city?->name,
+                    'latitude' => $record->location?->latitude,
+                    'longitude' => $record->location?->longitude,
+                ];
+            } catch (\Throwable $e) {
+                $geo = null;
+            }
+        }
+
         $session->fill([
             'last_seen_at' => $now,
-            'country' => $session->country ?: ($validated['country'] ?? null),
-            'city' => $session->city ?: ($validated['city'] ?? null),
+            'country' => $session->country ?: ($geo['country'] ?? ($validated['country'] ?? null)),
+            'city' => $session->city ?: ($geo['city'] ?? ($validated['city'] ?? null)),
+            'latitude' => $session->latitude ?? ($geo['latitude'] ?? null),
+            'longitude' => $session->longitude ?? ($geo['longitude'] ?? null),
             'device_type' => $session->device_type ?: ($validated['device_type'] ?? null),
             'browser' => $session->browser ?: ($validated['browser'] ?? null),
             'os' => $session->os ?: ($validated['os'] ?? null),

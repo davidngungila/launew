@@ -159,6 +159,17 @@
                     }
                 ]
             },
+            markerStyle: {
+                initial: {
+                    fill: '#0f766e',
+                    stroke: '#ffffff',
+                    strokeWidth: 1,
+                    r: 4,
+                },
+                hover: {
+                    fill: '#10b981',
+                }
+            },
             onRegionTooltipShow: function (tooltip, code) {
                 const c = values[code] || 0;
                 tooltip.text(tooltip.text() + ' — ' + c + ' active');
@@ -170,6 +181,37 @@
         if (!map || !map.series || !map.series.regions || !map.series.regions[0]) return;
         const values = normalizeCountryValues(countryCounts);
         map.series.regions[0].setValues(values);
+    }
+
+    function updateMarkersFromSessions(sessions) {
+        if (!map || !sessions || !Array.isArray(sessions)) return;
+
+        const markers = sessions
+            .filter(s => typeof s.latitude === 'number' && typeof s.longitude === 'number')
+            .slice(0, 200)
+            .map(function (s) {
+                const name = [s.country, s.city, s.device_type].filter(Boolean).join(' ');
+                return {
+                    name: name,
+                    coords: [s.latitude, s.longitude]
+                };
+            });
+
+        try {
+            if (typeof map.removeMarkers === 'function') {
+                map.removeMarkers();
+            } else if (Array.isArray(map.markers) && typeof map.clearSelectedMarkers === 'function') {
+                map.clearSelectedMarkers();
+            }
+        } catch (e) {
+        }
+
+        try {
+            if (typeof map.addMarkers === 'function') {
+                map.addMarkers(markers);
+            }
+        } catch (e) {
+        }
     }
 
     function escapeHtml(str) {
@@ -209,6 +251,10 @@
 
             if (data && data.active_countries) {
                 updateMap(data.active_countries);
+            }
+
+            if (data && data.sessions) {
+                updateMarkersFromSessions(data.sessions);
             }
         } catch (e) {
             // silent

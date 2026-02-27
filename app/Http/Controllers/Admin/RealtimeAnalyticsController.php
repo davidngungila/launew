@@ -97,6 +97,8 @@ class RealtimeAnalyticsController extends Controller
                     'last_seen_at' => optional($s->last_seen_at)->toIso8601String(),
                     'country' => $s->country,
                     'city' => $s->city,
+                    'latitude' => $s->latitude,
+                    'longitude' => $s->longitude,
                     'device_type' => $s->device_type,
                     'browser' => $s->browser,
                     'os' => $s->os,

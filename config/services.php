@@ -47,4 +47,8 @@ return [
         'encryption_key' => env('FLW_ENCRYPTION_KEY'),
     ],
 
+    'geoip2' => [
+        'city_db_path' => env('GEOIP2_CITY_DB_PATH'),
+    ],
+
 ];

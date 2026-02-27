@@ -13,6 +13,8 @@ class AnalyticsSession extends Model
         'ip',
         'country',
         'city',
+        'latitude',
+        'longitude',
         'device_type',
         'browser',
         'os',
@@ -31,6 +33,8 @@ class AnalyticsSession extends Model
         'started_at' => 'datetime',
         'last_seen_at' => 'datetime',
         'ended_at' => 'datetime',
+        'latitude' => 'float',
+        'longitude' => 'float',
     ];
 
     public function pageviews(): HasMany
