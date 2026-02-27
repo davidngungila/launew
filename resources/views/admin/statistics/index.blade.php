@@ -19,6 +19,9 @@
     <!-- Analytics Cards -->
     @php($integrations = \App\Models\SystemSetting::getValue('integrations', []))
     @php($lookerUrl = (string) data_get($integrations, 'looker_studio_url', ''))
+    @php($embedUrl = $lookerUrl)
+    @php($embedUrl = str_replace('https://datastudio.google.com/reporting/', 'https://datastudio.google.com/embed/reporting/', $embedUrl))
+    @php($embedUrl = str_replace('https://lookerstudio.google.com/reporting/', 'https://lookerstudio.google.com/embed/reporting/', $embedUrl))
 
     @if($lookerUrl)
         <div class="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
@@ -30,7 +33,14 @@
                 <a href="{{ $lookerUrl }}" target="_blank" class="px-5 py-2.5 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-all">Open Full</a>
             </div>
             <div class="aspect-[16/9] bg-slate-50">
-                <iframe src="{{ $lookerUrl }}" class="w-full h-full" frameborder="0" style="border:0" allowfullscreen></iframe>
+                <iframe src="{{ $embedUrl }}" class="w-full h-full" frameborder="0" style="border:0" allowfullscreen></iframe>
+            </div>
+            <div class="px-8 py-6 border-t border-slate-50">
+                <div class="text-[10px] font-black uppercase tracking-widest text-slate-400">Troubleshooting (if you see blank / refused to connect)</div>
+                <div class="mt-2 text-sm text-slate-600 font-medium leading-relaxed">
+                    Ensure the Looker Studio report is shared for viewing and embedding, and that the saved URL is the Embed link. If you pasted a normal reporting link, the system auto-converts it to an embed link where possible.
+                </div>
+                <div class="mt-3 text-xs font-bold text-slate-500 break-all">Embed URL: {{ $embedUrl }}</div>
             </div>
         </div>
     @else
