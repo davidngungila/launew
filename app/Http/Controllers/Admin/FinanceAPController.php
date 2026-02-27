@@ -7,6 +7,7 @@ use App\Models\Agent;
 use App\Models\Booking;
 use App\Models\FinancialTransaction;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class FinanceAPController extends Controller
 {
@@ -96,5 +97,61 @@ class FinanceAPController extends Controller
         ];
 
         return view('admin.finance.ap.operator-payments', compact('rows', 'stats', 'start', 'end'));
+    }
+
+    public function dueSchedule(Request $request)
+    {
+        $today = now()->toDateString();
+        $windowEnd = now()->addDays(30)->toDateString();
+
+        $rows = FinancialTransaction::query()
+            ->where('type', 'expense')
+            ->whereDate('transaction_date', '>=', $today)
+            ->whereDate('transaction_date', '<=', $windowEnd)
+            ->latest('transaction_date')
+            ->paginate(20);
+
+        $stats = [
+            'due_7_count' => FinancialTransaction::query()
+                ->where('type', 'expense')
+                ->whereDate('transaction_date', '>=', $today)
+                ->whereDate('transaction_date', '<=', now()->addDays(7)->toDateString())
+                ->count(),
+            'due_7_amount' => (float) FinancialTransaction::query()
+                ->where('type', 'expense')
+                ->whereDate('transaction_date', '>=', $today)
+                ->whereDate('transaction_date', '<=', now()->addDays(7)->toDateString())
+                ->sum('amount'),
+            'due_30_count' => FinancialTransaction::query()
+                ->where('type', 'expense')
+                ->whereDate('transaction_date', '>=', $today)
+                ->whereDate('transaction_date', '<=', $windowEnd)
+                ->count(),
+            'due_30_amount' => (float) FinancialTransaction::query()
+                ->where('type', 'expense')
+                ->whereDate('transaction_date', '>=', $today)
+                ->whereDate('transaction_date', '<=', $windowEnd)
+                ->sum('amount'),
+        ];
+
+        return view('admin.finance.ap.due-schedule', compact('rows', 'stats'));
+    }
+
+    public function dueScheduleExportPdf(Request $request)
+    {
+        $today = now()->toDateString();
+        $windowEnd = now()->addDays(30)->toDateString();
+
+        $rows = FinancialTransaction::query()
+            ->where('type', 'expense')
+            ->whereDate('transaction_date', '>=', $today)
+            ->whereDate('transaction_date', '<=', $windowEnd)
+            ->latest('transaction_date')
+            ->limit(200)
+            ->get();
+
+        $pdf = Pdf::loadView('pdf.finance.ap-due-schedule', compact('rows'))->setPaper('a4', 'portrait');
+
+        return $pdf->download('ap-due-schedule.pdf');
     }
 }

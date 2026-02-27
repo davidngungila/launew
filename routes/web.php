@@ -276,9 +276,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
     });
 
     Route::prefix('finance/ar')->name('finance.ar.')->group(function () {
-        Route::view('/customer-balances', 'admin.finance.page', ['title' => 'Customer Balances'])->name('customer-balances');
-        Route::view('/aging-report', 'admin.finance.page', ['title' => 'Aging Report'])->name('aging-report');
-        Route::view('/payment-reminders', 'admin.finance.page', ['title' => 'Payment Reminders'])->name('payment-reminders');
+        Route::get('/customer-balances', [App\Http\Controllers\Admin\FinanceController::class, 'arCustomerBalances'])->name('customer-balances');
+        Route::get('/customer-balances/export-pdf', [App\Http\Controllers\Admin\FinanceController::class, 'arCustomerBalancesExportPdf'])->name('customer-balances.export-pdf');
+        Route::get('/aging-report', [App\Http\Controllers\Admin\FinanceController::class, 'arAgingReport'])->name('aging-report');
+        Route::get('/aging-report/export-pdf', [App\Http\Controllers\Admin\FinanceController::class, 'arAgingReportExportPdf'])->name('aging-report.export-pdf');
+        Route::get('/payment-reminders', [App\Http\Controllers\Admin\FinanceController::class, 'arPaymentReminders'])->name('payment-reminders');
+        Route::get('/payment-reminders/export-pdf', [App\Http\Controllers\Admin\FinanceController::class, 'arPaymentRemindersExportPdf'])->name('payment-reminders.export-pdf');
         Route::view('/installment-plans', 'admin.finance.page', ['title' => 'Installment Plans'])->name('installment-plans');
     });
 
@@ -287,7 +290,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
         Route::get('/pending-payments', [App\Http\Controllers\Admin\FinanceAPController::class, 'pendingPayments'])->name('pending-payments');
         Route::get('/operator-payments', [App\Http\Controllers\Admin\FinanceAPController::class, 'operatorPayments'])->name('operator-payments');
         Route::view('/guide-payments', 'admin.finance.page', ['title' => 'Guide Payments'])->name('guide-payments');
-        Route::view('/due-schedule', 'admin.finance.page', ['title' => 'Due Schedule'])->name('due-schedule');
+        Route::get('/due-schedule', [App\Http\Controllers\Admin\FinanceAPController::class, 'dueSchedule'])->name('due-schedule');
+        Route::get('/due-schedule/export-pdf', [App\Http\Controllers\Admin\FinanceAPController::class, 'dueScheduleExportPdf'])->name('due-schedule.export-pdf');
     });
 
     Route::prefix('finance/transactions')->name('finance.transactions.')->group(function () {

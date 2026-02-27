@@ -11,6 +11,23 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class FinanceController extends Controller
 {
+    private function estimateDepositPercent(): float
+    {
+        $depositPercent = 30;
+
+        try {
+            if (class_exists(\App\Models\SystemSetting::class)) {
+                $rules = \App\Models\SystemSetting::getValue('booking_rules', []);
+                if (!empty($rules['deposit_percent'])) {
+                    $depositPercent = (float) $rules['deposit_percent'];
+                }
+            }
+        } catch (\Throwable $e) {
+        }
+
+        return $depositPercent;
+    }
+
     public function dashboard(Request $request)
     {
         $today = now();
@@ -39,16 +56,7 @@ class FinanceController extends Controller
 
         $netCashflowMtd = $incomeMtd - $expenseMtd;
 
-        $depositPercent = 30;
-        try {
-            if (class_exists(\App\Models\SystemSetting::class)) {
-                $rules = \App\Models\SystemSetting::getValue('booking_rules', []);
-                if (!empty($rules['deposit_percent'])) {
-                    $depositPercent = (float) $rules['deposit_percent'];
-                }
-            }
-        } catch (\Throwable $e) {
-        }
+        $depositPercent = $this->estimateDepositPercent();
 
         $pendingBookings = Booking::query()->whereIn('payment_status', ['unpaid', 'partially_paid']);
 
@@ -152,16 +160,7 @@ class FinanceController extends Controller
         $start = $request->query('start');
         $end = $request->query('end');
 
-        $depositPercent = 30;
-        try {
-            if (class_exists(\App\Models\SystemSetting::class)) {
-                $rules = \App\Models\SystemSetting::getValue('booking_rules', []);
-                if (!empty($rules['deposit_percent'])) {
-                    $depositPercent = (float) $rules['deposit_percent'];
-                }
-            }
-        } catch (\Throwable $e) {
-        }
+        $depositPercent = $this->estimateDepositPercent();
 
         $query = Booking::query()->with(['tour']);
 
@@ -192,16 +191,7 @@ class FinanceController extends Controller
         $start = $request->query('start');
         $end = $request->query('end');
 
-        $depositPercent = 30;
-        try {
-            if (class_exists(\App\Models\SystemSetting::class)) {
-                $rules = \App\Models\SystemSetting::getValue('booking_rules', []);
-                if (!empty($rules['deposit_percent'])) {
-                    $depositPercent = (float) $rules['deposit_percent'];
-                }
-            }
-        } catch (\Throwable $e) {
-        }
+        $depositPercent = $this->estimateDepositPercent();
 
         $query = Booking::query()->with(['tour'])
             ->whereIn('payment_status', ['unpaid', 'partially_paid']);
@@ -346,5 +336,179 @@ class FinanceController extends Controller
         ];
 
         return view('admin.finance.invoices.credit-notes', compact('rows', 'stats'));
+    }
+
+    public function arCustomerBalances(Request $request)
+    {
+        $depositPercent = $this->estimateDepositPercent();
+
+        $rows = Booking::query()
+            ->select(['id', 'customer_name', 'customer_email', 'customer_phone', 'payment_status', 'total_price', 'deposit_amount', 'created_at', 'start_date'])
+            ->latest()
+            ->limit(1500)
+            ->get();
+
+        $customers = $rows->groupBy(function ($b) {
+            return strtolower(trim((string) ($b->customer_email ?? 'unknown')));
+        })->map(function ($items, $email) use ($depositPercent) {
+            $name = $items->first()?->customer_name ?? 'Customer';
+            $phone = $items->first()?->customer_phone;
+            $booked = (float) $items->sum('total_price');
+
+            $paidEstimate = (float) $items->sum(function ($b) use ($depositPercent) {
+                $total = (float) ($b->total_price ?? 0);
+                $deposit = (float) ($b->deposit_amount ?? (($depositPercent / 100) * $total));
+                $status = $b->payment_status ?? 'unpaid';
+
+                if ($status === 'paid') return $total;
+                if ($status === 'partially_paid') return min($total, max(0, $deposit));
+                return 0;
+            });
+
+            $outstanding = max(0, $booked - $paidEstimate);
+
+            return [
+                'email' => $email,
+                'name' => $name,
+                'phone' => $phone,
+                'bookings' => $items->count(),
+                'booked' => $booked,
+                'paid_estimate' => $paidEstimate,
+                'outstanding' => $outstanding,
+            ];
+        })->values()->sortByDesc('outstanding')->values();
+
+        $stats = [
+            'customers' => $customers->count(),
+            'outstanding_total' => (float) $customers->sum('outstanding'),
+            'paid_estimate_total' => (float) $customers->sum('paid_estimate'),
+        ];
+
+        return view('admin.finance.ar.customer-balances', compact('customers', 'stats'));
+    }
+
+    public function arCustomerBalancesExportPdf(Request $request)
+    {
+        $view = $this->arCustomerBalances($request);
+        $data = $view->getData();
+
+        $pdf = Pdf::loadView('pdf.finance.ar-customer-balances', $data)->setPaper('a4', 'portrait');
+
+        return $pdf->download('ar-customer-balances.pdf');
+    }
+
+    public function arAgingReport(Request $request)
+    {
+        $depositPercent = $this->estimateDepositPercent();
+        $basis = $request->query('basis', 'created_at');
+        if (!in_array($basis, ['created_at', 'start_date'], true)) {
+            $basis = 'created_at';
+        }
+
+        $rows = Booking::query()
+            ->with('tour')
+            ->whereIn('payment_status', ['unpaid', 'partially_paid'])
+            ->latest()
+            ->paginate(20)
+            ->withQueryString();
+
+        $all = Booking::query()
+            ->whereIn('payment_status', ['unpaid', 'partially_paid'])
+            ->select(['id', 'payment_status', 'total_price', 'deposit_amount', 'created_at', 'start_date'])
+            ->get();
+
+        $buckets = [
+            '0_7' => 0,
+            '8_14' => 0,
+            '15_30' => 0,
+            '31_plus' => 0,
+        ];
+
+        foreach ($all as $b) {
+            $total = (float) ($b->total_price ?? 0);
+            $deposit = (float) ($b->deposit_amount ?? (($depositPercent / 100) * $total));
+            $outstanding = ($b->payment_status === 'partially_paid') ? max(0, $total - $deposit) : max(0, $total);
+
+            $date = $basis === 'start_date' ? $b->start_date : $b->created_at;
+            if (empty($date)) {
+                continue;
+            }
+
+            $ageDays = now()->diffInDays(\Carbon\Carbon::parse($date));
+
+            if ($ageDays <= 7) $buckets['0_7'] += $outstanding;
+            elseif ($ageDays <= 14) $buckets['8_14'] += $outstanding;
+            elseif ($ageDays <= 30) $buckets['15_30'] += $outstanding;
+            else $buckets['31_plus'] += $outstanding;
+        }
+
+        $stats = [
+            'basis' => $basis,
+            'deposit_percent' => $depositPercent,
+            'outstanding_total' => array_sum($buckets),
+        ];
+
+        return view('admin.finance.ar.aging-report', compact('rows', 'buckets', 'stats', 'basis'));
+    }
+
+    public function arAgingReportExportPdf(Request $request)
+    {
+        $view = $this->arAgingReport($request);
+        $data = $view->getData();
+
+        $pdf = Pdf::loadView('pdf.finance.ar-aging-report', $data)->setPaper('a4', 'portrait');
+
+        return $pdf->download('ar-aging-report.pdf');
+    }
+
+    public function arPaymentReminders(Request $request)
+    {
+        $depositPercent = $this->estimateDepositPercent();
+
+        $cutoffDays = (int) $request->query('cutoff_days', 7);
+        if ($cutoffDays < 0) {
+            $cutoffDays = 7;
+        }
+
+        $cutoff = now()->subDays($cutoffDays);
+
+        $rows = Booking::query()
+            ->with('tour')
+            ->whereIn('payment_status', ['unpaid', 'partially_paid'])
+            ->where('created_at', '<=', $cutoff)
+            ->latest()
+            ->paginate(20)
+            ->withQueryString();
+
+        $reminderTotal = (float) Booking::query()
+            ->whereIn('payment_status', ['unpaid', 'partially_paid'])
+            ->where('created_at', '<=', $cutoff)
+            ->get()
+            ->sum(function ($b) use ($depositPercent) {
+                $total = (float) ($b->total_price ?? 0);
+                $deposit = (float) ($b->deposit_amount ?? (($depositPercent / 100) * $total));
+                if (($b->payment_status ?? 'unpaid') === 'partially_paid') {
+                    return max(0, $total - $deposit);
+                }
+                return max(0, $total);
+            });
+
+        $stats = [
+            'cutoff_days' => $cutoffDays,
+            'count' => $rows->total(),
+            'amount' => $reminderTotal,
+        ];
+
+        return view('admin.finance.ar.payment-reminders', compact('rows', 'stats'));
+    }
+
+    public function arPaymentRemindersExportPdf(Request $request)
+    {
+        $view = $this->arPaymentReminders($request);
+        $data = $view->getData();
+
+        $pdf = Pdf::loadView('pdf.finance.ar-payment-reminders', $data)->setPaper('a4', 'portrait');
+
+        return $pdf->download('ar-payment-reminders.pdf');
     }
 }
