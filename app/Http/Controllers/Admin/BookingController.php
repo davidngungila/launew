@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Booking;
+use App\Models\CustomerFeedback;
+use App\Models\IncidentReport;
 use App\Models\Staff;
 use App\Models\Vehicle;
 use App\Services\BookingNotificationService;
@@ -116,7 +118,21 @@ class BookingController extends Controller
     public function show($id)
     {
         $booking = Booking::with(['tour', 'guide', 'driver', 'vehicle'])->findOrFail($id);
-        return view('admin.bookings.show', compact('booking'));
+
+        $incidentCount = IncidentReport::query()->where('booking_id', $booking->id)->count();
+        $feedbackCount = CustomerFeedback::query()->where('booking_id', $booking->id)->count();
+
+        $latestIncident = IncidentReport::query()
+            ->where('booking_id', $booking->id)
+            ->latest()
+            ->first();
+
+        $latestFeedback = CustomerFeedback::query()
+            ->where('booking_id', $booking->id)
+            ->latest()
+            ->first();
+
+        return view('admin.bookings.show', compact('booking', 'incidentCount', 'feedbackCount', 'latestIncident', 'latestFeedback'));
     }
 
     public function edit($id)

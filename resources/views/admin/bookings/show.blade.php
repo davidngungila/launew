@@ -15,6 +15,36 @@
                     <span class="text-[10px] font-black uppercase tracking-widest text-emerald-600">ID #{{ str_pad($booking->id, 5, '0', STR_PAD_LEFT) }}</span>
                 </nav>
                 <h1 class="text-4xl font-black text-slate-900 tracking-tighter">{{ $booking->customer_name }}</h1>
+                @php
+                    $bStatus = $booking->status ?? 'pending';
+                    $bStatusClass = 'bg-slate-50 text-slate-700 border-slate-100';
+                    if ($bStatus === 'confirmed') $bStatusClass = 'bg-emerald-50 text-emerald-700 border-emerald-100';
+                    if ($bStatus === 'pending') $bStatusClass = 'bg-amber-50 text-amber-700 border-amber-100';
+                    if ($bStatus === 'completed') $bStatusClass = 'bg-blue-50 text-blue-700 border-blue-100';
+                    if ($bStatus === 'cancelled') $bStatusClass = 'bg-red-50 text-red-700 border-red-100';
+
+                    $pStatus = $booking->payment_status ?? 'unpaid';
+                    $pStatusClass = 'bg-slate-50 text-slate-700 border-slate-100';
+                    if ($pStatus === 'paid') $pStatusClass = 'bg-emerald-50 text-emerald-700 border-emerald-100';
+                    if ($pStatus === 'partially_paid') $pStatusClass = 'bg-amber-50 text-amber-700 border-amber-100';
+                    if ($pStatus === 'unpaid') $pStatusClass = 'bg-red-50 text-red-700 border-red-100';
+                @endphp
+                <div class="mt-3 flex flex-wrap items-center gap-2">
+                    <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-[0.2em] border {{ $bStatusClass }}">
+                        <i class="ph ph-flag"></i>
+                        {{ $bStatus }}
+                    </span>
+                    <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-[0.2em] border {{ $pStatusClass }}">
+                        <i class="ph ph-credit-card"></i>
+                        {{ $pStatus }}
+                    </span>
+                    @if(!empty($booking->start_date))
+                        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-[0.2em] border bg-white text-slate-700 border-slate-200">
+                            <i class="ph ph-calendar"></i>
+                            {{ date('d M Y', strtotime($booking->start_date)) }}
+                        </span>
+                    @endif
+                </div>
             </div>
         </div>
         
@@ -334,17 +364,48 @@
             </div>
 
             <!-- Management Tools -->
-            <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8 flex items-center justify-between group cursor-pointer hover:bg-slate-50 transition-all">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-500 group-hover:bg-slate-900 group-hover:text-white transition-all">
-                        <i class="ph ph-shield-warning text-xl"></i>
-                    </div>
+            <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8 space-y-6">
+                <div class="flex items-start justify-between">
                     <div>
-                        <h5 class="text-sm font-black text-slate-900">Incident Report</h5>
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Register Issue</p>
+                        <h4 class="text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Operations Signals</h4>
+                        <h3 class="text-xl font-black text-slate-900 tracking-tight">Alerts & Notes</h3>
                     </div>
                 </div>
-                <i class="ph ph-caret-right text-slate-300"></i>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50">
+                        <div class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Incidents</div>
+                        <div class="mt-2 text-2xl font-black text-slate-900">{{ $incidentCount ?? 0 }}</div>
+                        @if(!empty($latestIncident))
+                            <div class="mt-2 text-[10px] font-bold text-slate-500 line-clamp-2">{{ $latestIncident->title }}</div>
+                        @endif
+                    </div>
+                    <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50">
+                        <div class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Feedback</div>
+                        <div class="mt-2 text-2xl font-black text-slate-900">{{ $feedbackCount ?? 0 }}</div>
+                        @if(!empty($latestFeedback))
+                            <div class="mt-2 text-[10px] font-bold text-slate-500 line-clamp-2">{{ $latestFeedback->message }}</div>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-3">
+                    <a href="{{ route('admin.operations.monitoring.incidents.create', ['booking_id' => $booking->id]) }}" class="w-full flex items-center justify-between px-6 py-4 bg-white border border-slate-200 text-slate-700 font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-slate-50 transition-all">
+                        <span class="flex items-center gap-3">
+                            <i class="ph ph-shield-warning text-lg"></i>
+                            Create Incident (This Booking)
+                        </span>
+                        <i class="ph ph-caret-right text-slate-300"></i>
+                    </a>
+
+                    <a href="{{ route('admin.operations.monitoring.feedback.create', ['booking_id' => $booking->id]) }}" class="w-full flex items-center justify-between px-6 py-4 bg-white border border-slate-200 text-slate-700 font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-slate-50 transition-all">
+                        <span class="flex items-center gap-3">
+                            <i class="ph ph-chat-circle-text text-lg"></i>
+                            Capture Feedback (This Booking)
+                        </span>
+                        <i class="ph ph-caret-right text-slate-300"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

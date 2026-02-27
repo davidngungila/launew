@@ -49,7 +49,7 @@
                 <select name="booking_id" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none cursor-pointer">
                     <option value="">None</option>
                     @foreach($bookings as $b)
-                        <option value="{{ $b->id }}" {{ (string) old('booking_id') === (string) $b->id ? 'selected' : '' }}>BK-{{ str_pad($b->id, 4, '0', STR_PAD_LEFT) }} · {{ $b->customer_name }}</option>
+                        <option value="{{ $b->id }}" {{ (string) old('booking_id', $selectedBookingId ?? '') === (string) $b->id ? 'selected' : '' }}>BK-{{ str_pad($b->id, 4, '0', STR_PAD_LEFT) }} · {{ $b->customer_name }}</option>
                     @endforeach
                 </select>
             </div>

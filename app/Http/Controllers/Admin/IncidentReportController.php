@@ -20,12 +20,14 @@ class IncidentReportController extends Controller
 
     public function create()
     {
+        $selectedBookingId = request()->query('booking_id');
+
         $bookings = Booking::query()
             ->latest()
             ->limit(200)
             ->get();
 
-        return view('admin.operations.monitoring.incidents.create', compact('bookings'));
+        return view('admin.operations.monitoring.incidents.create', compact('bookings', 'selectedBookingId'));
     }
 
     public function store(Request $request)
