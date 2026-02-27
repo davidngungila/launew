@@ -266,9 +266,9 @@
                         <div class="space-y-1 mt-1">
                             <a href="{{ route('admin.finance.expenses.index') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.expenses.index') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">All Expenses</a>
                             <a href="{{ route('admin.finance.expenses.create') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.expenses.create') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Add Expense</a>
-                            <a href="{{ route('admin.finance.expenses.categories') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.expenses.categories') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Expense Categories</a>
+                            <a href="{{ route('admin.finance.expenses.categories.index') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.expenses.categories.*') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Expense Categories</a>
                             <a href="{{ route('admin.finance.expenses.vendors') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.expenses.vendors') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Vendor Management</a>
-                            <a href="{{ route('admin.finance.expenses.recurring') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.expenses.recurring') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Recurring Expenses</a>
+                            <a href="{{ route('admin.finance.expenses.recurring.index') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.expenses.recurring.*') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Recurring Expenses</a>
                         </div>
                     </div>
 

@@ -40,8 +40,8 @@
 <div class="space-y-1">
     <a href="{{ route('admin.finance.expenses.index') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-receipt mr-3 text-xl"></i><span class="text-sm">All Expenses</span></a>
     <a href="{{ route('admin.finance.expenses.create') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-plus mr-3 text-xl"></i><span class="text-sm">Add Expense</span></a>
-    <a href="{{ route('admin.finance.expenses.recurring') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-repeat mr-3 text-xl"></i><span class="text-sm">Recurring Expenses</span></a>
-    <a href="{{ route('admin.finance.expenses.categories') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-tag mr-3 text-xl"></i><span class="text-sm">Expense Categories</span></a>
+    <a href="{{ route('admin.finance.expenses.recurring.index') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-repeat mr-3 text-xl"></i><span class="text-sm">Recurring Expenses</span></a>
+    <a href="{{ route('admin.finance.expenses.categories.index') }}" class="flex items-center px-4 py-3 text-emerald-100/70 hover:bg-emerald-800 hover:text-white transition-all rounded-xl"><i class="ph-bold ph-tag mr-3 text-xl"></i><span class="text-sm">Expense Categories</span></a>
 </div>
 
 <div class="px-4 mt-6 mb-2 text-[10px] font-black text-emerald-500 uppercase tracking-[0.2em] opacity-50">Banking</div>
