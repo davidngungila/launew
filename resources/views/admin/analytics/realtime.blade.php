@@ -27,7 +27,10 @@
         </div>
         <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
             <div class="text-[10px] font-black uppercase tracking-widest text-slate-400">Map</div>
-            <div class="mt-3 text-sm text-slate-500 font-medium leading-relaxed">
+            <div class="mt-3 rounded-xl border border-slate-100 bg-slate-50 overflow-hidden" style="height: 120px;">
+                <div id="rt-world-map" class="w-full h-full"></div>
+            </div>
+            <div class="mt-3 text-[11px] text-slate-500 font-bold leading-relaxed">
                 City-level map will activate after GeoLite2 setup.
             </div>
         </div>
@@ -105,9 +108,69 @@
 </div>
 
 @push('scripts')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world-merc.js"></script>
 <script>
 (function () {
     const apiUrl = @json(route('admin.analytics.realtime.api'));
+    const initialCountryCounts = @json($countryActive);
+
+    let map = null;
+
+    function normalizeCountryValues(obj) {
+        const out = {};
+        if (!obj) return out;
+        Object.keys(obj).forEach(function (k) {
+            if (!k) return;
+            if (k === '??') return;
+            out[String(k).toUpperCase()] = Number(obj[k] || 0);
+        });
+        return out;
+    }
+
+    function initMap() {
+        const el = document.getElementById('rt-world-map');
+        if (!el || typeof jsVectorMap === 'undefined') return;
+
+        const values = normalizeCountryValues(initialCountryCounts);
+
+        map = new jsVectorMap({
+            selector: '#rt-world-map',
+            map: 'world_merc',
+            zoomButtons: false,
+            zoomOnScroll: false,
+            regionStyle: {
+                initial: {
+                    fill: '#e2e8f0',
+                    stroke: '#ffffff',
+                    strokeWidth: 0.5,
+                },
+                hover: {
+                    fill: '#a7f3d0',
+                },
+            },
+            series: {
+                regions: [
+                    {
+                        values: values,
+                        scale: ['#d1fae5', '#059669'],
+                        normalizeFunction: 'polynomial',
+                    }
+                ]
+            },
+            onRegionTooltipShow: function (tooltip, code) {
+                const c = values[code] || 0;
+                tooltip.text(tooltip.text() + ' — ' + c + ' active');
+            }
+        });
+    }
+
+    function updateMap(countryCounts) {
+        if (!map || !map.series || !map.series.regions || !map.series.regions[0]) return;
+        const values = normalizeCountryValues(countryCounts);
+        map.series.regions[0].setValues(values);
+    }
 
     function escapeHtml(str) {
         return String(str || '').replace(/[&<>"']/g, function (m) {
@@ -143,11 +206,16 @@
                     `;
                 }).join('');
             }
+
+            if (data && data.active_countries) {
+                updateMap(data.active_countries);
+            }
         } catch (e) {
             // silent
         }
     }
 
+    initMap();
     setInterval(refresh, 5000);
 })();
 </script>

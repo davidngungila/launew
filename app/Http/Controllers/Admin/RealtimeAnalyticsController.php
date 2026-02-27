@@ -82,9 +82,15 @@ class RealtimeAnalyticsController extends Controller
             ->limit(30)
             ->get();
 
+        $countryActive = $activeSessions
+            ->groupBy(fn ($s) => $s->country ?: '??')
+            ->map(fn ($group) => $group->count())
+            ->sortDesc();
+
         return response()->json([
             'active_window_minutes' => $activeWindowMinutes,
             'active_users_now' => $activeSessions->count(),
+            'active_countries' => $countryActive,
             'sessions' => $activeSessions->map(function ($s) {
                 return [
                     'session_uuid' => $s->session_uuid,
