@@ -253,25 +253,26 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
     Route::get('/fleet', function() { return view('admin.fleet.index'); })->name('fleet.index');
     
     // Finance & Analytics
-    Route::get('/finance', function() { return view('admin.finance.index'); })->name('finance.index');
-    Route::view('/finance/overview', 'admin.finance.page', ['title' => 'Finance Overview'])->name('finance.overview');
+    Route::get('/finance', [App\Http\Controllers\Admin\FinanceController::class, 'dashboard'])->name('finance.index');
+    Route::get('/finance/export-pdf', [App\Http\Controllers\Admin\FinanceController::class, 'dashboardExportPdf'])->name('finance.export-pdf');
+    Route::get('/finance/overview', [App\Http\Controllers\Admin\FinanceController::class, 'dashboard'])->name('finance.overview');
     Route::view('/finance/cash-position', 'admin.finance.page', ['title' => 'Cash Position'])->name('finance.cash-position');
     Route::view('/finance/monthly-summary', 'admin.finance.page', ['title' => 'Monthly Summary'])->name('finance.monthly-summary');
 
     Route::prefix('finance/revenue')->name('finance.revenue.')->group(function () {
-        Route::view('/all-bookings', 'admin.finance.page', ['title' => 'All Bookings Revenue'])->name('all-bookings');
-        Route::get('/payments-received', function() { return view('admin.finance.payments-received'); })->name('payments-received');
-        Route::view('/deposits', 'admin.finance.page', ['title' => 'Deposits'])->name('deposits');
-        Route::view('/outstanding-balances', 'admin.finance.page', ['title' => 'Outstanding Balances'])->name('outstanding-balances');
-        Route::view('/multi-currency-tracker', 'admin.finance.page', ['title' => 'Multi-Currency Tracker'])->name('multi-currency-tracker');
+        Route::get('/all-bookings', [App\Http\Controllers\Admin\FinanceController::class, 'revenueBookingRevenue'])->name('all-bookings');
+        Route::get('/deposits', [App\Http\Controllers\Admin\FinanceController::class, 'revenueDeposits'])->name('deposits');
+        Route::get('/outstanding-balances', [App\Http\Controllers\Admin\FinanceController::class, 'revenueOutstanding'])->name('outstanding-balances');
+        Route::get('/multi-currency-tracker', [App\Http\Controllers\Admin\FinanceController::class, 'revenueMultiCurrency'])->name('multi-currency-tracker');
     });
 
     Route::prefix('finance/invoices')->name('finance.invoices.')->group(function () {
-        Route::get('/all', function() { return view('admin.finance.generated-invoices'); })->name('all');
-        Route::view('/create', 'admin.finance.page', ['title' => 'Create Invoice'])->name('create');
-        Route::view('/draft', 'admin.finance.page', ['title' => 'Draft Invoices'])->name('draft');
-        Route::view('/overdue', 'admin.finance.page', ['title' => 'Overdue Invoices'])->name('overdue');
-        Route::view('/credit-notes', 'admin.finance.page', ['title' => 'Credit Notes'])->name('credit-notes');
+        Route::get('/all', [App\Http\Controllers\Admin\FinanceController::class, 'invoicesAll'])->name('all');
+        Route::get('/all/export-pdf', [App\Http\Controllers\Admin\FinanceController::class, 'invoicesExportPdf'])->name('export-pdf');
+        Route::get('/create', [App\Http\Controllers\Admin\FinanceController::class, 'invoicesCreate'])->name('create');
+        Route::get('/draft', [App\Http\Controllers\Admin\FinanceController::class, 'invoicesDraft'])->name('draft');
+        Route::get('/overdue', [App\Http\Controllers\Admin\FinanceController::class, 'invoicesOverdue'])->name('overdue');
+        Route::get('/credit-notes', [App\Http\Controllers\Admin\FinanceController::class, 'invoicesCreditNotes'])->name('credit-notes');
     });
 
     Route::prefix('finance/ar')->name('finance.ar.')->group(function () {
