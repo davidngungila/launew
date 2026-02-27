@@ -5,22 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>LAU Paradise Adventure | Discover the Wild</title>
     <link rel="icon" type="image/png" href="{{ asset('lau-adventuress-logo.png') }}">
-    @php($integrations = \App\Models\SystemSetting::getValue('integrations', []))
-    @php($gtmId = (string) data_get($integrations, 'gtm_container_id', ''))
-    @php($gtmId = $gtmId ?: 'GTM-WC2NH5GF')
-    @php($ga4Id = (string) data_get($integrations, 'ga4_measurement_id', ''))
-    @if($gtmId)
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','{{ $gtmId }}');</script>
-    @endif
-    @if($ga4Id)
-        <script async src="https://www.googletagmanager.com/gtag/js?id={{ $ga4Id }}"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '{{ $ga4Id }}');
-        </script>
-    @endif
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
@@ -91,10 +75,6 @@
     </style>
 </head>
 <body class="bg-white text-slate-900 antialiased font-medium" x-data="{ mobileMenuOpen: false }">
-    @if($gtmId)
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ $gtmId }}"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    @endif
     <!-- Navbar -->
     <nav class="fixed top-0 w-full z-50 glass border-b border-slate-100">
         <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
@@ -418,5 +398,97 @@
     <a href="https://wa.me/255683163219" target="_blank" class="fixed bottom-8 right-8 z-50 w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 hover:bg-green-600 transition-all">
         <i class="ph ph-whatsapp-logo text-3xl"></i>
     </a>
+
+    <script>
+    (function () {
+        function uuidv4() {
+            if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID();
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        function getOrSet(key, store) {
+            try {
+                var v = store.getItem(key);
+                if (v) return v;
+                v = uuidv4().replace(/-/g, '');
+                store.setItem(key, v);
+                return v;
+            } catch (e) {
+                return uuidv4().replace(/-/g, '');
+            }
+        }
+
+        function deviceType() {
+            var w = window.innerWidth || 0;
+            if (w <= 768) return 'mobile';
+            if (w <= 1024) return 'tablet';
+            return 'desktop';
+        }
+
+        function parseUA() {
+            var ua = navigator.userAgent || '';
+            var browser = 'unknown';
+            if (ua.includes('Edg/')) browser = 'edge';
+            else if (ua.includes('Chrome/')) browser = 'chrome';
+            else if (ua.includes('Firefox/')) browser = 'firefox';
+            else if (ua.includes('Safari/') && !ua.includes('Chrome/')) browser = 'safari';
+
+            var os = 'unknown';
+            if (ua.includes('Windows')) os = 'windows';
+            else if (ua.includes('Android')) os = 'android';
+            else if (ua.includes('iPhone') || ua.includes('iPad')) os = 'ios';
+            else if (ua.includes('Mac OS X')) os = 'macos';
+            else if (ua.includes('Linux')) os = 'linux';
+
+            return { browser: browser, os: os };
+        }
+
+        var visitorId = getOrSet('lau_vid', localStorage);
+        var sessionUuid = getOrSet('lau_sess', sessionStorage);
+        var ua = parseUA();
+
+        var ref = document.referrer || '';
+        var refHost = '';
+        try { refHost = ref ? (new URL(ref)).host : ''; } catch (e) { refHost = ''; }
+
+        var params = new URLSearchParams(window.location.search || '');
+
+        var payload = {
+            visitor_id: visitorId,
+            session_uuid: sessionUuid,
+            path: window.location.pathname || '/',
+            full_url: window.location.href || null,
+            title: document.title || null,
+            referrer: ref || null,
+            referrer_host: refHost || null,
+            device_type: deviceType(),
+            browser: ua.browser,
+            os: ua.os,
+            screen_w: window.screen ? window.screen.width : null,
+            screen_h: window.screen ? window.screen.height : null,
+            language: navigator.language || null,
+            timezone: (Intl && Intl.DateTimeFormat ? Intl.DateTimeFormat().resolvedOptions().timeZone : null),
+            utm_source: params.get('utm_source'),
+            utm_medium: params.get('utm_medium'),
+            utm_campaign: params.get('utm_campaign')
+        };
+
+        fetch(@json(route('analytics.track')), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify(payload),
+            keepalive: true
+        }).then(function (res) {
+            return res.json().catch(function () { return null; });
+        }).then(function (data) {
+            if (data && data.session_uuid) {
+                try { sessionStorage.setItem('lau_sess', data.session_uuid); } catch (e) {}
+            }
+        }).catch(function () {});
+    })();
+    </script>
 </body>
 </html>
