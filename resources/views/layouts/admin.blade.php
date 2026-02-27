@@ -211,10 +211,14 @@
                         <div class="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-500/60 px-0.5">Revenue</div>
                         <div class="space-y-1 mt-1">
                             <a href="{{ route('admin.finance.revenue.all-bookings') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.revenue.all-bookings') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">All Bookings Revenue</a>
-                            <a href="{{ route('admin.finance.revenue.payments-received') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.revenue.payments-received') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Payments Received</a>
+                            @if(\Illuminate\Support\Facades\Route::has('admin.finance.revenue.payments-received'))
+                                <a href="{{ route('admin.finance.revenue.payments-received') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.revenue.payments-received') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Payments Received</a>
+                            @endif
                             <a href="{{ route('admin.finance.revenue.deposits') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.revenue.deposits') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Deposits</a>
                             <a href="{{ route('admin.finance.revenue.outstanding-balances') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.revenue.outstanding-balances') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Outstanding Balances</a>
-                            <a href="{{ route('admin.finance.revenue.multi-currency-tracker') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.revenue.multi-currency-tracker') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Multi-Currency Tracker</a>
+                            @if(\Illuminate\Support\Facades\Route::has('admin.finance.revenue.multi-currency-tracker'))
+                                <a href="{{ route('admin.finance.revenue.multi-currency-tracker') }}" class="block text-xs py-2 {{ request()->routeIs('admin.finance.revenue.multi-currency-tracker') ? 'text-emerald-400 font-bold' : 'text-emerald-100/50' }} hover:text-white transition-colors">Multi-Currency Tracker</a>
+                            @endif
                         </div>
                     </div>
 
