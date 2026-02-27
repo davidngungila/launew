@@ -103,21 +103,24 @@
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
                 @foreach([
                     [
-                        'name' => 'Laurence',
-                        'role' => 'Managing Director',
-                        'bio' => 'Visionary leader driving LAU Paradise to new heights of excellence.',
+                        'name' => 'Laurance kilondera mahaza',
+                        'role' => 'General Manager',
+                        'email' => 'Laurancekilondera6@gmail.com',
+                        'bio' => 'General leadership and operational oversight to keep every safari experience excellent.',
                         'image' => 'https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766237623/w4f02zqo47s1wfsujsce.jpg'
                     ],
                     [
-                        'name' => 'Laurencia',
+                        'name' => 'Laurine Godfrey Muhimbano',
                         'role' => 'Accountant',
+                        'email' => 'laurinemuhimbano@gmail.com',
                         'bio' => 'Ensuring financial integrity and sustainable growth for every expedition.',
                         'image' => 'https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766745727/tphzp4qgxua6vpa49cm8.jpg'
                     ],
                     [
-                        'name' => 'Dionis',
-                        'role' => 'Media Operator',
-                        'bio' => 'Documenting the wild through professional lenses and cinematic storytelling.',
+                        'name' => 'Dionis baltazari sungi',
+                        'role' => 'Marketing',
+                        'email' => 'baltazaridionis@gmail.com',
+                        'bio' => 'Brand growth, digital campaigns, and storytelling that connects travelers to Tanzania.',
                         'image' => 'https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766324505/dionis_eoxtng.jpg'
                     ],
                     [
@@ -145,6 +148,9 @@
                     </div>
                     <h3 class="text-sm font-black text-slate-900 mb-1 group-hover:text-emerald-600 transition-colors">{{ $member['name'] }}</h3>
                     <p class="text-[9px] font-black uppercase tracking-widest text-emerald-500 mb-3">{{ $member['role'] }}</p>
+                    @if(!empty($member['email']))
+                        <p class="text-[10px] font-black text-slate-500 mb-2">{{ $member['email'] }}</p>
+                    @endif
                     <p class="text-slate-500 text-[11px] leading-relaxed line-clamp-2" title="{{ $member['bio'] }}">{{ $member['bio'] }}</p>
                 </div>
                 @endforeach
