@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Agent;
 use App\Models\Booking;
+use App\Models\CustomerFeedback;
+use App\Models\IncidentReport;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -294,5 +296,73 @@ class OperationsController extends Controller
         ];
 
         return view('admin.operations.suppliers.payments', compact('stats'));
+    }
+
+    public function reportsCompletion(Request $request)
+    {
+        $start = $request->query('start');
+        $end = $request->query('end');
+
+        $query = Booking::query()->with(['tour', 'guide', 'driver', 'vehicle']);
+
+        if (!empty($start)) {
+            $query->whereDate('start_date', '>=', $start);
+        }
+
+        if (!empty($end)) {
+            $query->whereDate('start_date', '<=', $end);
+        }
+
+        $bookings = $query->orderByDesc('start_date')->paginate(20)->withQueryString();
+
+        $base = Booking::query();
+        if (!empty($start)) {
+            $base->whereDate('start_date', '>=', $start);
+        }
+        if (!empty($end)) {
+            $base->whereDate('start_date', '<=', $end);
+        }
+
+        $stats = [
+            'total' => (clone $base)->count(),
+            'completed' => (clone $base)->where('status', 'completed')->count(),
+            'cancelled' => (clone $base)->where('status', 'cancelled')->count(),
+            'confirmed' => (clone $base)->where('status', 'confirmed')->count(),
+            'revenue_paid' => (clone $base)->whereIn('payment_status', ['paid', 'partially_paid'])->sum('total_price'),
+        ];
+
+        return view('admin.operations.reports.completion', compact('bookings', 'stats', 'start', 'end'));
+    }
+
+    public function reportsPerformance(Request $request)
+    {
+        $today = now()->toDateString();
+        $windowEnd = now()->addDays(30)->toDateString();
+
+        $upcoming = Booking::query()
+            ->with(['tour', 'guide', 'driver', 'vehicle'])
+            ->whereDate('start_date', '>=', $today)
+            ->whereDate('start_date', '<=', $windowEnd)
+            ->orderBy('start_date')
+            ->paginate(20);
+
+        $stats = [
+            'upcoming_30' => Booking::whereDate('start_date', '>=', $today)->whereDate('start_date', '<=', $windowEnd)->count(),
+            'ready_all_assigned' => Booking::whereDate('start_date', '>=', $today)
+                ->whereDate('start_date', '<=', $windowEnd)
+                ->whereNotNull('guide_id')
+                ->whereNotNull('driver_id')
+                ->whereNotNull('vehicle_id')
+                ->count(),
+            'missing_assignments' => Booking::whereDate('start_date', '>=', $today)
+                ->whereDate('start_date', '<=', $windowEnd)
+                ->where(function ($q) {
+                    $q->whereNull('guide_id')->orWhereNull('driver_id')->orWhereNull('vehicle_id');
+                })->count(),
+            'open_incidents' => IncidentReport::query()->whereIn('status', ['open', 'investigating'])->count(),
+            'new_feedback' => CustomerFeedback::query()->where('status', 'new')->count(),
+        ];
+
+        return view('admin.operations.reports.performance', compact('upcoming', 'stats'));
     }
 }

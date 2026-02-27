@@ -190,14 +190,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
         Route::delete('/monitoring/feedback/{feedback}', [App\Http\Controllers\Admin\CustomerFeedbackController::class, 'destroy'])->name('monitoring.feedback.destroy');
 
         // Reports
-        Route::view('/reports/completion', 'admin.operations.page', [
-            'title' => 'Tour Completion Report',
-            'subtitle' => 'Completion summary per tour and booking',
-        ])->name('reports.completion');
-        Route::view('/reports/performance', 'admin.operations.page', [
-            'title' => 'Operations Performance',
-            'subtitle' => 'KPIs for operations execution, incidents, and readiness',
-        ])->name('reports.performance');
+        Route::get('/reports/completion', [App\Http\Controllers\Admin\OperationsController::class, 'reportsCompletion'])->name('reports.completion');
+        Route::get('/reports/performance', [App\Http\Controllers\Admin\OperationsController::class, 'reportsPerformance'])->name('reports.performance');
     });
     
     // CRM & Sales
@@ -288,9 +282,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
     });
 
     Route::prefix('finance/ap')->name('finance.ap.')->group(function () {
-        Route::view('/supplier-bills', 'admin.finance.page', ['title' => 'Supplier Bills'])->name('supplier-bills');
-        Route::view('/pending-payments', 'admin.finance.page', ['title' => 'Pending Payments'])->name('pending-payments');
-        Route::view('/operator-payments', 'admin.finance.page', ['title' => 'Operator Payments'])->name('operator-payments');
+        Route::get('/supplier-bills', [App\Http\Controllers\Admin\FinanceAPController::class, 'supplierBills'])->name('supplier-bills');
+        Route::get('/pending-payments', [App\Http\Controllers\Admin\FinanceAPController::class, 'pendingPayments'])->name('pending-payments');
+        Route::get('/operator-payments', [App\Http\Controllers\Admin\FinanceAPController::class, 'operatorPayments'])->name('operator-payments');
         Route::view('/guide-payments', 'admin.finance.page', ['title' => 'Guide Payments'])->name('guide-payments');
         Route::view('/due-schedule', 'admin.finance.page', ['title' => 'Due Schedule'])->name('due-schedule');
     });
