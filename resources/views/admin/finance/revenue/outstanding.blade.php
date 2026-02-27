@@ -72,7 +72,10 @@
                             <td class="px-6 py-5 text-right">
                                 <div class="inline-flex items-center gap-2">
                                     <a href="{{ route('admin.bookings.show', $b->id) }}" class="px-4 py-2 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-all">Open</a>
-                                    <a href="{{ route('admin.bookings.verify-payment', $b->id) }}" class="px-4 py-2 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-all">Verify</a>
+                                    <form action="{{ route('admin.bookings.verify-payment', $b->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="px-4 py-2 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-all">Verify</button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
