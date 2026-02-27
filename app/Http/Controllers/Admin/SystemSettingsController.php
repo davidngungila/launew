@@ -52,6 +52,8 @@ class SystemSettingsController extends Controller
                 'gtm_container_id' => null,
                 'ga4_measurement_id' => null,
                 'looker_studio_url' => null,
+                'ga_accounts' => [],
+                'gtm_accounts' => [],
             ]),
         ];
 
@@ -92,6 +94,14 @@ class SystemSettingsController extends Controller
             'integrations.gtm_container_id' => 'nullable|string|max:255',
             'integrations.ga4_measurement_id' => 'nullable|string|max:255',
             'integrations.looker_studio_url' => 'nullable|url|max:2048',
+
+            'integrations.ga_accounts' => 'array',
+            'integrations.ga_accounts.*.name' => 'nullable|string|max:255',
+            'integrations.ga_accounts.*.id' => 'nullable|string|max:255',
+
+            'integrations.gtm_accounts' => 'array',
+            'integrations.gtm_accounts.*.name' => 'nullable|string|max:255',
+            'integrations.gtm_accounts.*.id' => 'nullable|string|max:255',
         ]);
 
         foreach (['company', 'pricing_rules', 'booking_rules', 'payment_rules', 'notification_rules', 'integrations'] as $key) {

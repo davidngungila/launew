@@ -401,7 +401,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
     Route::get('/settings', [SystemSettingsController::class, 'edit'])->name('settings.index');
     Route::put('/settings', [SystemSettingsController::class, 'update'])->name('settings.update');
     Route::get('/settings/user-management', [UserManagementController::class, 'index'])->name('settings.users.index');
+    Route::get('/settings/user-management/create', [UserManagementController::class, 'create'])->name('settings.users.create');
     Route::post('/settings/user-management', [UserManagementController::class, 'store'])->name('settings.users.store');
+    Route::get('/settings/user-management/{user}', [UserManagementController::class, 'show'])->whereNumber('user')->name('settings.users.show');
     Route::put('/settings/user-management/{user}', [UserManagementController::class, 'update'])->whereNumber('user')->name('settings.users.update');
     Route::get('/settings/role-permissions', [RolePermissionController::class, 'index'])->name('settings.roles.index');
     Route::post('/settings/role-permissions/roles', [RolePermissionController::class, 'storeRole'])->name('settings.roles.store');

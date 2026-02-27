@@ -19,6 +19,21 @@ class UserManagementController extends Controller
         return view('admin.settings.users.index', compact('users', 'roles'));
     }
 
+    public function create()
+    {
+        $roles = Role::query()->orderBy('name')->get();
+
+        return view('admin.settings.users.create', compact('roles'));
+    }
+
+    public function show(User $user)
+    {
+        $user->load('roles');
+        $roles = Role::query()->orderBy('name')->get();
+
+        return view('admin.settings.users.show', compact('user', 'roles'));
+    }
+
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
@@ -74,6 +89,6 @@ class UserManagementController extends Controller
             'user_agent' => substr((string) $request->userAgent(), 0, 1024),
         ]);
 
-        return back()->with('success', 'User registered successfully');
+        return redirect()->route('admin.settings.users.show', $user)->with('success', 'User registered successfully');
     }
 }

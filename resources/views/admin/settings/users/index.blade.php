@@ -7,46 +7,9 @@
             <h1 class="text-3xl font-black text-slate-900 tracking-tight">User Management</h1>
             <p class="text-slate-500 font-medium">Assign roles and control access</p>
         </div>
-    </div>
-
-    <div class="bg-white border border-slate-100 rounded-2xl shadow-sm p-8">
-        <div class="flex items-center justify-between gap-4 mb-6">
-            <h3 class="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Register New User</h3>
+        <div class="flex items-center gap-3">
+            <a href="{{ route('admin.settings.users.create') }}" class="px-6 py-3 bg-emerald-600 text-white font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20">Register New User</a>
         </div>
-
-        <form action="{{ route('admin.settings.users.store') }}" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            @csrf
-            <div class="space-y-1">
-                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Full Name</label>
-                <input name="name" value="{{ old('name') }}" required class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-            </div>
-            <div class="space-y-1">
-                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Email</label>
-                <input type="email" name="email" value="{{ old('email') }}" required class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-            </div>
-            <div class="space-y-1">
-                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Password</label>
-                <input type="password" name="password" required class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-            </div>
-            <div class="space-y-1">
-                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Confirm Password</label>
-                <input type="password" name="password_confirmation" required class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-            </div>
-            <div class="md:col-span-2">
-                <div class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 pl-1">Assign Roles</div>
-                <div class="flex flex-wrap gap-2">
-                    @foreach($roles as $role)
-                        <label class="inline-flex items-center gap-2 px-3 py-2 bg-slate-50 border border-slate-100 rounded-xl">
-                            <input type="checkbox" name="role_ids[]" value="{{ $role->id }}" {{ collect(old('role_ids', []))->contains($role->id) ? 'checked' : '' }}>
-                            <span class="text-[10px] font-black uppercase tracking-widest text-slate-600">{{ $role->name }}</span>
-                        </label>
-                    @endforeach
-                </div>
-            </div>
-            <div class="md:col-span-2 flex justify-end">
-                <button type="submit" class="px-6 py-3 bg-emerald-600 text-white font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-emerald-700 transition-all">Register User</button>
-            </div>
-        </form>
     </div>
 
     <div class="bg-white border border-slate-100 rounded-2xl shadow-sm overflow-hidden">
@@ -60,7 +23,7 @@
                         <th class="text-left px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Name</th>
                         <th class="text-left px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Email</th>
                         <th class="text-left px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Roles</th>
-                        <th class="text-right px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Action</th>
+                        <th class="text-right px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -85,7 +48,10 @@
                                     @endforeach
                             </td>
                             <td class="px-8 py-5 text-right">
-                                    <button type="submit" class="px-5 py-3 bg-emerald-600 text-white font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-emerald-700 transition-all">Save</button>
+                                    <div class="inline-flex items-center gap-2">
+                                        <a href="{{ route('admin.settings.users.show', $user->id) }}" class="px-4 py-2 bg-white border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-600 hover:bg-slate-50 transition-all">View More</a>
+                                        <button type="submit" class="px-5 py-3 bg-emerald-600 text-white font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-emerald-700 transition-all">Save</button>
+                                    </div>
                                 </form>
                             </td>
                         </tr>

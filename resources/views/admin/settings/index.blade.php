@@ -205,6 +205,34 @@
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Looker Studio Dashboard URL (Embed)</label>
                         <input type="url" name="integrations[looker_studio_url]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900" value="{{ old('integrations.looker_studio_url', $settings['integrations']['looker_studio_url'] ?? '') }}" placeholder="https://lookerstudio.google.com/embed/reporting/...">
                     </div>
+
+                    <div class="md:col-span-2 pt-4">
+                        <div class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 pl-1">Analytics Accounts</div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-1">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Account Name</label>
+                                <input type="text" name="integrations[ga_accounts][0][name]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900" value="{{ old('integrations.ga_accounts.0.name', data_get($settings, 'integrations.ga_accounts.0.name', '')) }}" placeholder="Lau Paradise Adventure">
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Account ID</label>
+                                <input type="text" name="integrations[ga_accounts][0][id]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900" value="{{ old('integrations.ga_accounts.0.id', data_get($settings, 'integrations.ga_accounts.0.id', '')) }}" placeholder="385714587">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-2 pt-2">
+                        <div class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 pl-1">Tag Manager Accounts</div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-1">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Account Name</label>
+                                <input type="text" name="integrations[gtm_accounts][0][name]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900" value="{{ old('integrations.gtm_accounts.0.name', data_get($settings, 'integrations.gtm_accounts.0.name', '')) }}" placeholder="LAU Paradise Adventure">
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Account ID</label>
+                                <input type="text" name="integrations[gtm_accounts][0][id]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900" value="{{ old('integrations.gtm_accounts.0.id', data_get($settings, 'integrations.gtm_accounts.0.id', '')) }}" placeholder="6341293708">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
