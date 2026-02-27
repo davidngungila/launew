@@ -342,10 +342,27 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
     });
 
     Route::prefix('finance/banking')->name('finance.banking.')->group(function () {
-        Route::view('/bank-accounts', 'admin.finance.page', ['title' => 'Bank Accounts'])->name('bank-accounts');
-        Route::view('/cash-accounts', 'admin.finance.page', ['title' => 'Cash Accounts'])->name('cash-accounts');
-        Route::view('/transfers', 'admin.finance.page', ['title' => 'Transfers Between Accounts'])->name('transfers');
-        Route::view('/reconciliation', 'admin.finance.page', ['title' => 'Reconciliation'])->name('reconciliation');
+        Route::get('/bank-accounts', [App\Http\Controllers\Admin\FinanceBankingController::class, 'bankAccounts'])->name('bank-accounts');
+        Route::get('/bank-accounts/export-pdf', [App\Http\Controllers\Admin\FinanceBankingController::class, 'bankAccountsExportPdf'])->name('bank-accounts.export-pdf');
+
+        Route::get('/cash-accounts', [App\Http\Controllers\Admin\FinanceBankingController::class, 'cashAccounts'])->name('cash-accounts');
+        Route::get('/cash-accounts/export-pdf', [App\Http\Controllers\Admin\FinanceBankingController::class, 'cashAccountsExportPdf'])->name('cash-accounts.export-pdf');
+
+        Route::get('/accounts/create', [App\Http\Controllers\Admin\FinanceBankingController::class, 'accountsCreate'])->name('accounts.create');
+        Route::post('/accounts', [App\Http\Controllers\Admin\FinanceBankingController::class, 'accountsStore'])->name('accounts.store');
+        Route::get('/accounts/{account}/edit', [App\Http\Controllers\Admin\FinanceBankingController::class, 'accountsEdit'])->whereNumber('account')->name('accounts.edit');
+        Route::put('/accounts/{account}', [App\Http\Controllers\Admin\FinanceBankingController::class, 'accountsUpdate'])->whereNumber('account')->name('accounts.update');
+        Route::delete('/accounts/{account}', [App\Http\Controllers\Admin\FinanceBankingController::class, 'accountsDestroy'])->whereNumber('account')->name('accounts.destroy');
+
+        Route::get('/transfers', [App\Http\Controllers\Admin\FinanceBankingController::class, 'transfers'])->name('transfers');
+        Route::get('/transfers/create', [App\Http\Controllers\Admin\FinanceBankingController::class, 'transfersCreate'])->name('transfers.create');
+        Route::post('/transfers', [App\Http\Controllers\Admin\FinanceBankingController::class, 'transfersStore'])->name('transfers.store');
+        Route::get('/transfers/export-pdf', [App\Http\Controllers\Admin\FinanceBankingController::class, 'transfersExportPdf'])->name('transfers.export-pdf');
+
+        Route::get('/reconciliation', [App\Http\Controllers\Admin\FinanceBankingController::class, 'reconciliation'])->name('reconciliation');
+        Route::get('/reconciliation/create', [App\Http\Controllers\Admin\FinanceBankingController::class, 'reconciliationCreate'])->name('reconciliation.create');
+        Route::post('/reconciliation', [App\Http\Controllers\Admin\FinanceBankingController::class, 'reconciliationStore'])->name('reconciliation.store');
+        Route::get('/reconciliation/export-pdf', [App\Http\Controllers\Admin\FinanceBankingController::class, 'reconciliationExportPdf'])->name('reconciliation.export-pdf');
     });
 
     Route::prefix('finance/reports')->name('finance.reports.')->group(function () {
