@@ -187,6 +187,26 @@
                     </div>
                 </div>
             </div>
+
+            <div class="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm">
+                <h3 class="text-xl font-black text-slate-900 mb-8 flex items-center gap-3">
+                    <i class="ph ph-plug text-emerald-500"></i> Integrations
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Google Tag Manager (GTM-XXXX)</label>
+                        <input type="text" name="integrations[gtm_container_id]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900" value="{{ old('integrations.gtm_container_id', $settings['integrations']['gtm_container_id'] ?? '') }}" placeholder="GTM-XXXXXXX">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">GA4 Measurement ID (G-XXXX)</label>
+                        <input type="text" name="integrations[ga4_measurement_id]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900" value="{{ old('integrations.ga4_measurement_id', $settings['integrations']['ga4_measurement_id'] ?? '') }}" placeholder="G-XXXXXXXXXX">
+                    </div>
+                    <div class="space-y-1 md:col-span-2">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Looker Studio Dashboard URL (Embed)</label>
+                        <input type="url" name="integrations[looker_studio_url]" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-bold text-slate-900" value="{{ old('integrations.looker_studio_url', $settings['integrations']['looker_studio_url'] ?? '') }}" placeholder="https://lookerstudio.google.com/embed/reporting/...">
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="space-y-8">

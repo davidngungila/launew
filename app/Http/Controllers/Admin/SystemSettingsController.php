@@ -48,6 +48,11 @@ class SystemSettingsController extends Controller
                 'send_pre_tour_reminder' => true,
                 'pre_tour_reminder_days' => 3,
             ]),
+            'integrations' => SystemSetting::getValue('integrations', [
+                'gtm_container_id' => null,
+                'ga4_measurement_id' => null,
+                'looker_studio_url' => null,
+            ]),
         ];
 
         return view('admin.settings.index', compact('settings'));
@@ -83,9 +88,13 @@ class SystemSettingsController extends Controller
             'notification_rules.send_payment_received' => 'nullable|boolean',
             'notification_rules.send_pre_tour_reminder' => 'nullable|boolean',
             'notification_rules.pre_tour_reminder_days' => 'nullable|integer|min:0',
+
+            'integrations.gtm_container_id' => 'nullable|string|max:255',
+            'integrations.ga4_measurement_id' => 'nullable|string|max:255',
+            'integrations.looker_studio_url' => 'nullable|url|max:2048',
         ]);
 
-        foreach (['company', 'pricing_rules', 'booking_rules', 'payment_rules', 'notification_rules'] as $key) {
+        foreach (['company', 'pricing_rules', 'booking_rules', 'payment_rules', 'notification_rules', 'integrations'] as $key) {
             $value = $validated[$key] ?? [];
             SystemSetting::setValue($key, $value);
         }
