@@ -104,7 +104,7 @@ class SystemToolsController extends Controller
     public function systemLogsDownload()
     {
         $path = storage_path('logs/laravel.log');
-        abort_unless(is_file($path), 404);
+        abort_unless(is_file($path) && is_readable($path), 404);
 
         return response()->download($path, 'laravel.log');
     }
@@ -231,8 +231,13 @@ class SystemToolsController extends Controller
         $output = '';
 
         try {
+            $commands = Artisan::all();
+            if (!array_key_exists('backup:run', $commands)) {
+                throw new \RuntimeException('backup:run command is not available. Install/configure a backup package on the server.');
+            }
+
             Artisan::call('backup:run');
-            $output = Artisan::output();
+            $output = (string) Artisan::output();
         } catch (\Throwable $e) {
             $ok = false;
             $output = $e->getMessage();
