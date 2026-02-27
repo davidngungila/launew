@@ -27,8 +27,8 @@
                 <div class="space-y-1">
                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Category</label>
                     <select name="category" class="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold text-slate-900">
-                        @foreach(['fuel' => 'Fuel', 'accommodation' => 'Accommodation', 'park_fees' => 'Park fees', 'maintenance' => 'Maintenance', 'staff' => 'Staff', 'other' => 'Other'] as $val => $label)
-                            <option value="{{ $val }}" {{ old('category', $expense->category) === $val ? 'selected' : '' }}>{{ $label }}</option>
+                        @foreach($categories as $cat)
+                            <option value="{{ $cat->key }}" {{ old('category', $expense->category) === $cat->key ? 'selected' : '' }}>{{ $cat->name }}</option>
                         @endforeach
                     </select>
                 </div>

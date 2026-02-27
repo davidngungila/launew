@@ -9,38 +9,36 @@
         </div>
         <div class="flex items-center gap-3">
             <a href="{{ route('admin.finance.index') }}" class="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm">Financial Overview</a>
+            <a href="{{ route('admin.finance.expenses.categories.index') }}" class="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm">Categories</a>
+            <a href="{{ route('admin.finance.expenses.recurring.index') }}" class="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm">Recurring</a>
             <a href="{{ route('admin.finance.expenses.create') }}" class="px-5 py-2.5 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20 flex items-center gap-2">
                 <i class="ph ph-plus"></i>
                 Add Expense
             </a>
+            <a href="{{ route('admin.finance.expenses.tracking.export-pdf') }}" target="_blank" class="px-5 py-2.5 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-all shadow-sm flex items-center gap-2">
+                <i class="ph ph-printer"></i>
+                Export PDF
+            </a>
         </div>
     </div>
-
-    @php
-        $fuel = \App\Models\FinancialTransaction::where('type','expense')->where('category','fuel')->sum('amount');
-        $accommodation = \App\Models\FinancialTransaction::where('type','expense')->where('category','accommodation')->sum('amount');
-        $parkFees = \App\Models\FinancialTransaction::where('type','expense')->whereIn('category',['park_fees','parkfees','park-fees'])->sum('amount');
-        $totalExpenses = \App\Models\FinancialTransaction::where('type','expense')->sum('amount');
-        $recent = \App\Models\FinancialTransaction::where('type','expense')->latest('transaction_date')->limit(15)->get();
-    @endphp
 
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div class="bg-slate-900 p-8 rounded-[2.5rem] text-white shadow-2xl">
             <p class="text-[10px] font-black uppercase tracking-widest text-white/50">Total expenses</p>
-            <p class="text-4xl font-black mt-2">${{ number_format($totalExpenses, 2) }}</p>
+            <p class="text-4xl font-black mt-2">${{ number_format((float) ($stats['totalExpenses'] ?? 0), 2) }}</p>
             <p class="text-[10px] font-bold text-white/50 uppercase tracking-widest mt-3">All categories</p>
         </div>
         <div class="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm">
             <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Fuel</p>
-            <p class="text-2xl font-black text-slate-900 mt-2">${{ number_format($fuel, 2) }}</p>
+            <p class="text-2xl font-black text-slate-900 mt-2">${{ number_format((float) ($stats['fuel'] ?? 0), 2) }}</p>
         </div>
         <div class="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm">
             <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Accommodation payouts</p>
-            <p class="text-2xl font-black text-slate-900 mt-2">${{ number_format($accommodation, 2) }}</p>
+            <p class="text-2xl font-black text-slate-900 mt-2">${{ number_format((float) ($stats['accommodation'] ?? 0), 2) }}</p>
         </div>
         <div class="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm">
             <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Park fees</p>
-            <p class="text-2xl font-black text-slate-900 mt-2">${{ number_format($parkFees, 2) }}</p>
+            <p class="text-2xl font-black text-slate-900 mt-2">${{ number_format((float) ($stats['parkFees'] ?? 0), 2) }}</p>
         </div>
     </div>
 

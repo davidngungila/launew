@@ -309,10 +309,28 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
         Route::get('/{expense}/edit', [ExpenseController::class, 'edit'])->whereNumber('expense')->name('edit');
         Route::put('/{expense}', [ExpenseController::class, 'update'])->whereNumber('expense')->name('update');
         Route::delete('/{expense}', [ExpenseController::class, 'destroy'])->whereNumber('expense')->name('destroy');
-        Route::get('/tracking', function() { return view('admin.finance.expense-tracking'); })->name('tracking');
-        Route::view('/categories', 'admin.finance.page', ['title' => 'Expense Categories'])->name('categories');
+        Route::get('/tracking', [App\Http\Controllers\Admin\ExpenseController::class, 'tracking'])->name('tracking');
+        Route::get('/tracking/export-pdf', [App\Http\Controllers\Admin\ExpenseController::class, 'trackingExportPdf'])->name('tracking.export-pdf');
+
+        Route::prefix('categories')->name('categories.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Admin\ExpenseCategoryController::class, 'index'])->name('index');
+            Route::get('/create', [App\Http\Controllers\Admin\ExpenseCategoryController::class, 'create'])->name('create');
+            Route::post('/', [App\Http\Controllers\Admin\ExpenseCategoryController::class, 'store'])->name('store');
+            Route::get('/{category}/edit', [App\Http\Controllers\Admin\ExpenseCategoryController::class, 'edit'])->whereNumber('category')->name('edit');
+            Route::put('/{category}', [App\Http\Controllers\Admin\ExpenseCategoryController::class, 'update'])->whereNumber('category')->name('update');
+            Route::delete('/{category}', [App\Http\Controllers\Admin\ExpenseCategoryController::class, 'destroy'])->whereNumber('category')->name('destroy');
+        });
+
+        Route::prefix('recurring')->name('recurring.')->group(function () {
+            Route::get('/', [App\Http\Controllers\Admin\RecurringExpenseController::class, 'index'])->name('index');
+            Route::get('/create', [App\Http\Controllers\Admin\RecurringExpenseController::class, 'create'])->name('create');
+            Route::post('/', [App\Http\Controllers\Admin\RecurringExpenseController::class, 'store'])->name('store');
+            Route::get('/{recurring}/edit', [App\Http\Controllers\Admin\RecurringExpenseController::class, 'edit'])->whereNumber('recurring')->name('edit');
+            Route::put('/{recurring}', [App\Http\Controllers\Admin\RecurringExpenseController::class, 'update'])->whereNumber('recurring')->name('update');
+            Route::delete('/{recurring}', [App\Http\Controllers\Admin\RecurringExpenseController::class, 'destroy'])->whereNumber('recurring')->name('destroy');
+        });
+
         Route::view('/vendors', 'admin.finance.page', ['title' => 'Vendor Management'])->name('vendors');
-        Route::view('/recurring', 'admin.finance.page', ['title' => 'Recurring Expenses'])->name('recurring');
     });
 
     Route::prefix('finance/commissions')->name('finance.commissions.')->group(function () {
