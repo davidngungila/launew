@@ -8,8 +8,6 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use App\Services\EmailService;
 
 class UserManagementController extends Controller
 {
@@ -92,100 +90,5 @@ class UserManagementController extends Controller
         ]);
 
         return redirect()->route('admin.settings.users.show', $user)->with('success', 'User registered successfully');
-    }
-
-    public function resetPassword(Request $request, User $user)
-    {
-        $password = Str::random(12);
-        $user->forceFill(['password' => Hash::make($password)])->save();
-
-        ActivityLog::create([
-            'user_id' => auth()->id(),
-            'action' => 'user.password.reset',
-            'subject_type' => User::class,
-            'subject_id' => $user->id,
-            'properties' => [
-                'email' => $user->email,
-            ],
-            'ip_address' => $request->ip(),
-            'user_agent' => substr((string) $request->userAgent(), 0, 1024),
-        ]);
-
-        $html = view('emails.system.password-reset', [
-            'subject' => 'Your password has been reset',
-            'heading' => 'Password Reset',
-            'subheading' => 'A new password has been generated for your account.',
-            'email' => $user->email,
-            'name' => $user->name,
-            'new_password' => $password,
-            'website_url' => config('app.url'),
-        ])->render();
-
-        $email = new EmailService();
-        $sent = $email->send($user->email, 'Your password has been reset', $html);
-
-        if (!$sent) {
-            return back()->with('error', 'Password reset, but email failed to send: ' . ($email->getLastError() ?: 'unknown error'));
-        }
-
-        return back()->with('success', 'New password generated and emailed to user.');
-    }
-
-    public function resetPasswordBulk(Request $request)
-    {
-        $validated = $request->validate([
-            'user_ids' => 'array',
-            'user_ids.*' => 'integer|exists:users,id',
-            'all' => 'nullable|boolean',
-        ]);
-
-        $q = User::query();
-        if (!empty($validated['all'])) {
-            $users = $q->orderBy('id')->get();
-        } else {
-            $ids = $validated['user_ids'] ?? [];
-            $users = $q->whereIn('id', $ids)->orderBy('id')->get();
-        }
-
-        if ($users->count() === 0) {
-            return back()->with('error', 'No users selected.');
-        }
-
-        $email = new EmailService();
-        $sentCount = 0;
-
-        foreach ($users as $u) {
-            $password = Str::random(12);
-            $u->forceFill(['password' => Hash::make($password)])->save();
-
-            ActivityLog::create([
-                'user_id' => auth()->id(),
-                'action' => 'user.password.reset',
-                'subject_type' => User::class,
-                'subject_id' => $u->id,
-                'properties' => [
-                    'email' => $u->email,
-                    'bulk' => true,
-                ],
-                'ip_address' => $request->ip(),
-                'user_agent' => substr((string) $request->userAgent(), 0, 1024),
-            ]);
-
-            $html = view('emails.system.password-reset', [
-                'subject' => 'Your password has been reset',
-                'heading' => 'Password Reset',
-                'subheading' => 'A new password has been generated for your account.',
-                'email' => $u->email,
-                'name' => $u->name,
-                'new_password' => $password,
-                'website_url' => config('app.url'),
-            ])->render();
-
-            if ($email->send($u->email, 'Your password has been reset', $html)) {
-                $sentCount++;
-            }
-        }
-
-        return back()->with('success', 'Passwords reset for ' . $users->count() . ' user(s). Emails sent: ' . $sentCount . '.');
     }
 }
