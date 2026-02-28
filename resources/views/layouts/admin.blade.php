@@ -448,13 +448,6 @@
                 <button @click="sidebarOpen = true" class="lg:hidden p-2 text-slate-500 hover:bg-slate-100 rounded-xl transition-colors">
                     <i class="ph-bold ph-list text-2xl"></i>
                 </button>
-
-                <div class="relative w-full max-w-md hidden sm:block">
-                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400">
-                        <i class="ph ph-magnifying-glass"></i>
-                    </span>
-                    <input type="text" class="block w-full pl-11 pr-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all duration-300" placeholder="Search data, bookings or customers...">
-                </div>
             </div>
             
             <div class="flex items-center gap-2 sm:gap-4">
@@ -466,8 +459,51 @@
                 @php
                     $user = auth()->user();
                     $hasRoleMethod = $user && method_exists($user, 'hasAnyRole') && $user->roles()->exists();
-                    $canNavRoleView = $hasRoleMethod && $user->hasAnyRole(['System Administrator']);
+                    $isSystemAdmin = $hasRoleMethod && $user->hasAnyRole(['System Administrator']);
                     $navRoleView = session('nav_role_view');
+
+                    $roleViewMap = [
+                        'System Administrator' => 'super-admin',
+                        'Admin / GM' => 'admin-manager',
+                        'Accountant' => 'accountant',
+                        'Marketing' => 'marketing',
+                        'Sales' => 'sales',
+                        'Operations' => 'operations',
+                        'Driver / Guide' => 'driver-guide',
+                        'External Agent' => 'external-agent',
+                        'Client Portal' => 'client-portal',
+                        'Branch Manager' => 'branch-manager',
+                        'IT Support' => 'it-support',
+                    ];
+
+                    $availableRoleViews = collect();
+                    if ($hasRoleMethod) {
+                        if ($isSystemAdmin) {
+                            $availableRoleViews = collect([
+                                'super-admin' => 'Super Admin',
+                                'admin-manager' => 'Admin / GM',
+                                'accountant' => 'Accountant',
+                                'marketing' => 'Marketing',
+                                'sales' => 'Sales',
+                                'operations' => 'Operations',
+                                'driver-guide' => 'Driver / Guide',
+                                'external-agent' => 'External Agent',
+                                'client-portal' => 'Client Portal',
+                                'branch-manager' => 'Branch Manager',
+                                'it-support' => 'IT Support',
+                            ]);
+                        } else {
+                            $availableRoleViews = $user->roles
+                                ->pluck('name')
+                                ->mapWithKeys(function ($name) use ($roleViewMap) {
+                                    $v = $roleViewMap[$name] ?? null;
+                                    if (!$v) return [];
+                                    return [$v => $name];
+                                });
+                        }
+                    }
+
+                    $canNavRoleView = $hasRoleMethod && $availableRoleViews->count() > 1;
                 @endphp
 
                 @if($canNavRoleView)
@@ -475,17 +511,9 @@
                         @csrf
                         <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Role View</span>
                         <select name="role" class="text-xs font-bold text-slate-700 bg-transparent focus:outline-none" onchange="this.form.submit()">
-                            <option value="super-admin" {{ $navRoleView === 'super-admin' ? 'selected' : '' }}>Super Admin</option>
-                            <option value="admin-manager" {{ $navRoleView === 'admin-manager' ? 'selected' : '' }}>Admin / GM</option>
-                            <option value="accountant" {{ $navRoleView === 'accountant' ? 'selected' : '' }}>Accountant</option>
-                            <option value="marketing" {{ $navRoleView === 'marketing' ? 'selected' : '' }}>Marketing</option>
-                            <option value="sales" {{ $navRoleView === 'sales' ? 'selected' : '' }}>Sales</option>
-                            <option value="operations" {{ $navRoleView === 'operations' ? 'selected' : '' }}>Operations</option>
-                            <option value="driver-guide" {{ $navRoleView === 'driver-guide' ? 'selected' : '' }}>Driver / Guide</option>
-                            <option value="external-agent" {{ $navRoleView === 'external-agent' ? 'selected' : '' }}>External Agent</option>
-                            <option value="client-portal" {{ $navRoleView === 'client-portal' ? 'selected' : '' }}>Client Portal</option>
-                            <option value="branch-manager" {{ $navRoleView === 'branch-manager' ? 'selected' : '' }}>Branch Manager</option>
-                            <option value="it-support" {{ $navRoleView === 'it-support' ? 'selected' : '' }}>IT Support</option>
+                            @foreach($availableRoleViews as $value => $label)
+                                <option value="{{ $value }}" {{ $navRoleView === $value ? 'selected' : '' }}>{{ $label }}</option>
+                            @endforeach
                         </select>
                     </form>
 

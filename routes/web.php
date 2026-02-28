@@ -100,7 +100,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
     Route::post('/nav-role-view', function (Request $request) {
         $user = $request->user();
 
-        if (!$user || !method_exists($user, 'hasAnyRole') || !$user->hasAnyRole(['System Administrator'])) {
+        if (!$user || !method_exists($user, 'hasAnyRole') || !$user->roles()->exists()) {
             abort(403);
         }
 
@@ -124,6 +124,28 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
             abort(422);
         }
 
+        $isSystemAdmin = $user->hasAnyRole(['System Administrator']);
+        if (!$isSystemAdmin) {
+            $map = [
+                'System Administrator' => 'super-admin',
+                'Admin / GM' => 'admin-manager',
+                'Accountant' => 'accountant',
+                'Marketing' => 'marketing',
+                'Sales' => 'sales',
+                'Operations' => 'operations',
+                'Driver / Guide' => 'driver-guide',
+                'External Agent' => 'external-agent',
+                'Client Portal' => 'client-portal',
+                'Branch Manager' => 'branch-manager',
+                'IT Support' => 'it-support',
+            ];
+
+            $userViews = $user->roles()->pluck('name')->map(fn ($n) => $map[$n] ?? null)->filter()->values()->all();
+            if (!in_array($role, $userViews, true)) {
+                abort(403);
+            }
+        }
+
         $request->session()->put('nav_role_view', $role);
 
         return back();
@@ -132,7 +154,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
     Route::post('/nav-role-view/clear', function (Request $request) {
         $user = $request->user();
 
-        if (!$user || !method_exists($user, 'hasAnyRole') || !$user->hasAnyRole(['System Administrator'])) {
+        if (!$user || !method_exists($user, 'hasAnyRole') || !$user->roles()->exists()) {
             abort(403);
         }
 
@@ -410,6 +432,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'act
     Route::post('/settings/user-management', [UserManagementController::class, 'store'])->name('settings.users.store');
     Route::get('/settings/user-management/{user}', [UserManagementController::class, 'show'])->whereNumber('user')->name('settings.users.show');
     Route::put('/settings/user-management/{user}', [UserManagementController::class, 'update'])->whereNumber('user')->name('settings.users.update');
+    Route::post('/settings/user-management/{user}/reset-password', [UserManagementController::class, 'resetPassword'])->whereNumber('user')->name('settings.users.reset-password');
+    Route::post('/settings/user-management/reset-password-bulk', [UserManagementController::class, 'resetPasswordBulk'])->name('settings.users.reset-password-bulk');
     Route::get('/settings/role-permissions', [RolePermissionController::class, 'index'])->name('settings.roles.index');
     Route::post('/settings/role-permissions/roles', [RolePermissionController::class, 'storeRole'])->name('settings.roles.store');
     Route::put('/settings/role-permissions/roles/{role}', [RolePermissionController::class, 'updateRole'])->whereNumber('role')->name('settings.roles.update');
