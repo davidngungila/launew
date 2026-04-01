@@ -4,21 +4,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\OtpLoginController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\TourController;
-use App\Http\Controllers\Public\TourController as PublicTourController;
-use App\Http\Controllers\Public\BookingController as PublicBookingController;
-use App\Http\Controllers\Admin\ItineraryBuilderController;
-use App\Http\Controllers\Admin\ExpenseController;
-use App\Http\Controllers\Admin\SystemSettingsController;
-use App\Http\Controllers\Admin\UserManagementController;
-use App\Http\Controllers\Admin\RolePermissionController;
-use App\Http\Controllers\Admin\ActivityLogController;
-use App\Http\Controllers\Admin\SystemHealthController;
-use App\Http\Controllers\Admin\SystemToolsController;
-use App\Http\Controllers\Admin\EmailGatewayController;
-use App\Http\Controllers\Admin\AccountSettingsController;
-use App\Http\Controllers\Client\DashboardController as ClientDashboardController;
+use App\Http\Controllers\Admin\OrganizationController;
+use App\Http\Controllers\Admin\BranchController;
+use App\Http\Controllers\Admin\DepartmentController;
 
 Route::get('/', [PublicTourController::class, 'home'])->name('home');
 
@@ -92,6 +80,18 @@ Route::prefix('client')->name('client.')->middleware(['auth'])->group(function (
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'ensure.admin', 'activity.log'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Organization Management
+    Route::resource('organizations', OrganizationController::class);
+    Route::get('/organizations/{organization}/dashboard', [OrganizationController::class, 'dashboard'])->name('organizations.dashboard');
+
+    // Branch Management
+    Route::resource('branches', BranchController::class);
+    Route::get('/branches/{branch}/dashboard', [BranchController::class, 'dashboard'])->name('branches.dashboard');
+
+    // Department Management
+    Route::resource('departments', DepartmentController::class);
+    Route::get('/departments/{department}/dashboard', [DepartmentController::class, 'dashboard'])->name('departments.dashboard');
 
     Route::get('/placeholder', function (Request $request) {
         return view('admin.page', ['title' => (string) $request->query('title', 'Page')]);

@@ -12,6 +12,10 @@
     
     <!-- Google Analytics -->
     @include('partials.google-analytics')
+    
+    <!-- Preload background image for faster loading -->
+    <link rel="preload" as="image" href="https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766042771/8-Days-Tanzania-holiday-Wildebeest-migration-1536x1018_gyndkw.jpg">
+    
     <style>
         body { 
             font-family: 'Manrope', sans-serif;
@@ -77,8 +81,34 @@
             background-image: url('https://res.cloudinary.com/dmqdm8gfk/image/upload/v1766042771/8-Days-Tanzania-holiday-Wildebeest-migration-1536x1018_gyndkw.jpg');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
+            background-attachment: scroll;
             transform: scale(1.1);
+            will-change: transform;
+        }
+
+        /* Loading states */
+        .auth-loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        
+        .btn-loading {
+            position: relative;
+            color: transparent !important;
+        }
+        
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 16px;
+            height: 16px;
+            margin: -8px 0 0 -8px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.8s linear infinite;
         }
 
         /* Responsive improvements */
@@ -127,7 +157,7 @@
         }
     </style>
 </head>
-<body x-data="{ loading: true }" x-init="setTimeout(() => loading = false, 1500)" class="bg-slate-950 min-h-screen flex items-center justify-center p-4 md:p-6 lg:p-8 relative overflow-hidden">
+<body x-data="{ loading: true, authenticating: false }" x-init="setTimeout(() => loading = false, 800)" class="bg-slate-950 min-h-screen flex items-center justify-center p-4 md:p-6 lg:p-8 relative overflow-hidden">
     
     <!-- Background Layer -->
     <div class="absolute inset-0 z-0 bg-safari opacity-45"></div>
@@ -139,22 +169,22 @@
 
     <!-- Splash Screen -->
     <div x-show="loading" 
-         x-transition:leave="transition ease-in duration-700" 
+         x-transition:leave="transition ease-out duration-500" 
          x-transition:leave-start="opacity-100 scale-100" 
-         x-transition:leave-end="opacity-0 scale-110" 
+         x-transition:leave-end="opacity-0 scale-95" 
          class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-slate-950">
         
-        <div class="mb-12 relative">
-            <div class="w-24 h-24 rounded-full border border-emerald-500/30 flex items-center justify-center animate-spin-slow">
-                <i class="ph-bold ph-airplane-takeoff text-4xl text-emerald-500"></i>
+        <div class="mb-8 relative">
+            <div class="w-16 h-16 rounded-full border border-emerald-500/30 flex items-center justify-center">
+                <i class="ph-bold ph-airplane-takeoff text-3xl text-emerald-500"></i>
             </div>
-            <div class="absolute inset-0 w-24 h-24 rounded-full border-t-2 border-emerald-500 animate-spin"></div>
+            <div class="absolute inset-0 w-16 h-16 rounded-full border-t-2 border-emerald-500 animate-spin"></div>
         </div>
 
-        <h1 class="text-3xl font-serif text-white mb-4 tracking-tight">LAU Paradise Adventure</h1>
-        <p class="text-emerald-500 font-bold text-[10px] uppercase tracking-[0.4em] mb-12">Authentic Safaris & Expeditions</p>
+        <h1 class="text-2xl font-serif text-white mb-2 tracking-tight">LAU Paradise Adventure</h1>
+        <p class="text-emerald-500 font-bold text-[10px] uppercase tracking-[0.4em] mb-6">Authentic Safaris & Expeditions</p>
 
-        <div class="progress-line mb-8">
+        <div class="progress-line mb-6">
             <div class="progress-fill"></div>
         </div>
 
@@ -186,7 +216,9 @@
                 </div>
             @endif
 
-            <form action="{{ route('login') }}" method="POST" class="space-y-4">
+            <form action="{{ route('login') }}" method="POST" class="space-y-4" 
+                  x-data="{ formSubmitting: false }"
+                  @submit="formSubmitting = true; $el.classList.add('auth-loading'); $el.querySelector('button[type=submit]').classList.add('btn-loading');">
                 @csrf
                 <div class="relative">
                     <i class="ph ph-user absolute left-5 top-1/2 -translate-y-1/2 text-slate-500 text-lg md:text-xl"></i>
@@ -210,8 +242,15 @@
                     <a href="{{ route('password.request') }}" class="text-slate-600 hover:text-emerald-500 transition-colors font-medium">Recovery</a>
                 </div>
 
-                <button type="submit" class="w-full py-4 md:py-5 bg-emerald-600 text-white font-black text-xs md:text-sm uppercase tracking-[0.2em] rounded-xl hover:bg-emerald-500 transition-all duration-300 shadow-lg shadow-emerald-900/20 hover:shadow-emerald-900/30 transform hover:scale-[1.02] active:scale-[0.98]">
-                    Verify & Enter
+                <button type="submit" class="w-full py-4 md:py-5 bg-emerald-600 text-white font-black text-xs md:text-sm uppercase tracking-[0.2em] rounded-xl hover:bg-emerald-500 transition-all duration-300 shadow-lg shadow-emerald-900/20 hover:shadow-emerald-900/30 transform hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden">
+                    <span x-show="!formSubmitting" class="inline-flex items-center justify-center gap-2">
+                        <i class="ph ph-lock-simple-open"></i>
+                        Verify & Enter
+                    </span>
+                    <span x-show="formSubmitting" class="inline-flex items-center justify-center gap-2">
+                        <i class="ph ph-spinner animate-spin"></i>
+                        Authenticating...
+                    </span>
                 </button>
             </form>
         </div>

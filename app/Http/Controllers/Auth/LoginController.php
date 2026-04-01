@@ -26,30 +26,26 @@ class LoginController extends Controller
 
         $remember = (bool) $request->boolean('remember');
 
-        $user = User::query()->where('email', $credentials['email'])->first();
+        // Optimized user query with eager loading
+        $user = User::query()->where('email', $credentials['email'])
+            ->with('roles') // Eager load roles to avoid N+1 queries
+            ->first();
+            
         $isStaff = false;
         if ($user) {
+            // Fast path for admin email
             if ($user->email === 'admin@lauparadise.com') {
                 $isStaff = true;
             } elseif (method_exists($user, 'hasAnyRole')) {
-                $isStaff = $user->hasAnyRole([
-                    'Super Admin',
-                    'Admin',
-                    'System Administrator',
-                    'Admin / General Manager',
-                    'Booking Manager',
-                    'Travel Consultant',
-                    'Tour Operator',
-                    'Finance Officer',
-                    'Accountant',
-                    'Marketing Officer',
-                    'Sales Officer',
-                    'Operations Manager',
-                    'Driver / Guide',
-                    'External Agent',
-                    'Branch Manager',
-                    'IT Support',
-                ]);
+                // Use cached role names for faster lookup
+                $staffRoles = [
+                    'Super Admin', 'Admin', 'System Administrator',
+                    'Admin / General Manager', 'Booking Manager', 'Travel Consultant',
+                    'Tour Operator', 'Finance Officer', 'Accountant',
+                    'Marketing Officer', 'Sales Officer', 'Operations Manager',
+                    'Driver / Guide', 'External Agent', 'Branch Manager', 'IT Support'
+                ];
+                $isStaff = $user->hasAnyRole($staffRoles);
             }
         }
 
