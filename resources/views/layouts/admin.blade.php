@@ -8,6 +8,10 @@
     <link rel="icon" type="image/png" href="{{ asset('lau-adventuress-logo.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>body { font-family: 'Manrope', sans-serif; }</style>
+    
+    <!-- Google Analytics -->
+    @include('partials.google-analytics')
+    
     @vite(['resources/css/admin.css', 'resources/js/app.js'])
     @stack('styles')
     <script src="https://unpkg.com/@phosphor-icons/web"></script>

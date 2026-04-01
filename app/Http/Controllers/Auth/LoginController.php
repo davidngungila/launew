@@ -33,6 +33,8 @@ class LoginController extends Controller
                 $isStaff = true;
             } elseif (method_exists($user, 'hasAnyRole')) {
                 $isStaff = $user->hasAnyRole([
+                    'Super Admin',
+                    'Admin',
                     'System Administrator',
                     'Admin / General Manager',
                     'Booking Manager',
@@ -52,6 +54,41 @@ class LoginController extends Controller
         }
 
         if ($isStaff) {
+            // Development bypass for OTP in local environment
+            if (app()->environment('local') && $request->has('dev_bypass')) {
+                if (!$user || !Hash::check($credentials['password'], (string) $user->password)) {
+                    return back()->withErrors([
+                        'email' => 'The provided credentials do not match our records.',
+                    ])->onlyInput('email');
+                }
+
+                Auth::login($user, $remember);
+                $request->session()->regenerate();
+                return redirect()->intended('/admin/dashboard');
+            }
+            
+            // For development, show a helpful message if OTP fails
+            if (app()->environment('local')) {
+                // Check if user has existing OTP
+                $existingOtp = \App\Models\OtpLogin::where('user_id', $user->id)->first();
+                if (!$existingOtp || now()->greaterThan($existingOtp->expires_at)) {
+                    // Create development OTP
+                    $otp = '123456';
+                    $token = bin2hex(random_bytes(24));
+                    
+                    \App\Models\OtpLogin::where('user_id', $user->id)->delete();
+                    \App\Models\OtpLogin::create([
+                        'user_id' => $user->id,
+                        'otp_hash' => Hash::make($otp),
+                        'verify_token' => $token,
+                        'expires_at' => now()->addMinutes(30),
+                        'attempts' => 0,
+                        'sent_at' => now(),
+                        'ip_address' => $request->ip(),
+                        'user_agent' => substr((string) $request->userAgent(), 0, 1024),
+                    ]);
+                }
+            }
             if (!$user || !Hash::check($credentials['password'], (string) $user->password)) {
                 return back()->withErrors([
                     'email' => 'The provided credentials do not match our records.',

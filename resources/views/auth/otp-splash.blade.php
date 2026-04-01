@@ -7,6 +7,9 @@
     <link rel="icon" type="image/png" href="{{ asset('lau-adventuress-logo.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
+    <!-- Google Analytics -->
+    @include('partials.google-analytics')
     <style>
         body { font-family: 'Manrope', sans-serif; }
         .font-serif { font-family: 'Playfair Display', serif; }
